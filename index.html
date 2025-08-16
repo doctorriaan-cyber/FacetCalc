@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Mixture Calculator</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles to enhance the layout and functionality */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e5e7eb;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9ca3af;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+        }
+
+        /* Styling for the range input slider thumb */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background-color: #3b82f6;
+            cursor: pointer;
+            border-radius: 9999px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s;
+        }
+
+        /* Ensure the main container can scroll vertically when content overflows */
+        #app-container {
+            max-height: 100vh;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4 font-sans overflow-x-hidden">
+
+    <!-- The main application container -->
+    <div id="app-container" class="relative w-full max-w-sm overflow-y-auto bg-white dark:bg-gray-800 rounded-3xl shadow-2xl transition-all duration-300 pb-16">
+
+        <!-- Main Page View -->
+        <div id="main-view" class="relative flex flex-col p-6 transition-transform duration-500 ease-in-out transform translate-x-0">
+            <!-- Top buttons container -->
+            <div class="flex justify-between items-center mb-8">
+                <!-- Reset button -->
+                <button id="reset-button" class="p-2 rounded-full text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-colors">
+                    <!-- RotateCcw SVG icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M3 12a9 9 0 0 1 9-9c2.52 0 4.93 1.097 6.618 2.871M21 12a9 9 0 0 1-9 9c-2.52 0-4.93-1.097-6.618-2.871"/><path d="M12 2v10l-4-4m4 10v-10l-4 4"/></svg>
+                </button>
+                
+                <!-- Settings button -->
+                <button id="settings-button" class="p-2 rounded-full text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-colors">
+                    <!-- SettingsIcon SVG icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.26.43a2 2 0 0 0 0 2l.55.19a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.55.19a2 2 0 0 0 0 2l.26.43a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73v.18a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.26-.43a2 2 0 0 0 0-2l-.55-.19a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.55-.19a2 2 0 0 0 0-2l-.26-.43a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
+
+            <h1 class="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-12">
+                Block mixture calculator
+            </h1>
+
+            <!-- Patient weight section -->
+            <div class="flex flex-col items-center w-full mb-8">
+                <label for="weight-input" class="text-lg text-gray-600 dark:text-gray-400 mb-4">
+                    Patient weight
+                </label>
+                <div class="flex items-center space-x-2 mb-4">
+                    <input
+                        id="weight-input"
+                        type="number"
+                        value="70"
+                        class="w-24 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-center text-gray-900 dark:text-gray-100"
+                        step="1"
+                        min="30"
+                        max="200"
+                    />
+                    <span class="text-sm text-gray-600 dark:text-gray-400">kg</span>
+                </div>
+                
+                <input
+                    id="weight-slider"
+                    type="range"
+                    min="30"
+                    max="200"
+                    value="70"
+                    class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer range-lg [&::-webkit-slider-thumb]:bg-blue-600 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:appearance-none"
+                />
+            </div>
+
+            <!-- Facet Levels Section -->
+            <div class="flex flex-col items-center w-full mb-8">
+                <button id="facets-header" class="flex justify-between items-center w-full py-2 px-4 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                    <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100">
+                        Facet levels
+                    </h2>
+                    <!-- ChevronDown SVG icon -->
+                    <svg id="facets-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-600 dark:text-gray-400 transition-transform duration-300">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </button>
+                <div id="facets-content" class="grid transition-all duration-300 ease-in-out overflow-hidden mt-4 grid-rows-[0fr] opacity-0">
+                    <div class="overflow-hidden flex justify-center flex-wrap gap-4">
+                        <!-- Facet buttons will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extra Section -->
+            <div class="flex flex-col items-center w-full mb-8">
+                <button id="extra-header" class="flex justify-between items-center w-full py-2 px-4 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                    <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100">
+                        Extra
+                    </h2>
+                    <!-- ChevronDown SVG icon -->
+                    <svg id="extra-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-600 dark:text-gray-400 transition-transform duration-300">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </button>
+                <div id="extra-content" class="grid transition-all duration-300 ease-in-out overflow-hidden mt-4 grid-rows-[0fr] opacity-0">
+                    <div class="overflow-hidden flex justify-center w-full space-x-4">
+                        <!-- Left Column -->
+                        <div class="flex flex-col items-center flex-1">
+                            <h3 class="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Left</h3>
+                            <div id="extra-left-container" class="flex flex-col gap-2">
+                                <!-- Extra buttons will be injected here by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column -->
+                        <div class="flex flex-col items-center flex-1">
+                            <h3 class="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Right</h3>
+                            <div id="extra-right-container" class="flex flex-col gap-2">
+                                <!-- Extra buttons will be injected here by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dorsal Roots Section -->
+            <div class="flex flex-col items-center w-full mb-8">
+                <button id="dorsal-roots-header" class="flex justify-between items-center w-full py-2 px-4 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                    <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100">
+                        Dorsal Roots
+                    </h2>
+                    <!-- ChevronDown SVG icon -->
+                    <svg id="dorsal-roots-chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-gray-600 dark:text-gray-400 transition-transform duration-300">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </button>
+                <div id="dorsal-roots-content" class="grid transition-all duration-300 ease-in-out overflow-hidden mt-4 grid-rows-[0fr] opacity-0">
+                    <div class="overflow-hidden flex justify-between w-full space-x-4">
+                        <!-- Left Column -->
+                        <div class="flex flex-col items-center flex-1">
+                            <h3 class="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Left</h3>
+                            <div id="dorsal-roots-left-container" class="flex flex-col gap-2">
+                                <!-- Dorsal root buttons will be injected here by JS -->
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column -->
+                        <div class="flex flex-col items-center flex-1">
+                            <h3 class="text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Right</h3>
+                            <div id="dorsal-roots-right-container" class="flex flex-col gap-2">
+                                <!-- Dorsal root buttons will be injected here by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary of selected levels section -->
+            <div id="selected-levels-summary" class="w-full mb-8 hidden">
+                <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4 text-center">
+                    Selected Levels
+                </h2>
+                <div id="selected-levels-container" class="flex flex-wrap justify-center gap-2">
+                    <!-- Selected levels will be injected here by JS -->
+                </div>
+            </div>
+
+            <!-- Mixture Section -->
+            <div class="mt-8 p-6 w-full rounded-2xl bg-gray-200 dark:bg-gray-700 shadow-inner">
+                <h2 class="text-xl font-bold text-center text-gray-800 dark:text-gray-100 mb-4">
+                    Mixture
+                </h2>
+                <div class="flex flex-col space-y-2">
+                    <div class="flex items-center justify-between text-lg font-medium text-gray-700 dark:text-gray-300">
+                        <span>Max Lignocaine for <span id="patient-weight-display">70</span>kg:</span>
+                        <span id="max-lignocaine-mg" class="text-blue-600 dark:text-blue-400 font-bold">
+                            0.0 mg
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between text-lg font-medium text-gray-700 dark:text-gray-300">
+                        <span>Lignocaine 2% allowed:</span>
+                        <span id="allowed-lignocaine-ml" class="text-blue-600 dark:text-blue-400 font-bold">
+                            0.0 ml
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between text-lg font-medium text-gray-700 dark:text-gray-300">
+                        <span>Total volume needed:</span>
+                        <span id="total-volume-needed" class="text-blue-600 dark:text-blue-400 font-bold">
+                            0.0 ml
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Suggested Mixture Section -->
+                <div class="mt-8 pt-4 border-t-2 border-gray-300 dark:border-gray-600">
+                    <h3 class="text-xl font-bold text-center text-gray-800 dark:text-gray-100 mb-4">
+                        Suggested Mixture
+                    </h3>
+                    <div class="flex flex-col space-y-2">
+                        <div class="flex items-center justify-between text-lg font-medium text-gray-700 dark:text-gray-300">
+                            <span>Lignocaine ampules:</span>
+                            <span id="lignocaine-ampules" class="text-blue-600 dark:text-blue-400 font-bold">
+                                0
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-lg font-medium text-gray-700 dark:text-gray-300">
+                            <span>Dexa ampules:</span>
+                            <span id="dexa-ampules" class="text-blue-600 dark:text-blue-400 font-bold">
+                                0
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-lg font-medium text-gray-700 dark:text-gray-300">
+                            <span>Saline ml:</span>
+                            <span id="saline-ml" class="text-blue-600 dark:text-blue-400 font-bold">
+                                0.0
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page View -->
+        <div id="settings-view" class="absolute inset-0 flex flex-col p-6 transition-transform duration-500 ease-in-out transform translate-x-full">
+            <!-- Top navigation and toggle buttons -->
+            <div class="flex justify-between items-center mb-8">
+                <!-- Back button -->
+                <button id="back-button" class="p-2 rounded-full text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-colors">
+                    <!-- ChevronLeft SVG icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                
+                <!-- Dark/Light mode toggle button -->
+                <button id="theme-toggle-button" class="p-2 rounded-full text-white bg-gray-600 hover:bg-gray-700 dark:bg-gray-500 dark:hover:bg-gray-600 shadow-md transition-colors">
+                    <!-- Moon SVG icon -->
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-white"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <!-- Sun SVG icon (hidden by default) -->
+                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 text-yellow-300 hidden"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                </button>
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">
+                Settings
+            </h2>
+            
+            <!-- Input field for "Max Lignocaine dose mg/kg" -->
+            <div class="flex items-center justify-between w-full mb-4">
+                <label for="lignocaine-dose-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Max Lignocaine dose
+                </label>
+                <div class="flex items-center space-x-2">
+                    <input
+                        type="number"
+                        id="lignocaine-dose-input"
+                        value="4.5"
+                        class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                        step="0.1"
+                        min="0"
+                    />
+                    <span class="text-sm text-gray-600 dark:text-gray-400">mg/kg</span>
+                </div>
+            </div>
+            
+            <!-- Input field for "Max Dexamethazone ampules" -->
+            <div class="flex items-center justify-between w-full mb-4">
+                <label for="dexamethazone-ampules-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Max Dexamethazone ampules
+                </label>
+                <div class="flex items-center space-x-2">
+                    <input
+                        type="number"
+                        id="dexamethazone-ampules-input"
+                        value="3"
+                        class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                        step="0.1"
+                        min="0"
+                    />
+                    <span class="text-sm text-gray-600 dark:text-gray-400">ampules</span>
+                </div>
+            </div>
+            
+            <!-- Volume input fields -->
+            <div class="flex flex-col gap-4 w-full">
+                <div class="flex items-center justify-between w-full">
+                    <label for="c-volume-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        C volume
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="number"
+                            id="c-volume-input"
+                            value="1"
+                            class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                            step="0.1"
+                            min="0"
+                        />
+                        <span class="text-sm text-gray-600 dark:text-gray-400">ml</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between w-full">
+                    <label for="l-volume-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        L volume
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="number"
+                            id="l-volume-input"
+                            value="2"
+                            class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                            step="0.1"
+                            min="0"
+                        />
+                        <span class="text-sm text-gray-600 dark:text-gray-400">ml</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between w-full">
+                    <label for="s-volume-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        S volume
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="number"
+                            id="s-volume-input"
+                            value="2"
+                            class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                            step="0.1"
+                            min="0"
+                        />
+                        <span class="text-sm text-gray-600 dark:text-gray-400">ml</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between w-full">
+                    <label for="gons-volume-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        GONS volume
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="number"
+                            id="gons-volume-input"
+                            value="4"
+                            class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                            step="0.1"
+                            min="0"
+                        />
+                        <span class="text-sm text-gray-600 dark:text-gray-400">ml</span>
+                    </div>
+                </div>
+                
+                <!-- Input field for Shoulder volume -->
+                <div class="flex items-center justify-between w-full">
+                    <label for="shoulder-volume-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Shoulder volume
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="number"
+                            id="shoulder-volume-input"
+                            value="4"
+                            class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                            step="0.1"
+                            min="0"
+                        />
+                        <span class="text-sm text-gray-600 dark:text-gray-400">ml</span>
+                    </div>
+                </div>
+
+                <!-- Input field for Hip volume -->
+                <div class="flex items-center justify-between w-full">
+                    <label for="hip-volume-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Hip volume
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="number"
+                            id="hip-volume-input"
+                            value="4"
+                            class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                            step="0.1"
+                            min="0"
+                        />
+                        <span class="text-sm text-gray-600 dark:text-gray-400">ml</span>
+                    </div>
+                </div>
+
+                <!-- Input field for Knee volume -->
+                <div class="flex items-center justify-between w-full">
+                    <label for="knee-volume-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Knee volume
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="number"
+                            id="knee-volume-input"
+                            value="4"
+                            class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                            step="0.1"
+                            min="0"
+                        />
+                        <span class="text-sm text-gray-600 dark:text-gray-400">ml</span>
+                    </div>
+                </div>
+
+                <!-- Input field for Ankle volume -->
+                <div class="flex items-center justify-between w-full">
+                    <label for="ankle-volume-input" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Ankle volume
+                    </label>
+                    <div class="flex items-center space-x-2">
+                        <input
+                            type="number"
+                            id="ankle-volume-input"
+                            value="4"
+                            class="w-20 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-right text-gray-900 dark:text-gray-100"
+                            step="0.1"
+                            min="0"
+                        />
+                        <span class="text-sm text-gray-600 dark:text-gray-400">ml</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Use a self-invoking function to avoid polluting the global scope
+        (function() {
+            // --- State Management (Replaces React's useState) ---
+            let state = {
+                view: 'main',
+                patientWeight: 70,
+                maxLignocaineDose: 4.5,
+                isDarkMode: true,
+                selectedFacets: [],
+                selectedExtra: { left: [], right: [] },
+                selectedDorsalRoots: { left: [], right: [] },
+                cVolume: 1,
+                lVolume: 2,
+                sVolume: 2,
+                gonsVolume: 4,
+                shoulderVolume: 4,
+                hipVolume: 4,
+                kneeVolume: 4,
+                ankleVolume: 4,
+                maxDexamethazoneAmpules: 3
+            };
+
+            // Define the root levels and extra options
+            const cervicalRoots = ['C3', 'C4', 'C5', 'C6', 'C7'];
+            const lumbosacralRoots = ['L1', 'L2', 'L3', 'L4', 'L5', 'S1', 'S2', 'S3', 'S4'];
+            const allDorsalRoots = [...cervicalRoots, ...lumbosacralRoots];
+            const extraOptions = ['Shoulder', 'Hip', 'Knee', 'Ankle'];
+            const facetOptions = ['C3-C7', 'L1-S1', 'S2-S4', 'GONS'];
+
+            // --- DOM Elements (Cached for performance) ---
+            const mainView = document.getElementById('main-view');
+            const settingsView = document.getElementById('settings-view');
+            const themeToggleButton = document.getElementById('theme-toggle-button');
+            const sunIcon = document.getElementById('sun-icon');
+            const moonIcon = document.getElementById('moon-icon');
+            const weightInput = document.getElementById('weight-input');
+            const weightSlider = document.getElementById('weight-slider');
+            const patientWeightDisplay = document.getElementById('patient-weight-display');
+            const maxLignocaineMgEl = document.getElementById('max-lignocaine-mg');
+            const allowedLignocaineMlEl = document.getElementById('allowed-lignocaine-ml');
+            const totalVolumeNeededEl = document.getElementById('total-volume-needed');
+            const lignocaineAmpulesEl = document.getElementById('lignocaine-ampules');
+            const dexaAmpulesEl = document.getElementById('dexa-ampules');
+            const salineMlEl = document.getElementById('saline-ml');
+            const selectedLevelsSummary = document.getElementById('selected-levels-summary');
+            const selectedLevelsContainer = document.getElementById('selected-levels-container');
+
+            // Settings view inputs
+            const maxLignocaineDoseInput = document.getElementById('lignocaine-dose-input');
+            const maxDexamethazoneAmpulesInput = document.getElementById('dexamethazone-ampules-input');
+            const cVolumeInput = document.getElementById('c-volume-input');
+            const lVolumeInput = document.getElementById('l-volume-input');
+            const sVolumeInput = document.getElementById('s-volume-input');
+            const gonsVolumeInput = document.getElementById('gons-volume-input');
+            const shoulderVolumeInput = document.getElementById('shoulder-volume-input');
+            const hipVolumeInput = document.getElementById('hip-volume-input');
+            const kneeVolumeInput = document.getElementById('knee-volume-input');
+            const ankleVolumeInput = document.getElementById('ankle-volume-input');
+
+            // Collapsible sections
+            const facetsHeader = document.getElementById('facets-header');
+            const facetsContent = document.getElementById('facets-content');
+            const facetsChevron = document.getElementById('facets-chevron');
+            const extraHeader = document.getElementById('extra-header');
+            const extraContent = document.getElementById('extra-content');
+            const extraChevron = document.getElementById('extra-chevron');
+            const dorsalRootsHeader = document.getElementById('dorsal-roots-header');
+            const dorsalRootsContent = document.getElementById('dorsal-roots-content');
+            const dorsalRootsChevron = document.getElementById('dorsal-roots-chevron');
+            
+            // Containers for dynamically generated buttons
+            const facetsContainer = facetsContent.querySelector('div');
+            const extraLeftContainer = document.getElementById('extra-left-container');
+            const extraRightContainer = document.getElementById('extra-right-container');
+            const dorsalRootsLeftContainer = document.getElementById('dorsal-roots-left-container');
+            const dorsalRootsRightContainer = document.getElementById('dorsal-roots-right-container');
+
+            // --- Core Logic Functions ---
+
+            /**
+             * Updates the entire UI based on the current state.
+             * This function serves a similar purpose to a React component's render method.
+             */
+            function updateUI() {
+                // Update views
+                if (state.view === 'main') {
+                    mainView.style.transform = 'translateX(0)';
+                    settingsView.style.transform = 'translateX(100%)';
+                } else {
+                    mainView.style.transform = 'translateX(-100%)';
+                    settingsView.style.transform = 'translateX(0)';
+                }
+
+                // Update theme
+                document.body.classList.toggle('dark', state.isDarkMode);
+                document.getElementById('app-container').classList.toggle('dark', state.isDarkMode);
+                moonIcon.classList.toggle('hidden', !state.isDarkMode);
+                sunIcon.classList.toggle('hidden', state.isDarkMode);
+
+                // Update main view elements
+                weightInput.value = state.patientWeight;
+                weightSlider.value = state.patientWeight;
+                patientWeightDisplay.textContent = state.patientWeight;
+
+                // Update settings view inputs
+                maxLignocaineDoseInput.value = state.maxLignocaineDose;
+                maxDexamethazoneAmpulesInput.value = state.maxDexamethazoneAmpules;
+                cVolumeInput.value = state.cVolume;
+                lVolumeInput.value = state.lVolume;
+                sVolumeInput.value = state.sVolume;
+                gonsVolumeInput.value = state.gonsVolume;
+                shoulderVolumeInput.value = state.shoulderVolume;
+                hipVolumeInput.value = state.hipVolume;
+                kneeVolumeInput.value = state.kneeVolume;
+                ankleVolumeInput.value = state.ankleVolume;
+
+                // Update collapsible sections
+                facetsContent.style.gridTemplateRows = state.isFacetsOpen ? '1fr' : '0fr';
+                facetsContent.style.opacity = state.isFacetsOpen ? '1' : '0';
+                facetsChevron.style.transform = state.isFacetsOpen ? 'rotate(180deg)' : '';
+
+                extraContent.style.gridTemplateRows = state.isExtraOpen ? '1fr' : '0fr';
+                extraContent.style.opacity = state.isExtraOpen ? '1' : '0';
+                extraChevron.style.transform = state.isExtraOpen ? 'rotate(180deg)' : '';
+
+                dorsalRootsContent.style.gridTemplateRows = state.isDorsalRootsOpen ? '1fr' : '0fr';
+                dorsalRootsContent.style.opacity = state.isDorsalRootsOpen ? '1' : '0';
+                dorsalRootsChevron.style.transform = state.isDorsalRootsOpen ? 'rotate(180deg)' : '';
+                
+                // Dynamically render buttons based on state
+                renderButtons();
+                renderSelectedLevelsSummary();
+
+                // Calculate and update mixture results
+                updateMixtureResults();
+            }
+
+            /**
+             * Renders the dynamic buttons for Facets, Extra, and Dorsal Roots.
+             * This function is called by updateUI to rebuild the buttons.
+             */
+            function renderButtons() {
+                // Render Facet buttons
+                facetsContainer.innerHTML = '';
+                facetOptions.forEach(facet => {
+                    const button = document.createElement('button');
+                    button.textContent = facet;
+                    button.classList.add(
+                        'px-4', 'py-2', 'rounded-full', 'font-medium', 'transition-colors',
+                        ...(state.selectedFacets.includes(facet) ? 
+                            ['bg-blue-600', 'text-white', 'shadow-md'] : 
+                            ['bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600'])
+                    );
+                    button.addEventListener('click', () => {
+                        handleFacetToggle(facet);
+                    });
+                    facetsContainer.appendChild(button);
+                });
+
+                // Render Extra buttons (Left and Right)
+                extraLeftContainer.innerHTML = '';
+                extraRightContainer.innerHTML = '';
+                extraOptions.forEach(option => {
+                    const leftButton = document.createElement('button');
+                    leftButton.textContent = option;
+                    leftButton.classList.add(
+                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm',
+                        ...(state.selectedExtra.left.includes(option) ? 
+                            ['bg-blue-600', 'text-white', 'shadow-md'] : 
+                            ['bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600'])
+                    );
+                    leftButton.addEventListener('click', () => {
+                        handleExtraToggle('left', option);
+                    });
+                    extraLeftContainer.appendChild(leftButton);
+
+                    const rightButton = document.createElement('button');
+                    rightButton.textContent = option;
+                    rightButton.classList.add(
+                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm',
+                        ...(state.selectedExtra.right.includes(option) ? 
+                            ['bg-blue-600', 'text-white', 'shadow-md'] : 
+                            ['bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600'])
+                    );
+                    rightButton.addEventListener('click', () => {
+                        handleExtraToggle('right', option);
+                    });
+                    extraRightContainer.appendChild(rightButton);
+                });
+
+                // Render Dorsal Root buttons (Left and Right)
+                dorsalRootsLeftContainer.innerHTML = '';
+                dorsalRootsRightContainer.innerHTML = '';
+                allDorsalRoots.forEach(root => {
+                    const leftButton = document.createElement('button');
+                    leftButton.textContent = root;
+                    leftButton.classList.add(
+                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm',
+                        ...(state.selectedDorsalRoots.left.includes(root) ? 
+                            ['bg-blue-600', 'text-white', 'shadow-md'] : 
+                            ['bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600'])
+                    );
+                    leftButton.addEventListener('click', () => {
+                        handleDorsalRootToggle('left', root);
+                    });
+                    dorsalRootsLeftContainer.appendChild(leftButton);
+
+                    const rightButton = document.createElement('button');
+                    rightButton.textContent = root;
+                    rightButton.classList.add(
+                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm',
+                        ...(state.selectedDorsalRoots.right.includes(root) ? 
+                            ['bg-blue-600', 'text-white', 'shadow-md'] : 
+                            ['bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600'])
+                    );
+                    rightButton.addEventListener('click', () => {
+                        handleDorsalRootToggle('right', root);
+                    });
+                    dorsalRootsRightContainer.appendChild(rightButton);
+                });
+            }
+
+            /**
+             * Toggles a facet level in the state.
+             * @param {string} facet - The facet to toggle.
+             */
+            function handleFacetToggle(facet) {
+                const index = state.selectedFacets.indexOf(facet);
+                if (index > -1) {
+                    state.selectedFacets.splice(index, 1);
+                } else {
+                    state.selectedFacets.push(facet);
+                }
+                updateUI();
+            }
+
+            /**
+             * Toggles a dorsal root in the state.
+             * @param {string} side - 'left' or 'right'.
+             * @param {string} root - The dorsal root to toggle.
+             */
+            function handleDorsalRootToggle(side, root) {
+                const index = state.selectedDorsalRoots[side].indexOf(root);
+                if (index > -1) {
+                    state.selectedDorsalRoots[side].splice(index, 1);
+                } else {
+                    state.selectedDorsalRoots[side].push(root);
+                }
+                updateUI();
+            }
+
+            /**
+             * Toggles an extra option in the state.
+             * @param {string} side - 'left' or 'right'.
+             * @param {string} option - The extra option to toggle.
+             */
+            function handleExtraToggle(side, option) {
+                const index = state.selectedExtra[side].indexOf(option);
+                if (index > -1) {
+                    state.selectedExtra[side].splice(index, 1);
+                } else {
+                    state.selectedExtra[side].push(option);
+                }
+                updateUI();
+            }
+
+            /**
+             * Calculates the total volume based on current selections.
+             * @returns {string} The total volume formatted to one decimal place.
+             */
+            function calculateTotalVolume() {
+                let volume = 0;
+                
+                // Calculate volume from Facet levels
+                if (state.selectedFacets.includes('C3-C7')) {
+                    volume += state.cVolume * 10;
+                }
+                if (state.selectedFacets.includes('L1-S1')) {
+                    volume += state.lVolume * 12;
+                }
+                if (state.selectedFacets.includes('S2-S4')) {
+                    volume += state.sVolume * 6;
+                }
+                if (state.selectedFacets.includes('GONS')) {
+                    volume += state.gonsVolume;
+                }
+
+                // Calculate volume from Extra buttons
+                state.selectedExtra.left.forEach(option => {
+                    volume += state[`${option.toLowerCase()}Volume`];
+                });
+                state.selectedExtra.right.forEach(option => {
+                    volume += state[`${option.toLowerCase()}Volume`];
+                });
+
+                // Calculate volume from Dorsal Roots
+                state.selectedDorsalRoots.left.forEach(root => {
+                    if (cervicalRoots.includes(root)) {
+                        volume += state.cVolume;
+                    } else if (lumbosacralRoots.slice(0, 5).includes(root)) {
+                        volume += state.lVolume;
+                    } else {
+                        volume += state.sVolume;
+                    }
+                });
+                state.selectedDorsalRoots.right.forEach(root => {
+                    if (cervicalRoots.includes(root)) {
+                        volume += state.cVolume;
+                    } else if (lumbosacralRoots.slice(0, 5).includes(root)) {
+                        volume += state.lVolume;
+                    } else {
+                        volume += state.sVolume;
+                    }
+                });
+
+                return volume.toFixed(1);
+            }
+
+            /**
+             * Gets a list of all selected levels for the summary display.
+             * @returns {string[]} An array of strings representing selected levels.
+             */
+            function getSelectedLevels() {
+                const levels = [];
+                state.selectedFacets.forEach(facet => levels.push(facet));
+                state.selectedExtra.left.forEach(option => levels.push(`${option} (Left)`));
+                state.selectedExtra.right.forEach(option => levels.push(`${option} (Right)`));
+                state.selectedDorsalRoots.left.forEach(root => levels.push(`${root} (Left)`));
+                state.selectedDorsalRoots.right.forEach(root => levels.push(`${root} (Right)`));
+                return levels;
+            }
+
+            /**
+             * Renders the summary of selected levels.
+             */
+            function renderSelectedLevelsSummary() {
+                const selectedLevels = getSelectedLevels();
+                selectedLevelsContainer.innerHTML = '';
+                if (selectedLevels.length > 0) {
+                    selectedLevelsSummary.classList.remove('hidden');
+                    selectedLevels.forEach(level => {
+                        const span = document.createElement('span');
+                        span.textContent = level;
+                        span.classList.add(
+                            'px-3', 'py-1', 'bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 
+                            'dark:text-gray-200', 'rounded-full', 'text-sm', 'font-medium'
+                        );
+                        selectedLevelsContainer.appendChild(span);
+                    });
+                } else {
+                    selectedLevelsSummary.classList.add('hidden');
+                }
+            }
+            
+            /**
+             * Updates the mixture calculation results displayed on the screen.
+             */
+            function updateMixtureResults() {
+                const totalVolumeNeeded = Number(calculateTotalVolume());
+                const maxLignocaineMg = state.patientWeight * state.maxLignocaineDose;
+                const allowedLignocaineMl = maxLignocaineMg / 20;
+
+                const requiredLignocaineAmpules = Math.floor(totalVolumeNeeded / 5);
+                const allowedLignocaineAmpules = Math.floor(allowedLignocaineMl / 5);
+                const lignocaineAmpules = Math.min(requiredLignocaineAmpules, allowedLignocaineAmpules);
+
+                const dexaAmpules = Math.min(lignocaineAmpules, state.maxDexamethazoneAmpules);
+                const salineMl = Math.max(0, totalVolumeNeeded - (lignocaineAmpules * 5) - (dexaAmpules * 1)).toFixed(1);
+
+                maxLignocaineMgEl.textContent = `${maxLignocaineMg.toFixed(1)} mg`;
+                allowedLignocaineMlEl.textContent = `${allowedLignocaineMl.toFixed(1)} ml`;
+                totalVolumeNeededEl.textContent = `${totalVolumeNeeded} ml`;
+                lignocaineAmpulesEl.textContent = lignocaineAmpules;
+                dexaAmpulesEl.textContent = dexaAmpules;
+                salineMlEl.textContent = salineMl;
+            }
+
+            /**
+             * Resets the application state to its initial values.
+             */
+            function handleReset() {
+                state.patientWeight = 70;
+                state.selectedFacets = [];
+                state.selectedExtra = { left: [], right: [] };
+                state.selectedDorsalRoots = { left: [], right: [] };
+                updateUI();
+            }
+            
+            // --- Event Listeners ---
+            document.addEventListener('DOMContentLoaded', () => {
+                // Initial UI rendering
+                updateUI();
+
+                // View navigation
+                document.getElementById('settings-button').addEventListener('click', () => {
+                    state.view = 'settings';
+                    updateUI();
+                });
+                document.getElementById('back-button').addEventListener('click', () => {
+                    state.view = 'main';
+                    updateUI();
+                });
+
+                // Theme toggle
+                themeToggleButton.addEventListener('click', () => {
+                    state.isDarkMode = !state.isDarkMode;
+                    updateUI();
+                });
+
+                // Weight input and slider
+                weightInput.addEventListener('input', (e) => {
+                    const value = e.target.value;
+                    if (value === "") {
+                        state.patientWeight = "";
+                    } else {
+                        const numValue = Number(value);
+                        if (!isNaN(numValue)) {
+                            state.patientWeight = numValue;
+                        }
+                    }
+                    updateUI();
+                });
+
+                weightSlider.addEventListener('input', (e) => {
+                    state.patientWeight = Number(e.target.value);
+                    updateUI();
+                });
+
+                // Reset button
+                document.getElementById('reset-button').addEventListener('click', handleReset);
+
+                // Collapsible sections
+                facetsHeader.addEventListener('click', () => {
+                    state.isFacetsOpen = !state.isFacetsOpen;
+                    updateUI();
+                });
+                extraHeader.addEventListener('click', () => {
+                    state.isExtraOpen = !state.isExtraOpen;
+                    updateUI();
+                });
+                dorsalRootsHeader.addEventListener('click', () => {
+                    state.isDorsalRootsOpen = !state.isDorsalRootsOpen;
+                    updateUI();
+                });
+
+                // Settings inputs
+                maxLignocaineDoseInput.addEventListener('input', (e) => {
+                    state.maxLignocaineDose = Number(e.target.value);
+                    updateUI();
+                });
+                maxDexamethazoneAmpulesInput.addEventListener('input', (e) => {
+                    state.maxDexamethazoneAmpules = Number(e.target.value);
+                    updateUI();
+                });
+                cVolumeInput.addEventListener('input', (e) => {
+                    state.cVolume = Number(e.target.value);
+                    updateUI();
+                });
+                lVolumeInput.addEventListener('input', (e) => {
+                    state.lVolume = Number(e.target.value);
+                    updateUI();
+                });
+                sVolumeInput.addEventListener('input', (e) => {
+                    state.sVolume = Number(e.target.value);
+                    updateUI();
+                });
+                gonsVolumeInput.addEventListener('input', (e) => {
+                    state.gonsVolume = Number(e.target.value);
+                    updateUI();
+                });
+                shoulderVolumeInput.addEventListener('input', (e) => {
+                    state.shoulderVolume = Number(e.target.value);
+                    updateUI();
+                });
+                hipVolumeInput.addEventListener('input', (e) => {
+                    state.hipVolume = Number(e.target.value);
+                    updateUI();
+                });
+                kneeVolumeInput.addEventListener('input', (e) => {
+                    state.kneeVolume = Number(e.target.value);
+                    updateUI();
+                });
+                ankleVolumeInput.addEventListener('input', (e) => {
+                    state.ankleVolume = Number(e.target.value);
+                    updateUI();
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
