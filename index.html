@@ -28,24 +28,20 @@
         }
         .dark ::-webkit-scrollbar-thumb {
             background: #4b5563;
-        }
-
-        /* Styling for the range input slider thumb */
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            background-color: #3b82f6;
-            cursor: pointer;
-            border-radius: 9999px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.2s;
+            border-radius: 4px;
         }
 
         /* Ensure the main container can scroll vertically when content overflows */
         #app-container {
             max-height: 100vh;
+        }
+
+        /* Styles for the weight buttons, which are now transparent */
+        .weight-button {
+            @apply p-1.5 rounded-lg font-bold transition-all duration-200 ease-in-out transform;
+        }
+        .weight-button:hover {
+            @apply bg-gray-200 dark:bg-gray-700;
         }
     </style>
 </head>
@@ -77,30 +73,26 @@
 
             <!-- Patient weight section -->
             <div class="flex flex-col items-center w-full mb-8">
-                <label for="weight-input" class="text-lg text-gray-600 dark:text-gray-400 mb-4">
+                <label for="weight-display" class="text-lg text-gray-600 dark:text-gray-400 mb-4">
                     Patient weight
                 </label>
-                <div class="flex items-center space-x-2 mb-4">
-                    <input
-                        id="weight-input"
-                        type="number"
-                        value="70"
-                        class="w-24 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm text-center text-gray-900 dark:text-gray-100"
-                        step="1"
-                        min="30"
-                        max="200"
-                    />
-                    <span class="text-sm text-gray-600 dark:text-gray-400">kg</span>
+                <div class="flex items-center space-x-0 mb-4">
+                    <button id="decrement-1-btn" class="weight-button px-2 py-1.5 text-xl">
+                        🔽
+                    </button>
+                    <button id="decrement-10-btn" class="weight-button px-2 py-1.5 text-xl">
+                        ⏬
+                    </button>
+                    <div id="weight-display" class="w-24 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm text-center text-gray-900 dark:text-gray-100">
+                        70
+                    </div>
+                    <button id="increment-10-btn" class="weight-button px-2 py-1.5 text-xl">
+                        ⏫
+                    </button>
+                    <button id="increment-1-btn" class="weight-button px-2 py-1.5 text-xl">
+                        🔼
+                    </button>
                 </div>
-                
-                <input
-                    id="weight-slider"
-                    type="range"
-                    min="30"
-                    max="200"
-                    value="70"
-                    class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer range-lg [&::-webkit-slider-thumb]:bg-blue-600 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:appearance-none"
-                />
             </div>
 
             <!-- Facet Levels Section -->
@@ -202,7 +194,7 @@
                 </h2>
                 <div class="flex flex-col space-y-2">
                     <div class="flex items-center justify-between text-lg font-medium text-gray-700 dark:text-gray-300">
-                        <span>Max Lignocaine for <span id="patient-weight-display">70</span>kg:</span>
+                        <span>Max Lignocaine for <span id="patient-weight-display-2">70</span>kg:</span>
                         <span id="max-lignocaine-mg" class="text-blue-600 dark:text-blue-400 font-bold">
                             0.0 mg
                         </span>
@@ -491,9 +483,8 @@
             const themeToggleButton = document.getElementById('theme-toggle-button');
             const sunIcon = document.getElementById('sun-icon');
             const moonIcon = document.getElementById('moon-icon');
-            const weightInput = document.getElementById('weight-input');
-            const weightSlider = document.getElementById('weight-slider');
-            const patientWeightDisplay = document.getElementById('patient-weight-display');
+            const weightDisplay = document.getElementById('weight-display');
+            const patientWeightDisplay = document.getElementById('patient-weight-display-2');
             const maxLignocaineMgEl = document.getElementById('max-lignocaine-mg');
             const allowedLignocaineMlEl = document.getElementById('allowed-lignocaine-ml');
             const totalVolumeNeededEl = document.getElementById('total-volume-needed');
@@ -556,8 +547,7 @@
                 sunIcon.classList.toggle('hidden', state.isDarkMode);
 
                 // Update main view elements
-                weightInput.value = state.patientWeight;
-                weightSlider.value = state.patientWeight;
+                weightDisplay.textContent = state.patientWeight;
                 patientWeightDisplay.textContent = state.patientWeight;
 
                 // Update settings view inputs
@@ -619,10 +609,13 @@
                 extraLeftContainer.innerHTML = '';
                 extraRightContainer.innerHTML = '';
                 extraOptions.forEach(option => {
+                    const buttonClassList = [
+                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm'
+                    ];
+
                     const leftButton = document.createElement('button');
                     leftButton.textContent = option;
-                    leftButton.classList.add(
-                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm',
+                    leftButton.classList.add(...buttonClassList,
                         ...(state.selectedExtra.left.includes(option) ? 
                             ['bg-blue-600', 'text-white', 'shadow-md'] : 
                             ['bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600'])
@@ -634,8 +627,7 @@
 
                     const rightButton = document.createElement('button');
                     rightButton.textContent = option;
-                    rightButton.classList.add(
-                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm',
+                    rightButton.classList.add(...buttonClassList,
                         ...(state.selectedExtra.right.includes(option) ? 
                             ['bg-blue-600', 'text-white', 'shadow-md'] : 
                             ['bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600'])
@@ -650,10 +642,13 @@
                 dorsalRootsLeftContainer.innerHTML = '';
                 dorsalRootsRightContainer.innerHTML = '';
                 allDorsalRoots.forEach(root => {
+                    const buttonClassList = [
+                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm'
+                    ];
+
                     const leftButton = document.createElement('button');
                     leftButton.textContent = root;
-                    leftButton.classList.add(
-                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm',
+                    leftButton.classList.add(...buttonClassList,
                         ...(state.selectedDorsalRoots.left.includes(root) ? 
                             ['bg-blue-600', 'text-white', 'shadow-md'] : 
                             ['bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600'])
@@ -665,8 +660,7 @@
 
                     const rightButton = document.createElement('button');
                     rightButton.textContent = root;
-                    rightButton.classList.add(
-                        'w-16', 'py-2', 'rounded-full', 'font-medium', 'transition-colors', 'text-sm',
+                    rightButton.classList.add(...buttonClassList,
                         ...(state.selectedDorsalRoots.right.includes(root) ? 
                             ['bg-blue-600', 'text-white', 'shadow-md'] : 
                             ['bg-gray-200', 'text-gray-700', 'dark:bg-gray-700', 'dark:text-gray-200', 'hover:bg-gray-300', 'dark:hover:bg-gray-600'])
@@ -843,6 +837,16 @@
                 state.selectedDorsalRoots = { left: [], right: [] };
                 updateUI();
             }
+
+            /**
+             * Changes the patient's weight by a specified delta, respecting min/max bounds.
+             * @param {number} delta - The amount to change the weight by.
+             */
+            function changeWeight(delta) {
+                const newWeight = state.patientWeight + delta;
+                state.patientWeight = Math.min(Math.max(newWeight, 30), 200);
+                updateUI();
+            }
             
             // --- Event Listeners ---
             document.addEventListener('DOMContentLoaded', () => {
@@ -865,25 +869,12 @@
                     updateUI();
                 });
 
-                // Weight input and slider
-                weightInput.addEventListener('input', (e) => {
-                    const value = e.target.value;
-                    if (value === "") {
-                        state.patientWeight = "";
-                    } else {
-                        const numValue = Number(value);
-                        if (!isNaN(numValue)) {
-                            state.patientWeight = numValue;
-                        }
-                    }
-                    updateUI();
-                });
-
-                weightSlider.addEventListener('input', (e) => {
-                    state.patientWeight = Number(e.target.value);
-                    updateUI();
-                });
-
+                // Weight input and buttons
+                document.getElementById('decrement-1-btn').addEventListener('click', () => changeWeight(-1));
+                document.getElementById('decrement-10-btn').addEventListener('click', () => changeWeight(-10));
+                document.getElementById('increment-1-btn').addEventListener('click', () => changeWeight(1));
+                document.getElementById('increment-10-btn').addEventListener('click', () => changeWeight(10));
+                
                 // Reset button
                 document.getElementById('reset-button').addEventListener('click', handleReset);
 
