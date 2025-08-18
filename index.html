@@ -18,9 +18,39 @@
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             border-color: #2563eb;
         }
+        /* Custom styles for the new buttons */
+        .select-button {
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .select-button.selected {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        /* Style for the collapsible container and its content */
+        .collapsible-header {
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+        .collapsible-content {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease-out;
+        }
+        .collapsible-content.open {
+            max-height: 800px; /* Increased from 500px to ensure all options are visible */
+            transition: max-height 0.5s ease-in;
+        }
+        .chevron {
+            transition: transform 0.3s;
+        }
+        .chevron.open {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen p-4 relative">
+<body class="bg-gray-900 text-gray-100 flex items-start justify-center min-h-screen p-4 relative overflow-y-auto">
 
     <!-- Burger Menu Overlay -->
     <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 transition-opacity duration-300"></div>
@@ -221,7 +251,7 @@
         </div>
 
         <!-- Ideal Weight Section -->
-        <div class="bg-gray-700 p-4 rounded-xl shadow-inner border border-gray-600 flex flex-col items-center">
+        <div class="bg-gray-700 p-4 rounded-xl shadow-inner border border-gray-600 flex flex-col items-center mb-6">
             <h2 class="text-xl font-bold mb-4">Ideal weight</h2>
             <div class="flex items-center w-full justify-between">
                 <!-- Button instead of a checkbox and label -->
@@ -233,6 +263,109 @@
                 </div>
             </div>
         </div>
+
+        <!-- New Collapsible Sections -->
+        
+        <!-- Facet levels Section -->
+        <div class="bg-gray-700 rounded-xl shadow-inner border border-gray-600 mb-6">
+            <div id="facet-header" class="collapsible-header flex justify-between items-center p-4">
+                <h3 class="text-lg font-semibold">Facet levels</h3>
+                <svg id="facet-chevron" class="chevron h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+            <div id="facet-content" class="collapsible-content p-4 border-t border-gray-600">
+                <div class="flex flex-wrap gap-2">
+                    <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C3-C7</button>
+                    <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L1-S1</button>
+                    <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S1-S4</button>
+                    <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">GONS</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dorsal Roots Section -->
+        <div class="bg-gray-700 rounded-xl shadow-inner border border-gray-600 mb-6">
+            <div id="dorsal-roots-header" class="collapsible-header flex justify-between items-center p-4">
+                <h3 class="text-lg font-semibold">Dorsal Roots</h3>
+                <svg id="dorsal-roots-chevron" class="chevron h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+            <div id="dorsal-roots-content" class="collapsible-content p-4 border-t border-gray-600">
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="flex flex-col gap-2">
+                        <h4 class="text-sm font-bold text-gray-400">Left</h4>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C3</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C4</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C5</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C6</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C7</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L1</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L2</button>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h4 class="text-sm font-bold text-gray-400">Right</h4>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C3</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C4</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C5</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C6</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C7</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L1</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L2</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                     <div class="flex flex-col gap-2">
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L3</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L4</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L5</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S1</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S2</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S3</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S4</button>
+                    </div>
+                     <div class="flex flex-col gap-2">
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L3</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L4</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L5</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S1</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S2</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S3</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S4</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Extra Section -->
+        <div class="bg-gray-700 rounded-xl shadow-inner border border-gray-600 mb-6">
+            <div id="extra-header" class="collapsible-header flex justify-between items-center p-4">
+                <h3 class="text-lg font-semibold">Extra</h3>
+                <svg id="extra-chevron" class="chevron h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+            <div id="extra-content" class="collapsible-content p-4 border-t border-gray-600">
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="flex flex-col gap-2">
+                        <h4 class="text-sm font-bold text-gray-400">Left</h4>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Shoulder</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Hip</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Knee</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Ankle</button>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h4 class="text-sm font-bold text-gray-400">Right</h4>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Shoulder</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Hip</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Knee</button>
+                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Ankle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- JavaScript for functionality -->
@@ -274,6 +407,23 @@
             const shoulderVolumeInput = document.getElementById('shoulder-volume');
             const hipVolumeInput = document.getElementById('hip-volume');
             const ankleVolumeInput = document.getElementById('ankle-volume');
+
+            // New elements for collapsible sections
+            const facetHeader = document.getElementById('facet-header');
+            const facetContent = document.getElementById('facet-content');
+            const facetChevron = document.getElementById('facet-chevron');
+            const facetButtons = facetContent.querySelectorAll('.select-button');
+
+            const dorsalRootsHeader = document.getElementById('dorsal-roots-header');
+            const dorsalRootsContent = document.getElementById('dorsal-roots-content');
+            const dorsalRootsChevron = document.getElementById('dorsal-roots-chevron');
+            const dorsalRootsButtons = dorsalRootsContent.querySelectorAll('.select-button');
+
+            const extraHeader = document.getElementById('extra-header');
+            const extraContent = document.getElementById('extra-content');
+            const extraChevron = document.getElementById('extra-chevron');
+            const extraButtons = extraContent.querySelectorAll('.select-button');
+
 
             // Set the initial values and define the min/max limits
             let currentWeight = 70;
@@ -367,6 +517,25 @@
                 calculateIdealWeight();
             }
 
+            // Function to toggle collapsible sections
+            function toggleCollapsible(header, content, chevron) {
+                const isOpen = content.classList.contains('open');
+                if (isOpen) {
+                    content.classList.remove('open');
+                    chevron.classList.remove('open');
+                } else {
+                    content.classList.add('open');
+                    chevron.classList.add('open');
+                }
+            }
+
+            // Function to handle multi-selection button clicks
+            function handleMultiSelect(clickedButton) {
+                clickedButton.classList.toggle('selected');
+                clickedButton.classList.toggle('bg-gray-600');
+                clickedButton.classList.toggle('text-gray-200');
+            }
+
             // Event listener for the -10kg button
             subtract10Btn.addEventListener('click', () => {
                 changeWeight(-10);
@@ -442,6 +611,38 @@
             menuOverlay.addEventListener('click', () => {
                 menuContainer.classList.add('-translate-x-full');
                 menuOverlay.classList.add('hidden');
+            });
+
+            // Event listeners for collapsible sections
+            facetHeader.addEventListener('click', () => {
+                toggleCollapsible(facetHeader, facetContent, facetChevron);
+            });
+
+            dorsalRootsHeader.addEventListener('click', () => {
+                toggleCollapsible(dorsalRootsHeader, dorsalRootsContent, dorsalRootsChevron);
+            });
+
+            extraHeader.addEventListener('click', () => {
+                toggleCollapsible(extraHeader, extraContent, extraChevron);
+            });
+
+            // Event listeners for new buttons. All new sections are multi-select
+            facetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    handleMultiSelect(button);
+                });
+            });
+
+            dorsalRootsButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    handleMultiSelect(button);
+                });
+            });
+
+            extraButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    handleMultiSelect(button);
+                });
             });
 
             // Initial calculations on load
