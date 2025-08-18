@@ -77,21 +77,26 @@
                     Patient weight
                 </label>
                 <div class="flex items-center space-x-0 mb-4">
-                    <button id="decrement-1-btn" class="weight-button px-2 py-1.5 text-xl">
-                        🔽
-                    </button>
-                    <button id="decrement-10-btn" class="weight-button px-2 py-1.5 text-xl">
-                        ⏬
-                    </button>
+                    <div id="weight-buttons-container" class="flex items-center space-x-0">
+                        <!-- Weight buttons -->
+                        <button id="decrement-1-btn" class="weight-button px-2 py-1.5 text-xl">
+                            ⬇️
+                        </button>
+                        <button id="decrement-10-btn" class="weight-button px-2 py-1.5 text-xl">
+                            ⏬
+                        </button>
+                    </div>
                     <div id="weight-display" class="w-24 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm text-center text-gray-900 dark:text-gray-100">
                         70
                     </div>
-                    <button id="increment-10-btn" class="weight-button px-2 py-1.5 text-xl">
-                        ⏫
-                    </button>
-                    <button id="increment-1-btn" class="weight-button px-2 py-1.5 text-xl">
-                        🔼
-                    </button>
+                    <div id="weight-buttons-container-2" class="flex items-center space-x-0">
+                        <button id="increment-10-btn" class="weight-button px-2 py-1.5 text-xl">
+                            ⏫
+                        </button>
+                        <button id="increment-1-btn" class="weight-button px-2 py-1.5 text-xl">
+                            ⬆️
+                        </button>
+                    </div>
                 </div>
             </div>
 
