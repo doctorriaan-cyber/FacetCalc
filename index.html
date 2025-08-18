@@ -20,11 +20,116 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen p-4">
+<body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen p-4 relative">
+
+    <!-- Burger Menu Overlay -->
+    <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 transition-opacity duration-300"></div>
+
+    <!-- Burger Menu Container -->
+    <div id="menu-container" class="fixed top-0 left-0 w-64 h-full bg-gray-800 shadow-xl z-50 transform -translate-x-full transition-transform duration-300 p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Settings</h2>
+            <button id="menu-close-btn" class="text-gray-400 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Menu Items Container with scrolling -->
+        <div class="flex-grow overflow-y-auto">
+            <!-- Max Lignocaine dose -->
+            <div class="flex items-center justify-between mb-4">
+                <label for="lignocaine-dose" class="text-sm font-semibold text-gray-300">Max Lignocaine dose</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="lignocaine-dose" value="4.5" step="0.1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-sm text-gray-400">mg/kg</span>
+                </div>
+            </div>
+            
+            <!-- Max Dexamethazone ampules -->
+            <div class="flex items-center justify-between mb-4">
+                <label for="dexamethazone-ampules" class="text-sm font-semibold text-gray-300">Max Dexamethazone ampules</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="dexamethazone-ampules" value="3" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-sm text-gray-400">ampules</span>
+                </div>
+            </div>
+
+            <!-- C volume -->
+            <div class="flex items-center justify-between mb-4">
+                <label for="c-volume" class="text-sm font-semibold text-gray-300">C volume</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="c-volume" value="2" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-sm text-gray-400">ml</span>
+                </div>
+            </div>
+
+            <!-- L volume -->
+            <div class="flex items-center justify-between mb-4">
+                <label for="l-volume" class="text-sm font-semibold text-gray-300">L volume</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="l-volume" value="3" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-sm text-gray-400">ml</span>
+                </div>
+            </div>
+
+            <!-- S volume -->
+            <div class="flex items-center justify-between mb-4">
+                <label for="s-volume" class="text-sm font-semibold text-gray-300">S volume</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="s-volume" value="3" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-sm text-gray-400">ml</span>
+                </div>
+            </div>
+
+            <!-- GONS volume -->
+            <div class="flex items-center justify-between mb-4">
+                <label for="gons-volume" class="text-sm font-semibold text-gray-300">GONS volume</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="gons-volume" value="4" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-sm text-gray-400">ml</span>
+                </div>
+            </div>
+
+            <!-- Shoulder volume -->
+            <div class="flex items-center justify-between mb-4">
+                <label for="shoulder-volume" class="text-sm font-semibold text-gray-300">Shoulder volume</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="shoulder-volume" value="4" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-sm text-gray-400">ml</span>
+                </div>
+            </div>
+
+            <!-- Hip volume -->
+            <div class="flex items-center justify-between mb-4">
+                <label for="hip-volume" class="text-sm font-semibold text-gray-300">Hip volume</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="hip-volume" value="4" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-sm text-gray-400">ml</span>
+                </div>
+            </div>
+
+            <!-- Ankle volume -->
+            <div class="flex items-center justify-between mb-4">
+                <label for="ankle-volume" class="text-sm font-semibold text-gray-300">Ankle volume</label>
+                <div class="flex items-center space-x-2">
+                    <input type="number" id="ankle-volume" value="4" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span class="text-sm text-gray-400">ml</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Container -->
-    <div class="w-full max-w-sm mx-auto bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-700">
-        
+    <div class="w-full max-w-sm mx-auto bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-700 relative z-30">
+        <!-- Settings button -->
+        <button id="settings-btn" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+
         <!-- Heading -->
         <h1 class="text-2xl sm:text-3xl font-extrabold text-center mb-8 text-white">Block Mixture Calculator</h1>
 
@@ -62,13 +167,18 @@
 
         <!-- Height Selector Section with BMI squeezed in -->
         <div class="mb-8">
-            <!-- Centered container for Height and BMI -->
-            <div class="flex items-end justify-center mb-4 space-x-2">
-                <h2 class="text-lg font-semibold">Height</h2>
-                <!-- BMI display is now justified to the right -->
-                <div class="px-1 rounded border border-gray-500 bg-gray-700">
-                    <div class="text-xs text-gray-400">
-                        <span id="bmiLabel">BMI:</span> <span id="bmiDisplay" class="font-medium text-white">--</span>
+            <!-- Grid layout for the heading and BMI display -->
+            <div class="grid grid-cols-3 items-end mb-4">
+                <!-- Empty div to push Height to center -->
+                <div></div>
+                <!-- Height heading, centered in its column -->
+                <h2 class="text-lg font-semibold text-center">Height</h2>
+                <!-- BMI display, justified to the right in its column -->
+                <div class="flex justify-end">
+                    <div class="px-1 rounded border border-gray-500 bg-gray-700">
+                        <div class="text-xs text-gray-400">
+                            <span id="bmiLabel">BMI:</span> <span id="bmiDisplay" class="font-medium text-white">--</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -149,6 +259,21 @@
 
             // Get new BMI display element
             const bmiDisplay = document.getElementById('bmiDisplay');
+
+            // Get menu elements
+            const settingsBtn = document.getElementById('settings-btn');
+            const menuContainer = document.getElementById('menu-container');
+            const menuCloseBtn = document.getElementById('menu-close-btn');
+            const menuOverlay = document.getElementById('menu-overlay');
+            const lignocaineDoseInput = document.getElementById('lignocaine-dose');
+            const dexamethasoneAmpulesInput = document.getElementById('dexamethazone-ampules');
+            const cVolumeInput = document.getElementById('c-volume');
+            const lVolumeInput = document.getElementById('l-volume');
+            const sVolumeInput = document.getElementById('s-volume');
+            const gonsVolumeInput = document.getElementById('gons-volume');
+            const shoulderVolumeInput = document.getElementById('shoulder-volume');
+            const hipVolumeInput = document.getElementById('hip-volume');
+            const ankleVolumeInput = document.getElementById('ankle-volume');
 
             // Set the initial values and define the min/max limits
             let currentWeight = 70;
@@ -301,6 +426,22 @@
                     useIdealWeightBtn.classList.remove('bg-blue-500', 'text-white');
                     useIdealWeightBtn.classList.add('bg-gray-600', 'text-gray-200');
                 }
+            });
+
+            // Event listeners for menu functionality
+            settingsBtn.addEventListener('click', () => {
+                menuContainer.classList.remove('-translate-x-full');
+                menuOverlay.classList.remove('hidden');
+            });
+
+            menuCloseBtn.addEventListener('click', () => {
+                menuContainer.classList.add('-translate-x-full');
+                menuOverlay.classList.add('hidden');
+            });
+
+            menuOverlay.addEventListener('click', () => {
+                menuContainer.classList.add('-translate-x-full');
+                menuOverlay.classList.add('hidden');
             });
 
             // Initial calculations on load
