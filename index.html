@@ -144,6 +144,11 @@
              </div>
           </div>
 
+          <!-- Current Selections Summary -->
+          <div id="current-selections-summary" class="mt-6">
+              <!-- Content will be injected by JS -->
+          </div>
+
           <!-- Suggested Mixture -->
           <div class="mt-6 p-4 bg-blue-100 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-800 rounded-lg shadow-md">
             <h2 class="text-xl font-bold mb-3 text-blue-800 dark:text-blue-200">Suggested Mixture</h2>
@@ -275,6 +280,7 @@
             facetsContainer: document.getElementById('facets-container'),
             dorsalRootsContainer: document.getElementById('dorsal-roots-container'),
             extraContainer: document.getElementById('extra-container'),
+            currentSelectionsSummary: document.getElementById('current-selections-summary'),
             displayCalcWeight: document.getElementById('display-calc-weight'),
             maxLignocaine: document.getElementById('max-lignocaine'),
             lignocaineAllowed: document.getElementById('lignocaine-allowed'),
@@ -444,6 +450,9 @@
             dom.lignocaineAmpules.textContent = `${lignocaineAmpules.toFixed(1)} (5ml)`;
             dom.dexaAmpules.textContent = `${dexaAmpules} (1ml)`;
             dom.salineMl.textContent = `${salineMl.toFixed(1)} ml`;
+
+            // Render summary
+            renderSummary();
         }
 
         // --- DYNAMIC CONTENT RENDERERS ---
@@ -505,6 +514,80 @@
             }).join('');
         }
         
+        function renderSummary() {
+            const summary = {
+                facets: [],
+                dorsalRootsLeft: [],
+                dorsalRootsRight: [],
+                extraLeft: [],
+                extraRight: []
+            };
+
+            // Collect selected items
+            for (const item in state.selections.facets) {
+                if (state.selections.facets[item]) summary.facets.push(item);
+            }
+            for (const side in state.selections.dorsalRoots) {
+                for (const item in state.selections.dorsalRoots[side]) {
+                    if (state.selections.dorsalRoots[side][item]) {
+                        (side === 'left' ? summary.dorsalRootsLeft : summary.dorsalRootsRight).push(item);
+                    }
+                }
+            }
+            for (const side in state.selections.extra) {
+                for (const item in state.selections.extra[side]) {
+                    if (state.selections.extra[side][item]) {
+                        (side === 'left' ? summary.extraLeft : summary.extraRight).push(item);
+                    }
+                }
+            }
+
+            const hasSelections = Object.values(summary).some(arr => arr.length > 0);
+
+            if (!hasSelections) {
+                dom.currentSelectionsSummary.innerHTML = '';
+                dom.currentSelectionsSummary.classList.add('hidden');
+                return;
+            }
+
+            dom.currentSelectionsSummary.classList.remove('hidden');
+
+            const generateSectionHTML = (title, items) => {
+                if (items.length === 0) return '';
+                return `
+                    <div>
+                        <h4 class="font-semibold text-sm text-text-muted-light dark:text-text-muted-dark">${title}</h4>
+                        <p class="text-sm">${items.join(', ')}</p>
+                    </div>
+                `;
+            };
+
+            const generateSideBySideHTML = (title, leftItems, rightItems) => {
+                if (leftItems.length === 0 && rightItems.length === 0) return '';
+                return `
+                    <div>
+                        <h4 class="font-semibold text-sm text-text-muted-light dark:text-text-muted-dark mb-1">${title}</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            ${leftItems.length > 0 ? `<div><strong class="text-text-muted-light dark:text-text-muted-dark">L:</strong> ${leftItems.join(', ')}</div>` : '<div></div>'}
+                            ${rightItems.length > 0 ? `<div><strong class="text-text-muted-light dark:text-text-muted-dark">R:</strong> ${rightItems.join(', ')}</div>` : '<div></div>'}
+                        </div>
+                    </div>
+                `;
+            };
+
+            dom.currentSelectionsSummary.innerHTML = `
+                <div class="p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-md">
+                    <h3 class="text-lg font-bold mb-3 text-text-light dark:text-text-dark">Current Selections</h3>
+                    <div class="space-y-3">
+                        ${generateSectionHTML('Facet Levels', summary.facets)}
+                        ${generateSideBySideHTML('Dorsal Roots', summary.dorsalRootsLeft, summary.dorsalRootsRight)}
+                        ${generateSideBySideHTML('Extra', summary.extraLeft, summary.extraRight)}
+                    </div>
+                </div>
+            `;
+        }
+
+
         // --- EVENT HANDLERS ---
         function handleThemeToggle() {
             state.theme = state.theme === 'dark' ? 'light' : 'dark';
@@ -572,11 +655,8 @@
             dom.settingsInputsContainer.addEventListener('input', (e) => {
                 if(e.target.matches('input[data-setting-key]')) {
                     const key = e.target.dataset.settingKey;
-                    state.settings[key] = parseFloat(e.target.value);
-                    // No need to call updateUI() here, as it re-renders inputs and loses focus.
-                    // The main UI will get the new values on the next regular update.
-                    // We can manually trigger a calculation update if needed.
-                    updateUI(); // Simple enough app that re-render is fine.
+                    state.settings[key] = parseFloat(e.target.value) || 0;
+                    updateUI(); 
                 }
             });
         }
