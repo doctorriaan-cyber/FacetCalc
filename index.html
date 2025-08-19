@@ -180,16 +180,25 @@
 
     <!-- Settings Panel -->
     <div id="settings-overlay" class="settings-overlay fixed inset-0 bg-black/60 z-40 opacity-0 pointer-events-none"></div>
-    <div id="settings-panel" class="settings-panel fixed top-0 right-0 h-full w-full max-w-sm bg-surface-light dark:bg-surface-dark z-50 shadow-2xl p-6 transform translate-x-full">
-        <div class="flex justify-between items-center mb-6">
+    <div id="settings-panel" class="settings-panel fixed top-0 right-0 h-full w-full max-w-sm bg-surface-light dark:bg-surface-dark z-50 shadow-2xl p-6 transform translate-x-full flex flex-col">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-6 flex-shrink-0">
           <h2 class="text-2xl font-bold">Settings</h2>
           <button id="close-settings-btn" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
-        <div class="overflow-y-auto h-[calc(100vh-80px)] pr-2">
-            <!-- Inputs will be injected by JS -->
+
+        <!-- Scrollable Inputs Area -->
+        <div class="overflow-y-auto flex-grow pr-2">
             <div id="settings-inputs-container"></div>
+        </div>
+
+        <!-- Footer with Save Button -->
+        <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 flex-shrink-0">
+            <button id="save-settings-btn" class="w-full bg-primary-light dark:bg-primary-dark text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light dark:focus:ring-offset-surface-light dark:focus:ring-offset-surface-dark transition-all duration-300 ease-in-out hover:opacity-90">
+                Save Settings
+            </button>
         </div>
     </div>
 
@@ -272,6 +281,7 @@
             lignocaineAmpules: document.getElementById('lignocaine-ampules'),
             dexaAmpules: document.getElementById('dexa-ampules'),
             salineMl: document.getElementById('saline-ml'),
+            saveSettingsBtn: document.getElementById('save-settings-btn'),
         };
 
         const ICONS = {
@@ -319,6 +329,39 @@
             }
         };
         
+        // --- LOCAL STORAGE FUNCTIONS ---
+        function saveSettings() {
+            try {
+                localStorage.setItem('blockMixtureCalculatorSettings', JSON.stringify(state.settings));
+                const originalText = 'Save Settings';
+                dom.saveSettingsBtn.textContent = 'Saved!';
+                dom.saveSettingsBtn.classList.add('bg-green-500', 'dark:bg-green-600');
+                dom.saveSettingsBtn.classList.remove('bg-primary-light', 'dark:bg-primary-dark');
+                
+                setTimeout(() => {
+                    dom.saveSettingsBtn.textContent = originalText;
+                    dom.saveSettingsBtn.classList.remove('bg-green-500', 'dark:bg-green-600');
+                    dom.saveSettingsBtn.classList.add('bg-primary-light', 'dark:bg-primary-dark');
+                }, 1500);
+            } catch (error) {
+                console.error("Could not save settings:", error);
+                // Handle potential errors, e.g., storage full
+            }
+        }
+
+        function loadSettings() {
+            try {
+                const savedSettings = localStorage.getItem('blockMixtureCalculatorSettings');
+                if (savedSettings) {
+                    const parsedSettings = JSON.parse(savedSettings);
+                    // Merge with defaults to ensure all keys are present if the app is updated
+                    state.settings = { ...state.settings, ...parsedSettings };
+                }
+            } catch (error) {
+                console.error("Could not load settings:", error);
+            }
+        }
+
         // --- UI UPDATE FUNCTIONS ---
         function updateUI() {
             // Theme
@@ -480,6 +523,7 @@
             dom.openSettingsBtn.addEventListener('click', () => handleSettingsToggle(true));
             dom.closeSettingsBtn.addEventListener('click', () => handleSettingsToggle(false));
             dom.settingsOverlay.addEventListener('click', () => handleSettingsToggle(false));
+            dom.saveSettingsBtn.addEventListener('click', saveSettings);
 
             document.querySelectorAll('.control-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -536,6 +580,7 @@
         }
         
         // --- APP START ---
+        loadSettings();
         initializeState();
         renderSelectionButtons();
         renderSettingsInputs();
