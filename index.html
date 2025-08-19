@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="dark">
   <head>
@@ -454,8 +455,8 @@
                 </button>
             `).join('');
 
-            // Dorsal Roots & Extra (helper function)
-            const createGrid = (title, items, category, side) => `
+            // Dorsal Roots (helper function)
+            const createDorsalGrid = (title, items, category, side) => `
                 <div>
                     <h4 class="font-semibold mb-2">${title}</h4>
                     <div class="grid grid-cols-3 gap-2">
@@ -467,8 +468,22 @@
                     </div>
                 </div>
             `;
-            dom.dorsalRootsContainer.innerHTML = createGrid('Left', ALL_DORSAL_ROOTS, 'dorsalRoots', 'left') + createGrid('Right', ALL_DORSAL_ROOTS, 'dorsalRoots', 'right');
-            dom.extraContainer.innerHTML = createGrid('Left', EXTRA_ITEMS, 'extra', 'left') + createGrid('Right', EXTRA_ITEMS, 'extra', 'right');
+            dom.dorsalRootsContainer.innerHTML = createDorsalGrid('Left', ALL_DORSAL_ROOTS, 'dorsalRoots', 'left') + createDorsalGrid('Right', ALL_DORSAL_ROOTS, 'dorsalRoots', 'right');
+            
+            // Extra (specific layout)
+            const createExtraList = (title, items, category, side) => `
+                <div>
+                    <h4 class="font-semibold mb-2 text-center">${title}</h4>
+                    <div class="flex flex-col gap-2">
+                    ${items.map(item => `
+                        <button data-selection-key="${side}-${item}" data-category="${category}" data-item="${item}" data-side="${side}" class="selection-btn p-3 rounded-md transition-colors w-full">
+                            ${item}
+                        </button>
+                    `).join('')}
+                    </div>
+                </div>
+            `;
+            dom.extraContainer.innerHTML = createExtraList('Left', EXTRA_ITEMS, 'extra', 'left') + createExtraList('Right', EXTRA_ITEMS, 'extra', 'right');
         }
 
         function renderSettingsInputs() {
