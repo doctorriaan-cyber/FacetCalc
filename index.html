@@ -1,654 +1,548 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Block Mixture Calculator</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom style to ensure body covers full screen and no horizontal scrolling -->
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'bkg-light': '#f7fafc',
+              'bkg-dark': '#1a202c',
+              'surface-light': '#ffffff',
+              'surface-dark': '#2d3748',
+              'primary-light': '#4299e1',
+              'primary-dark': '#63b3ed',
+              'text-light': '#2d3748',
+              'text-dark': '#e2e8f0',
+              'text-muted-light': '#718096',
+              'text-muted-dark': '#a0aec0',
+            }
+          }
+        }
+      }
+    </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+        /* Custom styles for toggle switch and panel transitions */
+        .settings-panel {
+            transition: transform 0.3s ease-in-out;
         }
-        .gender-button.selected {
-            background-color: #3b82f6; /* A slightly darker blue for selected state */
-            color: white;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            border-color: #2563eb;
+        .settings-overlay {
+            transition: opacity 0.3s ease-in-out;
         }
-        /* Custom styles for the new buttons */
-        .select-button {
-            transition: background-color 0.2s, color 0.2s;
+        .toggle-dot {
+            transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
         }
-        .select-button.selected {
-            background-color: #3b82f6;
-            color: white;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        }
-        /* Style for the collapsible container and its content */
-        .collapsible-header {
-            cursor: pointer;
-            user-select: none;
-            transition: background-color 0.2s;
-        }
-        .collapsible-content {
-            overflow: hidden;
-            max-height: 0;
-            transition: max-height 0.3s ease-out;
-        }
-        .collapsible-content.open {
-            max-height: 800px; /* Increased from 500px to ensure all options are visible */
-            transition: max-height 0.5s ease-in;
-        }
-        .chevron {
-            transition: transform 0.3s;
-        }
-        .chevron.open {
+        /* Style for open accordion icon */
+        .accordion-button[aria-expanded="true"] .accordion-icon {
             transform: rotate(180deg);
         }
     </style>
-</head>
-<body class="bg-gray-900 text-gray-100 flex items-start justify-center min-h-screen p-4 relative overflow-y-auto">
-
-    <!-- Burger Menu Overlay -->
-    <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 transition-opacity duration-300"></div>
-
-    <!-- Burger Menu Container -->
-    <div id="menu-container" class="fixed top-0 left-0 w-64 h-full bg-gray-800 shadow-xl z-50 transform -translate-x-full transition-transform duration-300 p-6 flex flex-col">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold">Settings</h2>
-            <button id="menu-close-btn" class="text-gray-400 hover:text-white transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-        
-        <!-- Menu Items Container with scrolling -->
-        <div class="flex-grow overflow-y-auto">
-            <!-- Max Lignocaine dose -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="lignocaine-dose" class="text-sm font-semibold text-gray-300">Max Lignocaine dose</label>
-                <div class="flex items-center space-x-2">
-                    <input type="number" id="lignocaine-dose" value="4.5" step="0.1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <span class="text-sm text-gray-400">mg/kg</span>
-                </div>
-            </div>
-            
-            <!-- Max Dexamethazone ampules -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="dexamethazone-ampules" class="text-sm font-semibold text-gray-300">Max Dexamethazone ampules</label>
-                <div class="flex items-center space-x-2">
-                    <input type="number" id="dexamethazone-ampules" value="3" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <span class="text-sm text-gray-400">ampules</span>
-                </div>
-            </div>
-
-            <!-- C volume -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="c-volume" class="text-sm font-semibold text-gray-300">C volume</label>
-                <div class="flex items-center space-x-2">
-                    <input type="number" id="c-volume" value="2" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <span class="text-sm text-gray-400">ml</span>
-                </div>
-            </div>
-
-            <!-- L volume -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="l-volume" class="text-sm font-semibold text-gray-300">L volume</label>
-                <div class="flex items-center space-x-2">
-                    <input type="number" id="l-volume" value="3" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <span class="text-sm text-gray-400">ml</span>
-                </div>
-            </div>
-
-            <!-- S volume -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="s-volume" class="text-sm font-semibold text-gray-300">S volume</label>
-                <div class="flex items-center space-x-2">
-                    <input type="number" id="s-volume" value="3" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <span class="text-sm text-gray-400">ml</span>
-                </div>
-            </div>
-
-            <!-- GONS volume -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="gons-volume" class="text-sm font-semibold text-gray-300">GONS volume</label>
-                <div class="flex items-center space-x-2">
-                    <input type="number" id="gons-volume" value="4" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <span class="text-sm text-gray-400">ml</span>
-                </div>
-            </div>
-
-            <!-- Shoulder volume -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="shoulder-volume" class="text-sm font-semibold text-gray-300">Shoulder volume</label>
-                <div class="flex items-center space-x-2">
-                    <input type="number" id="shoulder-volume" value="4" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <span class="text-sm text-gray-400">ml</span>
-                </div>
-            </div>
-
-            <!-- Hip volume -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="hip-volume" class="text-sm font-semibold text-gray-300">Hip volume</label>
-                <div class="flex items-center space-x-2">
-                    <input type="number" id="hip-volume" value="4" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <span class="text-sm text-gray-400">ml</span>
-                </div>
-            </div>
-
-            <!-- Ankle volume -->
-            <div class="flex items-center justify-between mb-4">
-                <label for="ankle-volume" class="text-sm font-semibold text-gray-300">Ankle volume</label>
-                <div class="flex items-center space-x-2">
-                    <input type="number" id="ankle-volume" value="4" step="1" class="w-20 px-2 py-1 bg-gray-700 rounded-md text-white text-right focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <span class="text-sm text-gray-400">ml</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Container -->
-    <div class="w-full max-w-sm mx-auto bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-700 relative z-30">
-        <!-- Settings button -->
-        <button id="settings-btn" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors z-50">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+  </head>
+  <body class="bg-bkg-light dark:bg-bkg-dark text-text-light dark:text-text-dark font-sans">
+    
+    <div id="root" class="w-full max-w-lg mx-auto p-4">
+        <header class="flex justify-between items-center mb-6">
+          <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+            <!-- Icons will be injected by JS -->
+          </button>
+          <h1 class="text-xl font-bold text-center">Block Mixture Calculator</h1>
+          <button id="open-settings-btn" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-        </button>
+          </button>
+        </header>
 
-        <!-- Heading -->
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-center mb-8 text-white">Block Mixture Calculator</h1>
-
-        <!-- Weight Selector Section -->
-        <div class="mb-8">
-            <h2 class="text-lg font-semibold text-center mb-4">Actual weight</h2>
-            <div class="flex items-center justify-center space-x-2 sm:space-x-4">
-                
-                <!-- Subtract 10kg Button -->
-                <button id="subtract10" class="flex items-center justify-center w-14 h-10 sm:w-18 sm:h-14 rounded-full bg-blue-600 text-white shadow-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 active:bg-blue-800" aria-label="Subtract 10 kilograms">
-                    <span class="text-sm sm:text-md font-bold p-1">-10</span>
-                </button>
-                
-                <!-- Subtract 1kg Button -->
-                <button id="subtract1" class="flex items-center justify-center w-14 h-10 sm:w-18 sm:h-14 rounded-full bg-blue-500 text-white shadow-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 active:bg-blue-700" aria-label="Subtract 1 kilogram">
-                    <span class="text-sm sm:text-md font-bold p-1">-1</span>
-                </button>
-                
-                <!-- Weight Display Box -->
-                <div id="weightDisplay" class="flex items-center justify-center w-28 h-16 sm:w-40 sm:h-20 bg-gray-700 rounded-xl shadow-inner border border-gray-600">
-                    <span class="text-xl sm:text-3xl font-extrabold text-white select-none">70kg</span>
+        <main>
+          <!-- Patient Data Controls -->
+          <div class="p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-md mb-6">
+            <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                <!-- Weight Control -->
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-center text-text-muted-light dark:text-text-muted-dark">Weight</label>
+                    <div class="flex items-center justify-center mt-1">
+                        <button data-control="weight" data-delta="-10" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded-l-md">-10</button>
+                        <button data-control="weight" data-delta="-1" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">-1</button>
+                        <span id="weight-value" class="px-4 py-1 text-lg font-semibold bg-surface-light dark:bg-surface-dark w-24 text-center">70kg</span>
+                        <button data-control="weight" data-delta="1" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">+1</button>
+                        <button data-control="weight" data-delta="10" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded-r-md">+10</button>
+                    </div>
                 </div>
-                
-                <!-- Add 1kg Button -->
-                <button id="add1" class="flex items-center justify-center w-14 h-10 sm:w-18 sm:h-14 rounded-full bg-blue-500 text-white shadow-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 active:bg-blue-700" aria-label="Add 1 kilogram">
-                    <span class="text-sm sm:text-md font-bold p-1">+1</span>
-                </button>
-                
-                <!-- Add 10kg Button -->
-                <button id="add10" class="flex items-center justify-center w-14 h-10 sm:w-18 sm:h-14 rounded-full bg-blue-600 text-white shadow-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 active:bg-blue-800" aria-label="Add 10 kilograms">
-                    <span class="text-sm sm:text-md font-bold p-1">+10</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Height Selector Section with BMI squeezed in -->
-        <div class="mb-8">
-            <!-- Grid layout for the heading and BMI display -->
-            <div class="grid grid-cols-3 items-end mb-4">
-                <!-- Empty div to push Height to center -->
-                <div></div>
-                <!-- Height heading, centered in its column -->
-                <h2 class="text-lg font-semibold text-center">Height</h2>
-                <!-- BMI display, justified to the right in its column -->
-                <div class="flex justify-end">
-                    <div class="px-1 rounded border border-gray-500 bg-gray-700">
-                        <div class="text-xs text-gray-400">
-                            <span id="bmiLabel">BMI:</span> <span id="bmiDisplay" class="font-medium text-white">--</span>
-                        </div>
+                <!-- Height Control -->
+                <div class="flex-1">
+                    <label class="block text-sm font-medium text-center text-text-muted-light dark:text-text-muted-dark">Height</label>
+                    <div class="flex items-center justify-center mt-1">
+                        <button data-control="height" data-delta="-10" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded-l-md">-10</button>
+                        <button data-control="height" data-delta="-1" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">-1</button>
+                        <span id="height-value" class="px-4 py-1 text-lg font-semibold bg-surface-light dark:bg-surface-dark w-24 text-center">170cm</span>
+                        <button data-control="height" data-delta="1" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">+1</button>
+                        <button data-control="height" data-delta="10" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded-r-md">+10</button>
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-center space-x-2 sm:space-x-4">
-                
-                <!-- Subtract 10cm Button -->
-                <button id="subtract10cm" class="flex items-center justify-center w-14 h-10 sm:w-18 sm:h-14 rounded-full bg-blue-600 text-white shadow-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 active:bg-blue-800" aria-label="Subtract 10 centimeters">
-                    <span class="text-sm sm:text-md font-bold p-1">-10</span>
+            <div class="flex justify-center gap-4">
+                <button id="gender-male-btn" class="gender-btn px-6 py-2 rounded-md">Male</button>
+                <button id="gender-female-btn" class="gender-btn px-6 py-2 rounded-md">Female</button>
+            </div>
+          </div>
+          
+          <!-- BMI & Ideal Weight -->
+          <div class="p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-md mb-6 flex justify-between items-center">
+            <div class="text-center">
+              <span class="text-sm text-text-muted-light dark:text-text-muted-dark">BMI</span>
+              <p id="bmi-value" class="text-2xl font-bold">N/A</p>
+            </div>
+            <div class="text-right">
+              <label class="flex items-center justify-end cursor-pointer">
+                  <div class="mr-3 text-right">
+                      <span class="text-sm text-text-muted-light dark:text-text-muted-dark">Ideal Weight</span>
+                      <p id="ideal-weight-value" class="font-semibold">0 kg</p>
+                  </div>
+                  <div class="relative">
+                      <input type="checkbox" id="ideal-weight-toggle" class="sr-only" />
+                      <div class="block bg-slate-200 dark:bg-slate-700 w-10 h-6 rounded-full"></div>
+                      <div id="ideal-weight-toggle-dot" class="toggle-dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full"></div>
+                  </div>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Selection Accordions -->
+          <div class="space-y-2">
+             <div class="border border-slate-200 dark:border-slate-700 rounded-lg">
+                <button class="accordion-button w-full flex justify-between items-center p-4 bg-slate-100 dark:bg-slate-700/50 rounded-t-lg focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark" aria-expanded="false">
+                    <h3 class="text-lg font-semibold">Facet levels</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon w-6 h-6 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </button>
-                
-                <!-- Subtract 1cm Button -->
-                <button id="subtract1cm" class="flex items-center justify-center w-14 h-10 sm:w-18 sm:h-14 rounded-full bg-blue-500 text-white shadow-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 active:bg-blue-700" aria-label="Subtract 1 centimeter">
-                    <span class="text-sm sm:text-md font-bold p-1">-1</span>
+                <div class="accordion-content hidden p-4 bg-surface-light dark:bg-surface-dark rounded-b-lg">
+                    <div id="facets-container" class="grid grid-cols-2 gap-2"></div>
+                </div>
+             </div>
+             <div class="border border-slate-200 dark:border-slate-700 rounded-lg">
+                <button class="accordion-button w-full flex justify-between items-center p-4 bg-slate-100 dark:bg-slate-700/50 rounded-t-lg" aria-expanded="false">
+                    <h3 class="text-lg font-semibold">Dorsal roots</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon w-6 h-6 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </button>
-                
-                <!-- Height Display Box -->
-                <div id="heightDisplay" class="flex items-center justify-center w-28 h-16 sm:w-40 sm:h-20 bg-gray-700 rounded-xl shadow-inner border border-gray-600">
-                    <span class="text-xl sm:text-3xl font-extrabold text-white select-none">170cm</span>
+                <div class="accordion-content hidden p-4 bg-surface-light dark:bg-surface-dark rounded-b-lg">
+                    <div id="dorsal-roots-container" class="grid grid-cols-2 gap-6"></div>
                 </div>
-                
-                <!-- Add 1cm Button -->
-                <button id="add1cm" class="flex items-center justify-center w-14 h-10 sm:w-18 sm:h-14 rounded-full bg-blue-500 text-white shadow-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 active:bg-blue-700" aria-label="Add 1 centimeter">
-                    <span class="text-sm sm:text-md font-bold p-1">+1</span>
+             </div>
+             <div class="border border-slate-200 dark:border-slate-700 rounded-lg">
+                <button class="accordion-button w-full flex justify-between items-center p-4 bg-slate-100 dark:bg-slate-700/50 rounded-t-lg" aria-expanded="false">
+                    <h3 class="text-lg font-semibold">Extra</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon w-6 h-6 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                 </button>
-                
-                <!-- Add 10cm Button -->
-                <button id="add10cm" class="flex items-center justify-center w-14 h-10 sm:w-18 sm:h-14 rounded-full bg-blue-600 text-white shadow-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 active:bg-blue-800" aria-label="Add 10 centimeters">
-                    <span class="text-sm sm:text-md font-bold p-1">+10</span>
-                </button>
-            </div>
-        </div>
+                <div class="accordion-content hidden p-4 bg-surface-light dark:bg-surface-dark rounded-b-lg">
+                    <div id="extra-container" class="grid grid-cols-2 gap-6"></div>
+                </div>
+             </div>
+          </div>
 
-        <!-- Gender Selector Section -->
-        <div class="mb-8">
-            <h2 class="text-lg font-semibold text-center mb-4">Gender</h2>
-            <div class="flex items-center justify-center space-x-4">
-                <button id="maleBtn" class="gender-button px-6 py-2 rounded-full bg-gray-700 text-gray-400 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 selected">Male</button>
-                <button id="femaleBtn" class="gender-button px-6 py-2 rounded-full bg-gray-700 text-gray-400 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">Female</button>
-            </div>
-        </div>
-
-        <!-- Ideal Weight Section -->
-        <div class="bg-gray-700 p-4 rounded-xl shadow-inner border border-gray-600 flex flex-col items-center mb-6">
-            <h2 class="text-xl font-bold mb-4">Ideal weight</h2>
-            <div class="flex items-center w-full justify-between">
-                <!-- Button instead of a checkbox and label -->
-                <button id="useIdealWeightBtn" class="px-3 py-1 rounded-full text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 bg-gray-600 text-gray-200">
-                    Use Ideal Weight for calculations
-                </button>
-                <div id="idealWeightDisplay" class="flex items-center justify-center bg-gray-600 p-2 rounded-lg min-w-[100px]">
-                    <span class="text-lg sm:text-xl font-extrabold text-white select-none">-- kg</span>
+          <!-- Suggested Mixture -->
+          <div class="mt-6 p-4 bg-blue-100 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-800 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-3 text-blue-800 dark:text-blue-200">Suggested Mixture</h2>
+            <div class="space-y-2 text-blue-700 dark:text-blue-300">
+                <div class="flex justify-between">
+                    <span>Max Lignocaine for <span id="display-calc-weight">70.0</span>kg:</span>
+                    <span id="max-lignocaine" class="font-semibold">315.0 mg</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Lignocaine 2% allowed:</span>
+                    <span id="lignocaine-allowed" class="font-semibold">15.8 ml</span>
+                </div>
+                <hr class="border-blue-200 dark:border-blue-700 my-2" />
+                <div class="flex justify-between">
+                    <span>Lignocaine ampules (2%):</span>
+                    <span id="lignocaine-ampules" class="font-semibold">0.0 (5ml)</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Dexa ampules:</span>
+                    <span id="dexa-ampules" class="font-semibold">0 (1ml)</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Saline ml:</span>
+                    <span id="saline-ml" class="font-semibold">0.0 ml</span>
+                </div>
+                <hr class="border-blue-200 dark:border-blue-700 my-2" />
+                <div class="flex justify-between text-lg">
+                    <span class="font-bold">Total volume needed:</span>
+                    <span id="total-volume" class="font-bold text-blue-800 dark:text-blue-200">0.0 ml</span>
                 </div>
             </div>
-        </div>
-
-        <!-- New Collapsible Sections -->
-        
-        <!-- Facet levels Section -->
-        <div class="bg-gray-700 rounded-xl shadow-inner border border-gray-600 mb-6">
-            <div id="facet-header" class="collapsible-header flex justify-between items-center p-4">
-                <h3 class="text-lg font-semibold">Facet levels</h3>
-                <svg id="facet-chevron" class="chevron h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-            </div>
-            <div id="facet-content" class="collapsible-content p-4 border-t border-gray-600">
-                <div class="flex flex-wrap gap-2">
-                    <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C3-C7</button>
-                    <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L1-S1</button>
-                    <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S1-S4</button>
-                    <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">GONS</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Dorsal Roots Section -->
-        <div class="bg-gray-700 rounded-xl shadow-inner border border-gray-600 mb-6">
-            <div id="dorsal-roots-header" class="collapsible-header flex justify-between items-center p-4">
-                <h3 class="text-lg font-semibold">Dorsal Roots</h3>
-                <svg id="dorsal-roots-chevron" class="chevron h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-            </div>
-            <div id="dorsal-roots-content" class="collapsible-content p-4 border-t border-gray-600">
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="flex flex-col gap-2">
-                        <h4 class="text-sm font-bold text-gray-400">Left</h4>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C3</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C4</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C5</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C6</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C7</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L1</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L2</button>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <h4 class="text-sm font-bold text-gray-400">Right</h4>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C3</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C4</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C5</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C6</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">C7</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L1</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L2</button>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-2 mt-2">
-                     <div class="flex flex-col gap-2">
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L3</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L4</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L5</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S1</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S2</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S3</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S4</button>
-                    </div>
-                     <div class="flex flex-col gap-2">
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L3</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L4</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">L5</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S1</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S2</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S3</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">S4</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Extra Section -->
-        <div class="bg-gray-700 rounded-xl shadow-inner border border-gray-600 mb-6">
-            <div id="extra-header" class="collapsible-header flex justify-between items-center p-4">
-                <h3 class="text-lg font-semibold">Extra</h3>
-                <svg id="extra-chevron" class="chevron h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-            </div>
-            <div id="extra-content" class="collapsible-content p-4 border-t border-gray-600">
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="flex flex-col gap-2">
-                        <h4 class="text-sm font-bold text-gray-400">Left</h4>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Shoulder</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Hip</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Knee</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Ankle</button>
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <h4 class="text-sm font-bold text-gray-400">Right</h4>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Shoulder</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Hip</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Knee</button>
-                        <button class="select-button px-4 py-2 rounded-full bg-gray-600 text-gray-200">Ankle</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+          </div>
+        </main>
     </div>
 
-    <!-- JavaScript for functionality -->
+    <!-- Settings Panel -->
+    <div id="settings-overlay" class="settings-overlay fixed inset-0 bg-black/60 z-40 opacity-0 pointer-events-none"></div>
+    <div id="settings-panel" class="settings-panel fixed top-0 right-0 h-full w-full max-w-sm bg-surface-light dark:bg-surface-dark z-50 shadow-2xl p-6 transform translate-x-full">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold">Settings</h2>
+          <button id="close-settings-btn" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+        <div class="overflow-y-auto h-[calc(100vh-80px)] pr-2">
+            <!-- Inputs will be injected by JS -->
+            <div id="settings-inputs-container"></div>
+        </div>
+    </div>
+
+
     <script>
-        // Use window.onload to ensure the DOM is fully loaded before the script runs
-        window.onload = function() {
-            // Get references to all the elements
-            const weightDisplay = document.getElementById('weightDisplay').querySelector('span');
-            const subtract10Btn = document.getElementById('subtract10');
-            const subtract1Btn = document.getElementById('subtract1');
-            const add1Btn = document.getElementById('add1');
-            const add10Btn = document.getElementById('add10');
-            
-            const heightDisplay = document.getElementById('heightDisplay').querySelector('span');
-            const subtract10cmBtn = document.getElementById('subtract10cm');
-            const subtract1cmBtn = document.getElementById('subtract1cm');
-            const add1cmBtn = document.getElementById('add1cm');
-            const add10cmBtn = document.getElementById('add10cm');
+    document.addEventListener('DOMContentLoaded', () => {
 
-            const maleBtn = document.getElementById('maleBtn');
-            const femaleBtn = document.getElementById('femaleBtn');
-            const idealWeightDisplay = document.getElementById('idealWeightDisplay').querySelector('span');
-            const useIdealWeightBtn = document.getElementById('useIdealWeightBtn');
-
-            // Get new BMI display element
-            const bmiDisplay = document.getElementById('bmiDisplay');
-
-            // Get menu elements
-            const settingsBtn = document.getElementById('settings-btn');
-            const menuContainer = document.getElementById('menu-container');
-            const menuCloseBtn = document.getElementById('menu-close-btn');
-            const menuOverlay = document.getElementById('menu-overlay');
-            const lignocaineDoseInput = document.getElementById('lignocaine-dose');
-            const dexamethasoneAmpulesInput = document.getElementById('dexamethazone-ampules');
-            const cVolumeInput = document.getElementById('c-volume');
-            const lVolumeInput = document.getElementById('l-volume');
-            const sVolumeInput = document.getElementById('s-volume');
-            const gonsVolumeInput = document.getElementById('gons-volume');
-            const shoulderVolumeInput = document.getElementById('shoulder-volume');
-            const hipVolumeInput = document.getElementById('hip-volume');
-            const ankleVolumeInput = document.getElementById('ankle-volume');
-
-            // New elements for collapsible sections
-            const facetHeader = document.getElementById('facet-header');
-            const facetContent = document.getElementById('facet-content');
-            const facetChevron = document.getElementById('facet-chevron');
-            const facetButtons = facetContent.querySelectorAll('.select-button');
-
-            const dorsalRootsHeader = document.getElementById('dorsal-roots-header');
-            const dorsalRootsContent = document.getElementById('dorsal-roots-content');
-            const dorsalRootsChevron = document.getElementById('dorsal-roots-chevron');
-            const dorsalRootsButtons = dorsalRootsContent.querySelectorAll('.select-button');
-
-            const extraHeader = document.getElementById('extra-header');
-            const extraContent = document.getElementById('extra-content');
-            const extraChevron = document.getElementById('extra-chevron');
-            const extraButtons = extraContent.querySelectorAll('.select-button');
-
-
-            // Set the initial values and define the min/max limits
-            let currentWeight = 70;
-            const minWeight = 30;
-            const maxWeight = 200;
-
-            let currentHeight = 170;
-            const minHeight = 80;
-            const maxHeight = 250;
-            let currentGender = 'male';
-
-            // State variable for the new button
-            let useIdealWeightForCalculation = false;
-
-            // Function to update the weight display and BMI
-            function updateWeightDisplay() {
-                weightDisplay.textContent = `${currentWeight}kg`;
-                calculateBMI();
+        // --- STATE MANAGEMENT ---
+        const state = {
+            theme: 'dark',
+            isSettingsOpen: false,
+            weight: 70,
+            height: 170,
+            gender: 'male',
+            useIdealWeight: false,
+            selections: {
+                facets: {},
+                dorsalRoots: { left: {}, right: {} },
+                extra: { left: {}, right: {} }
+            },
+            settings: {
+                maxLignocaineDose: 4.5,
+                maxDexamethasoneAmpules: 3,
+                cVolume: 2,
+                lVolume: 3,
+                sVolume: 3,
+                gonsVolume: 4,
+                shoulderVolume: 4,
+                hipVolume: 4,
+                kneeVolume: 4,
+                ankleVolume: 4,
             }
-
-            // Function to handle weight changes with boundaries
-            function changeWeight(change) {
-                currentWeight += change;
-                // Clamp the weight to the specified range
-                if (currentWeight < minWeight) {
-                    currentWeight = minWeight;
-                }
-                if (currentWeight > maxWeight) {
-                    currentWeight = maxWeight;
-                }
-                updateWeightDisplay();
-            }
-
-            // Function to update the height display and re-calculate
-            function updateHeightDisplay() {
-                heightDisplay.textContent = `${currentHeight}cm`;
-                calculateIdealWeight();
-                calculateBMI();
-            }
-
-            // Function to handle height changes with boundaries
-            function changeHeight(change) {
-                currentHeight += change;
-                // Clamp the height to the specified range
-                if (currentHeight < minHeight) {
-                    currentHeight = minHeight;
-                }
-                if (currentHeight > maxHeight) {
-                    currentHeight = maxHeight;
-                }
-                updateHeightDisplay();
-            }
-            
-            // Function to calculate and display ideal weight using Devine formula
-            function calculateIdealWeight() {
-                let idealWeight;
-                const baseHeightCm = 152.4; // 60 inches in cm
-
-                if (currentHeight > baseHeightCm) {
-                    const heightDiffCm = currentHeight - baseHeightCm;
-                    const increment = 0.91 * heightDiffCm;
-                    if (currentGender === 'male') {
-                        idealWeight = 50 + increment;
-                    } else { // female
-                        idealWeight = 45.5 + increment;
-                    }
-                } else {
-                    idealWeight = (currentGender === 'male') ? 50 : 45.5;
-                }
-
-                idealWeightDisplay.textContent = `${idealWeight.toFixed(1)}kg`;
-            }
-
-            // Function to calculate and display BMI
-            function calculateBMI() {
-                // BMI = weight (kg) / [height (m)]^2
-                const heightInMeters = currentHeight / 100;
-                const bmi = currentWeight / (heightInMeters * heightInMeters);
-                bmiDisplay.textContent = `${bmi.toFixed(1)}`;
-            }
-
-            // Function to handle gender selection
-            function handleGenderSelection(selectedBtn, otherBtn, genderValue) {
-                selectedBtn.classList.add('selected');
-                otherBtn.classList.remove('selected');
-                selectedBtn.classList.remove('bg-gray-700', 'text-gray-400');
-                selectedBtn.classList.add('bg-blue-500', 'text-white');
-                otherBtn.classList.add('bg-gray-700', 'text-gray-400');
-                otherBtn.classList.remove('bg-blue-500', 'text-white');
-                currentGender = genderValue;
-                calculateIdealWeight();
-            }
-
-            // Function to toggle collapsible sections
-            function toggleCollapsible(header, content, chevron) {
-                const isOpen = content.classList.contains('open');
-                if (isOpen) {
-                    content.classList.remove('open');
-                    chevron.classList.remove('open');
-                } else {
-                    content.classList.add('open');
-                    chevron.classList.add('open');
-                }
-            }
-
-            // Function to handle multi-selection button clicks
-            function handleMultiSelect(clickedButton) {
-                clickedButton.classList.toggle('selected');
-                clickedButton.classList.toggle('bg-gray-600');
-                clickedButton.classList.toggle('text-gray-200');
-            }
-
-            // Event listener for the -10kg button
-            subtract10Btn.addEventListener('click', () => {
-                changeWeight(-10);
-            });
-
-            // Event listener for the -1kg button
-            subtract1Btn.addEventListener('click', () => {
-                changeWeight(-1);
-            });
-
-            // Event listener for the +1kg button
-            add1Btn.addEventListener('click', () => {
-                changeWeight(1);
-            });
-
-            // Event listener for the +10kg button
-            add10Btn.addEventListener('click', () => {
-                changeWeight(10);
-            });
-
-            // Event listener for the -10cm button
-            subtract10cmBtn.addEventListener('click', () => {
-                changeHeight(-10);
-            });
-
-            // Event listener for the -1cm button
-            subtract1cmBtn.addEventListener('click', () => {
-                changeHeight(-1);
-            });
-
-            // Event listener for the +1cm button
-            add1cmBtn.addEventListener('click', () => {
-                changeHeight(1);
-            });
-
-            // Event listener for the +10cm button
-            add10cmBtn.addEventListener('click', () => {
-                changeHeight(10);
-            });
-
-            // Event listeners for gender buttons
-            maleBtn.addEventListener('click', () => {
-                handleGenderSelection(maleBtn, femaleBtn, 'male');
-            });
-
-            femaleBtn.addEventListener('click', () => {
-                handleGenderSelection(femaleBtn, maleBtn, 'female');
-            });
-            
-            // Event listener for the "Use Ideal Weight" button
-            useIdealWeightBtn.addEventListener('click', () => {
-                useIdealWeightForCalculation = !useIdealWeightForCalculation; // Toggle the state
-                if (useIdealWeightForCalculation) {
-                    useIdealWeightBtn.classList.remove('bg-gray-600', 'text-gray-200');
-                    useIdealWeightBtn.classList.add('bg-blue-500', 'text-white');
-                } else {
-                    useIdealWeightBtn.classList.remove('bg-blue-500', 'text-white');
-                    useIdealWeightBtn.classList.add('bg-gray-600', 'text-gray-200');
-                }
-            });
-
-            // Event listeners for menu functionality
-            settingsBtn.addEventListener('click', () => {
-                menuContainer.classList.remove('-translate-x-full');
-                menuOverlay.classList.remove('hidden');
-            });
-
-            menuCloseBtn.addEventListener('click', () => {
-                menuContainer.classList.add('-translate-x-full');
-                menuOverlay.classList.add('hidden');
-            });
-
-            menuOverlay.addEventListener('click', () => {
-                menuContainer.classList.add('-translate-x-full');
-                menuOverlay.classList.add('hidden');
-            });
-
-            // Event listeners for collapsible sections
-            facetHeader.addEventListener('click', () => {
-                toggleCollapsible(facetHeader, facetContent, facetChevron);
-            });
-
-            dorsalRootsHeader.addEventListener('click', () => {
-                toggleCollapsible(dorsalRootsHeader, dorsalRootsContent, dorsalRootsChevron);
-            });
-
-            extraHeader.addEventListener('click', () => {
-                toggleCollapsible(extraHeader, extraContent, extraChevron);
-            });
-
-            // Event listeners for new buttons. All new sections are multi-select
-            facetButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    handleMultiSelect(button);
-                });
-            });
-
-            dorsalRootsButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    handleMultiSelect(button);
-                });
-            });
-
-            extraButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    handleMultiSelect(button);
-                });
-            });
-
-            // Initial calculations on load
-            updateWeightDisplay();
-            updateHeightDisplay();
         };
+
+        // --- CONSTANTS ---
+        const FACET_LEVELS = ["C3-C7", "L1-S1", "S2-S4", "GONS"];
+        const DORSAL_ROOTS_C = ["C3", "C4", "C5", "C6", "C7"];
+        const DORSAL_ROOTS_L = ["L1", "L2", "L3", "L4", "L5"];
+        const DORSAL_ROOTS_S = ["S1", "S2", "S3", "S4"];
+        const ALL_DORSAL_ROOTS = [...DORSAL_ROOTS_C, ...DORSAL_ROOTS_L, ...DORSAL_ROOTS_S];
+        const EXTRA_ITEMS = ["Shoulder", "Hip", "Knee", "Ankle"];
+
+        const SETTINGS_CONFIG = {
+            maxLignocaineDose: { label: 'Max Lignocaine dose (mg/kg)', step: 0.1, min: 0 },
+            maxDexamethasoneAmpules: { label: 'Max Dexamethasone ampules', step: 1, min: 0 },
+            cVolume: { label: 'C volume (ml)', step: 0.1, min: 0 },
+            lVolume: { label: 'L volume (ml)', step: 0.1, min: 0 },
+            sVolume: { label: 'S volume (ml)', step: 0.1, min: 0 },
+            gonsVolume: { label: 'GONS volume (ml)', step: 0.1, min: 0 },
+            shoulderVolume: { label: 'Shoulder volume (ml)', step: 0.1, min: 0 },
+            hipVolume: { label: 'Hip volume (ml)', step: 0.1, min: 0 },
+            kneeVolume: { label: 'Knee volume (ml)', step: 0.1, min: 0 },
+            ankleVolume: { label: 'Ankle volume (ml)', step: 0.1, min: 0 },
+        };
+
+        // --- DOM ELEMENT REFERENCES ---
+        const dom = {
+            html: document.documentElement,
+            themeToggle: document.getElementById('theme-toggle'),
+            openSettingsBtn: document.getElementById('open-settings-btn'),
+            closeSettingsBtn: document.getElementById('close-settings-btn'),
+            settingsPanel: document.getElementById('settings-panel'),
+            settingsOverlay: document.getElementById('settings-overlay'),
+            settingsInputsContainer: document.getElementById('settings-inputs-container'),
+            weightValue: document.getElementById('weight-value'),
+            heightValue: document.getElementById('height-value'),
+            genderMaleBtn: document.getElementById('gender-male-btn'),
+            genderFemaleBtn: document.getElementById('gender-female-btn'),
+            bmiValue: document.getElementById('bmi-value'),
+            idealWeightValue: document.getElementById('ideal-weight-value'),
+            idealWeightToggle: document.getElementById('ideal-weight-toggle'),
+            idealWeightToggleDot: document.getElementById('ideal-weight-toggle-dot'),
+            facetsContainer: document.getElementById('facets-container'),
+            dorsalRootsContainer: document.getElementById('dorsal-roots-container'),
+            extraContainer: document.getElementById('extra-container'),
+            displayCalcWeight: document.getElementById('display-calc-weight'),
+            maxLignocaine: document.getElementById('max-lignocaine'),
+            lignocaineAllowed: document.getElementById('lignocaine-allowed'),
+            totalVolume: document.getElementById('total-volume'),
+            lignocaineAmpules: document.getElementById('lignocaine-ampules'),
+            dexaAmpules: document.getElementById('dexa-ampules'),
+            salineMl: document.getElementById('saline-ml'),
+        };
+
+        const ICONS = {
+            sun: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
+            moon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`
+        };
+
+        // --- CALCULATION LOGIC ---
+        const calculations = {
+            bmi: () => {
+                if (state.height <= 0) return 'N/A';
+                const heightInMeters = state.height / 100;
+                return (state.weight / (heightInMeters * heightInMeters)).toFixed(1);
+            },
+            idealWeight: () => {
+                const heightInInches = state.height / 2.54;
+                if (heightInInches <= 60) {
+                    return state.gender === 'male' ? 50 : 45.5;
+                }
+                const inchesOver5Ft = heightInInches - 60;
+                const baseWeight = state.gender === 'male' ? 50 : 45.5;
+                return (baseWeight + (2.3 * inchesOver5Ft));
+            },
+            totalVolumeNeeded: () => {
+                let total = 0;
+                const s = state.selections;
+                const v = state.settings;
+
+                if (s.facets['C3-C7']) total += 10 * v.cVolume;
+                if (s.facets['L1-S1']) total += 12 * v.lVolume;
+                if (s.facets['S2-S4']) total += 6 * v.sVolume;
+                if (s.facets['GONS']) total += v.gonsVolume;
+
+                ['left', 'right'].forEach(side => {
+                    DORSAL_ROOTS_C.forEach(r => { if(s.dorsalRoots[side][r]) total += v.cVolume });
+                    DORSAL_ROOTS_L.forEach(r => { if(s.dorsalRoots[side][r]) total += v.lVolume });
+                    DORSAL_ROOTS_S.forEach(r => { if(s.dorsalRoots[side][r]) total += v.sVolume });
+                    
+                    if (s.extra[side]['Shoulder']) total += v.shoulderVolume;
+                    if (s.extra[side]['Hip']) total += v.hipVolume;
+                    if (s.extra[side]['Knee']) total += v.kneeVolume;
+                    if (s.extra[side]['Ankle']) total += v.ankleVolume;
+                });
+                return total;
+            }
+        };
+        
+        // --- UI UPDATE FUNCTIONS ---
+        function updateUI() {
+            // Theme
+            dom.html.classList.toggle('dark', state.theme === 'dark');
+            dom.html.classList.toggle('light', state.theme === 'light');
+            dom.themeToggle.innerHTML = state.theme === 'dark' ? ICONS.sun : ICONS.moon;
+            
+            // Settings Panel
+            dom.settingsPanel.classList.toggle('translate-x-full', !state.isSettingsOpen);
+            dom.settingsOverlay.classList.toggle('opacity-0', !state.isSettingsOpen);
+            dom.settingsOverlay.classList.toggle('pointer-events-none', !state.isSettingsOpen);
+
+            // Patient Data
+            dom.weightValue.textContent = `${state.weight}kg`;
+            dom.heightValue.textContent = `${state.height}cm`;
+            dom.genderMaleBtn.classList.toggle('bg-primary-light', state.gender === 'male');
+            dom.genderMaleBtn.classList.toggle('dark:bg-primary-dark', state.gender === 'male');
+            dom.genderMaleBtn.classList.toggle('text-white', state.gender === 'male');
+            dom.genderMaleBtn.classList.toggle('bg-slate-200', state.gender !== 'male');
+            dom.genderMaleBtn.classList.toggle('dark:bg-slate-700', state.gender !== 'male');
+            dom.genderFemaleBtn.classList.toggle('bg-primary-light', state.gender === 'female');
+            dom.genderFemaleBtn.classList.toggle('dark:bg-primary-dark', state.gender === 'female');
+            dom.genderFemaleBtn.classList.toggle('text-white', state.gender === 'female');
+            dom.genderFemaleBtn.classList.toggle('bg-slate-200', state.gender !== 'female');
+            dom.genderFemaleBtn.classList.toggle('dark:bg-slate-700', state.gender !== 'female');
+
+            // BMI and Ideal Weight
+            const idealWeight = calculations.idealWeight();
+            dom.bmiValue.textContent = calculations.bmi();
+            dom.idealWeightValue.textContent = `${idealWeight.toFixed(1)} kg`;
+            dom.idealWeightToggle.checked = state.useIdealWeight;
+            dom.idealWeightToggleDot.classList.toggle('translate-x-4', state.useIdealWeight);
+            dom.idealWeightToggleDot.classList.toggle('bg-primary-dark', state.useIdealWeight);
+
+            // Update selection buttons
+            document.querySelectorAll('[data-selection-key]').forEach(btn => {
+                const { category, item, side } = btn.dataset;
+                let isSelected;
+                if (side) {
+                    isSelected = state.selections[category][side][item];
+                } else if (category === 'facets') {
+                    isSelected = state.selections[category][item];
+                }
+                btn.classList.toggle('bg-primary-light', isSelected);
+                btn.classList.toggle('dark:bg-primary-dark', isSelected);
+                btn.classList.toggle('text-white', isSelected);
+                btn.classList.toggle('bg-slate-200', !isSelected);
+                btn.classList.toggle('dark:bg-slate-700', !isSelected);
+            });
+
+            // Mixture Calculations
+            const calculationWeight = state.useIdealWeight ? idealWeight : state.weight;
+            const maxLignocaine = calculationWeight * state.settings.maxLignocaineDose;
+            const lignocaineAllowed = maxLignocaine / 20;
+            const totalVolumeNeeded = calculations.totalVolumeNeeded();
+
+            let lignocaineAmpules = 0, dexaAmpules = 0, salineMl = 0;
+            if (totalVolumeNeeded > 0 && !isNaN(lignocaineAllowed)) {
+                const lignocaineVolumeToUse = Math.min(totalVolumeNeeded, lignocaineAllowed);
+                const theoreticalLignocaineAmpules = lignocaineVolumeToUse / 5;
+                const roundedLignocaineAmpules = Math.floor(theoreticalLignocaineAmpules * 2) / 2;
+                const actualLignocaineVolume = roundedLignocaineAmpules * 5;
+
+                const dexaAmpulesRaw = Math.floor(roundedLignocaineAmpules);
+                const maxDexa = state.settings.maxDexamethasoneAmpules;
+                const finalDexaAmpules = Math.min(dexaAmpulesRaw, maxDexa);
+                
+                const salineMlRaw = totalVolumeNeeded - actualLignocaineVolume - finalDexaAmpules;
+
+                lignocaineAmpules = roundedLignocaineAmpules;
+                dexaAmpules = finalDexaAmpules;
+                salineMl = Math.max(0, salineMlRaw);
+            }
+            
+            dom.displayCalcWeight.textContent = calculationWeight.toFixed(1);
+            dom.maxLignocaine.textContent = `${maxLignocaine.toFixed(1)} mg`;
+            dom.lignocaineAllowed.textContent = `${lignocaineAllowed.toFixed(1)} ml`;
+            dom.totalVolume.textContent = `${totalVolumeNeeded.toFixed(1)} ml`;
+            dom.lignocaineAmpules.textContent = `${lignocaineAmpules.toFixed(1)} (5ml)`;
+            dom.dexaAmpules.textContent = `${dexaAmpules} (1ml)`;
+            dom.salineMl.textContent = `${salineMl.toFixed(1)} ml`;
+        }
+
+        // --- DYNAMIC CONTENT RENDERERS ---
+        function renderSelectionButtons() {
+            // Facets
+            dom.facetsContainer.innerHTML = FACET_LEVELS.map(item => `
+                <button data-selection-key="${item}" data-category="facets" data-item="${item}" class="selection-btn p-3 rounded-md transition-colors">
+                    ${item}
+                </button>
+            `).join('');
+
+            // Dorsal Roots & Extra (helper function)
+            const createGrid = (title, items, category, side) => `
+                <div>
+                    <h4 class="font-semibold mb-2">${title}</h4>
+                    <div class="grid grid-cols-3 gap-2">
+                    ${items.map(item => `
+                        <button data-selection-key="${side}-${item}" data-category="${category}" data-item="${item}" data-side="${side}" class="selection-btn p-2 rounded-md text-sm transition-colors">
+                            ${item}
+                        </button>
+                    `).join('')}
+                    </div>
+                </div>
+            `;
+            dom.dorsalRootsContainer.innerHTML = createGrid('Left', ALL_DORSAL_ROOTS, 'dorsalRoots', 'left') + createGrid('Right', ALL_DORSAL_ROOTS, 'dorsalRoots', 'right');
+            dom.extraContainer.innerHTML = createGrid('Left', EXTRA_ITEMS, 'extra', 'left') + createGrid('Right', EXTRA_ITEMS, 'extra', 'right');
+        }
+
+        function renderSettingsInputs() {
+            dom.settingsInputsContainer.innerHTML = Object.keys(state.settings).map(key => {
+                const config = SETTINGS_CONFIG[key];
+                return `
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1">${config.label}</label>
+                    <input
+                      type="number"
+                      data-setting-key="${key}"
+                      value="${state.settings[key]}"
+                      step="${config.step || 0.1}"
+                      min="${config.min || 0}"
+                      class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md p-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-primary-light dark:focus:border-primary-dark"
+                    />
+                </div>
+                `;
+            }).join('');
+        }
+        
+        // --- EVENT HANDLERS ---
+        function handleThemeToggle() {
+            state.theme = state.theme === 'dark' ? 'light' : 'dark';
+            updateUI();
+        }
+
+        function handleSettingsToggle(isOpen) {
+            state.isSettingsOpen = isOpen;
+            updateUI();
+        }
+
+        function handleNumericControl(control, delta) {
+            const min = control === 'weight' ? 30 : 80;
+            const max = control === 'weight' ? 200 : 270;
+            state[control] = Math.max(min, Math.min(max, state[control] + delta));
+            updateUI();
+        }
+
+        function handleSelectionToggle(category, item, side) {
+             if (side) {
+                state.selections[category][side][item] = !state.selections[category][side][item];
+            } else {
+                state.selections[category][item] = !state.selections[category][item];
+            }
+            updateUI();
+        }
+
+        // --- EVENT LISTENERS INITIALIZATION ---
+        function initEventListeners() {
+            dom.themeToggle.addEventListener('click', handleThemeToggle);
+            dom.openSettingsBtn.addEventListener('click', () => handleSettingsToggle(true));
+            dom.closeSettingsBtn.addEventListener('click', () => handleSettingsToggle(false));
+            dom.settingsOverlay.addEventListener('click', () => handleSettingsToggle(false));
+
+            document.querySelectorAll('.control-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const { control, delta } = btn.dataset;
+                    handleNumericControl(control, parseInt(delta));
+                });
+            });
+
+            dom.genderMaleBtn.addEventListener('click', () => { state.gender = 'male'; updateUI(); });
+            dom.genderFemaleBtn.addEventListener('click', () => { state.gender = 'female'; updateUI(); });
+            dom.idealWeightToggle.addEventListener('change', (e) => { state.useIdealWeight = e.target.checked; updateUI(); });
+
+            document.querySelectorAll('.accordion-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                    button.setAttribute('aria-expanded', !isExpanded);
+                    content.classList.toggle('hidden');
+                });
+            });
+
+            // Delegated event listener for selection buttons
+            document.getElementById('root').addEventListener('click', (e) => {
+                if (e.target.matches('.selection-btn')) {
+                    const { category, item, side } = e.target.dataset;
+                    handleSelectionToggle(category, item, side);
+                }
+            });
+
+            // Delegated event listener for settings inputs
+            dom.settingsInputsContainer.addEventListener('input', (e) => {
+                if(e.target.matches('input[data-setting-key]')) {
+                    const key = e.target.dataset.settingKey;
+                    state.settings[key] = parseFloat(e.target.value);
+                    // No need to call updateUI() here, as it re-renders inputs and loses focus.
+                    // The main UI will get the new values on the next regular update.
+                    // We can manually trigger a calculation update if needed.
+                    updateUI(); // Simple enough app that re-render is fine.
+                }
+            });
+        }
+        
+        // --- INITIALIZATION ---
+        function initializeState() {
+            FACET_LEVELS.forEach(f => state.selections.facets[f] = false);
+            ALL_DORSAL_ROOTS.forEach(dr => {
+                state.selections.dorsalRoots.left[dr] = false;
+                state.selections.dorsalRoots.right[dr] = false;
+            });
+            EXTRA_ITEMS.forEach(e => {
+                state.selections.extra.left[e] = false;
+                state.selections.extra.right[e] = false;
+            });
+        }
+        
+        // --- APP START ---
+        initializeState();
+        renderSelectionButtons();
+        renderSettingsInputs();
+        initEventListeners();
+        updateUI(); // Initial render
+    });
     </script>
-</body>
+
+  </body>
 </html>
