@@ -294,9 +294,10 @@
             },
             settings: {
                 maxLignocaineDose: 4.5,
+                maxLignocaineAmpules: 3,
                 maxDexamethasoneAmpules: 3,
                 'C Volume': 2, 'L Volume': 3, 'S Volume': 3,
-                c3c7Volume: 2, l1s1Volume: 3, s2s4Volume: 3, gonsVolume: 4,
+                c3c7Volume: 20, l1s1Volume: 36, s2s4Volume: 18, gonsVolume: 4,
                 shoulderVolume: 4, hipVolume: 4, kneeVolume: 4, ankleVolume: 4,
             }
         });
@@ -540,12 +541,14 @@
             let lignocaineAmpules = 0, dexaAmpules = 0, salineMl = 0;
             if (totalVolumeNeeded > 0 && !isNaN(lignocaineAllowed)) {
                 const lignocaineVolumeToUse = Math.min(totalVolumeNeeded, lignocaineAllowed);
-                const roundedLignocaineAmpules = Math.floor((lignocaineVolumeToUse / 5) * 2) / 2;
-                const actualLignocaineVolume = roundedLignocaineAmpules * 5;
-                const finalDexaAmpules = Math.min(Math.floor(roundedLignocaineAmpules), state.settings.maxDexamethasoneAmpules);
+                const theoreticalLignocaineAmpules = Math.floor((lignocaineVolumeToUse / 5) * 2) / 2;
+                const cappedLignocaineAmpules = Math.min(theoreticalLignocaineAmpules, state.settings.maxLignocaineAmpules);
+                
+                const actualLignocaineVolume = cappedLignocaineAmpules * 5;
+                const finalDexaAmpules = Math.min(Math.floor(cappedLignocaineAmpules), state.settings.maxDexamethasoneAmpules);
                 const salineMlRaw = totalVolumeNeeded - actualLignocaineVolume - finalDexaAmpules;
 
-                lignocaineAmpules = roundedLignocaineAmpules;
+                lignocaineAmpules = cappedLignocaineAmpules;
                 dexaAmpules = finalDexaAmpules;
                 salineMl = Math.max(0, salineMlRaw);
             }
