@@ -41,6 +41,10 @@
         .accordion-button[aria-expanded="true"] .accordion-icon {
             transform: rotate(180deg);
         }
+        /* Prevent zoom on double-tap on iOS */
+        button {
+            touch-action: manipulation;
+        }
     </style>
   </head>
   <body class="bg-bkg-light dark:bg-bkg-dark text-text-light dark:text-text-dark font-sans">
