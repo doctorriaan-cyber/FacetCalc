@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en" class="dark">
   <head>
@@ -62,7 +63,12 @@
             </button>
           </div>
           <h1 class="text-xl font-bold text-center col-start-2">Block Mixture Calculator</h1>
-          <div class="flex justify-end">
+          <div class="flex justify-end items-center space-x-2">
+            <button id="info-btn" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700" aria-label="Show app guide">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </button>
             <button id="open-settings-btn" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -331,6 +337,55 @@
         </div>
     </div>
     
+    <!-- Info Modal -->
+    <div id="info-modal" class="modal-overlay fixed inset-0 bg-black/60 z-[90] opacity-0 pointer-events-none flex items-center justify-center p-4">
+        <div class="modal-content bg-surface-light dark:bg-surface-dark rounded-lg shadow-xl w-full max-w-lg transform scale-95">
+             <div class="p-6">
+                <h2 class="text-xl font-bold mb-4 text-center">Block Mixture Calculator: Quick Guide</h2>
+                <div class="text-sm text-text-light dark:text-text-dark space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                    <p>This tool helps you quickly determine the maximum safe dose of lignocaine and the total volume required for your patient.</p>
+    
+                    <h3 class="text-lg font-semibold mt-4 pt-2 border-t border-slate-200 dark:border-slate-700">⚙️ Main Features</h3>
+                    <ul class="list-disc list-inside space-y-3 pl-4 text-text-muted-light dark:text-text-muted-dark">
+                        <li>
+                            <strong class="text-text-light dark:text-text-dark">Dose Calculation:</strong> The app calculates the maximum safe dose of lignocaine and the total volume needed based on the patient's weight, height, and the areas selected for injection.
+                        </li>
+                        <li>
+                            <strong class="text-text-light dark:text-text-dark">Edit Mode Toggle</strong>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block -mt-1 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z"></path></svg>:
+                            Activate Edit Mode using the pencil icon at the top left. This reveals editing options throughout the app. You can then click the edit icon next to any section title to manage its name and items (add, rename, or delete buttons). You can also add new sections and buttons for different procedures.
+                        </li>
+                        <li>
+                            <strong class="text-text-light dark:text-text-dark">Volume Adjustment</strong>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block -mt-1 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>:
+                            The menu button at the top right opens the Settings panel, where you can fine-tune the default injection volumes for every area.
+                        </li>
+                         <li>
+                            <strong class="text-text-light dark:text-text-dark">Light/Dark Mode</strong>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 inline-block -mt-1 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>:
+                            Toggle between light and dark themes using the sun/moon icon at the top left to suit your viewing preference.
+                        </li>
+                        <li>
+                            <strong class="text-text-light dark:text-text-dark">Persistent Settings</strong>: Your customized settings are automatically saved to your browser. For a consistent experience across devices (computer or phone), simply bookmark this page. Your settings will always be here when you return.
+                        </li>
+                        <li>
+                            <strong class="text-text-light dark:text-text-dark">Experiment Freely</strong>: Feel free to customize everything! If you ever want to start over, the "Reset to Defaults" button (in the Settings panel) will restore the app to its original state. You can't break it.
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700">
+                    <label for="dont-show-again-checkbox" class="flex items-center justify-center text-sm text-text-muted-light dark:text-text-muted-dark mb-4 cursor-pointer">
+                        <input type="checkbox" id="dont-show-again-checkbox" class="h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-primary-light dark:text-primary-dark focus:ring-primary-light dark:focus:ring-primary-dark bg-slate-100 dark:bg-slate-700">
+                        <span class="ml-2">Don't show this again</span>
+                    </label>
+                    <div class="flex justify-center">
+                         <button id="acknowledge-info-btn" class="px-6 py-2 rounded-md bg-primary-light dark:bg-primary-dark hover:opacity-90 text-white font-bold transition-colors w-40">Acknowledge</button>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+
     <script type="module">
 /**
  * @license
@@ -346,6 +401,8 @@ const DEFAULT_STATE = {
     isAddItemModalOpen: false,
     isAddSectionModalOpen: false,
     isEditItemModalOpen: false,
+    isInfoModalOpen: false,
+    showInfoOnStartup: true,
     isEditMode: false,
     weight: 70,
     height: 170,
@@ -374,7 +431,7 @@ const DEFAULT_STATE = {
         maxDexamethasoneAmpules: 3,
         'C Volume': 2, 'L Volume': 3, 'S Volume': 3,
         c3C7Volume: 20, l1S1Volume: 36, s2S4Volume: 18, gonsVolume: 4,
-        shoulderVolume: 4, hipVolume: 4, kneeVolume: 4, ankleVolume: 4,
+        shoulderVolume: 4, hipVolume: 6, kneeVolume: 8, ankleVolume: 6,
     },
     editingItemContext: null,
 };
@@ -448,6 +505,11 @@ const dom = {
     html: document.documentElement,
     themeToggle: getElement('theme-toggle'),
     editModeToggle: getElement('edit-mode-toggle'),
+    // Info Modal
+    infoBtn: getElement('info-btn'),
+    infoModal: getElement('info-modal'),
+    acknowledgeInfoBtn: getElement('acknowledge-info-btn'),
+    dontShowAgainCheckbox: getElement('dont-show-again-checkbox'),
     // Settings Panel
     openSettingsBtn: getElement('open-settings-btn'),
     closeSettingsBtn: getElement('close-settings-btn'),
@@ -566,6 +628,7 @@ function saveState() {
             settings: state.settings,
             itemLists: state.itemLists,
             sectionTitles: state.sectionTitles,
+            showInfoOnStartup: state.showInfoOnStartup,
         };
         localStorage.setItem('blockMixtureCalculatorState', JSON.stringify(stateToSave));
         return true;
@@ -648,6 +711,10 @@ function updateUI() {
     dom.editItemModal.classList.toggle('opacity-0', !state.isEditItemModalOpen);
     dom.editItemModal.classList.toggle('pointer-events-none', !state.isEditItemModalOpen);
     dom.editItemModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isEditItemModalOpen);
+
+    dom.infoModal.classList.toggle('opacity-0', !state.isInfoModalOpen);
+    dom.infoModal.classList.toggle('pointer-events-none', !state.isInfoModalOpen);
+    dom.infoModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isInfoModalOpen);
     
     // Edit Mode
     const isEditMode = state.isEditMode;
@@ -921,7 +988,7 @@ const handleEditModalToggle = (isOpen) => { state.isEditModalOpen = isOpen; upda
 const handleAddItemModalToggle = (isOpen) => { state.isAddItemModalOpen = isOpen; updateUI(); };
 const handleAddSectionModalToggle = (isOpen) => { state.isAddSectionModalOpen = isOpen; updateUI(); };
 const handleEditItemModalToggle = (isOpen) => { state.isEditItemModalOpen = isOpen; if(!isOpen) state.editingItemContext = null; updateUI(); };
-
+const handleInfoModalToggle = (isOpen) => { state.isInfoModalOpen = isOpen; updateUI(); };
 
 const handleConfirmationModalToggle = (isOpen) => {
     state.isConfirmationModalOpen = isOpen;
@@ -1342,11 +1409,19 @@ function handleEditModalSectionNameUpdate() {
     updateUI();
 }
 
+function handleAcknowledgeInfo() {
+    if (dom.dontShowAgainCheckbox.checked) {
+        state.showInfoOnStartup = false;
+        saveState();
+    }
+    handleInfoModalToggle(false);
+}
 
 // --- EVENT LISTENERS INITIALIZATION ---
 function initEventListeners() {
     dom.themeToggle.addEventListener('click', handleThemeToggle);
     dom.editModeToggle.addEventListener('click', handleEditModeToggle);
+    dom.infoBtn.addEventListener('click', () => handleInfoModalToggle(true));
     dom.openSettingsBtn.addEventListener('click', () => { renderSettingsInputs(); handleSettingsToggle(true); });
     dom.closeSettingsBtn.addEventListener('click', () => { handleSettingsToggle(false); if (!saveState()) alert('Could not save settings.'); });
     dom.settingsOverlay.addEventListener('click', () => { handleSettingsToggle(false); if (!saveState()) alert('Could not save settings.'); });
@@ -1355,6 +1430,9 @@ function initEventListeners() {
     dom.editModalSectionNameInput.addEventListener('blur', handleEditModalSectionNameUpdate);
 
     // Modals
+    dom.acknowledgeInfoBtn.addEventListener('click', handleAcknowledgeInfo);
+    dom.infoModal.addEventListener('click', (e) => { if (e.target === dom.infoModal) handleInfoModalToggle(false); });
+    
     dom.addItemForm.addEventListener('submit', handleItemSave);
     dom.closeAddItemModalBtn.addEventListener('click', () => handleAddItemModalToggle(false));
     dom.addItemCancelBtn.addEventListener('click', () => handleAddItemModalToggle(false));
@@ -1462,6 +1540,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAllSections();
     initEventListeners();
     updateUI();
+    if (state.showInfoOnStartup) {
+        handleInfoModalToggle(true);
+    }
 });
     </script>
   </body>
