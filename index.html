@@ -50,16 +50,25 @@
   <body class="bg-bkg-light dark:bg-bkg-dark text-text-light dark:text-text-dark font-sans">
     
     <div id="root" class="w-full max-w-lg mx-auto p-4">
-        <header class="flex justify-between items-center mb-6">
-          <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
-            <!-- Icons will be injected by JS -->
-          </button>
-          <h1 class="text-xl font-bold text-center">Block Mixture Calculator</h1>
-          <button id="open-settings-btn" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+        <header class="grid grid-cols-3 items-center mb-6">
+          <div class="flex items-center space-x-2">
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+              <!-- Icons will be injected by JS -->
+            </button>
+            <button id="edit-mode-toggle" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z"></path>
+              </svg>
+            </button>
+          </div>
+          <h1 class="text-xl font-bold text-center col-start-2">Block Mixture Calculator</h1>
+          <div class="flex justify-end">
+            <button id="open-settings-btn" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
         </header>
 
         <main>
@@ -70,22 +79,22 @@
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-center text-text-muted-light dark:text-text-muted-dark">Weight</label>
                     <div class="flex items-center justify-center mt-1">
-                        <button data-control="weight" data-delta="-10" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded-l-md">-10</button>
-                        <button data-control="weight" data-delta="-1" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">-1</button>
+                        <button data-control="weight" data-delta="-10" class="control-btn px-4 py-1 bg-slate-200 dark:bg-slate-700 rounded-l-md">-10</button>
+                        <button data-control="weight" data-delta="-1" class="control-btn px-4 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">-1</button>
                         <span id="weight-value" class="px-4 py-1 text-lg font-semibold bg-surface-light dark:bg-surface-dark w-24 text-center">70kg</span>
-                        <button data-control="weight" data-delta="1" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">+1</button>
-                        <button data-control="weight" data-delta="10" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded-r-md">+10</button>
+                        <button data-control="weight" data-delta="1" class="control-btn px-4 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">+1</button>
+                        <button data-control="weight" data-delta="10" class="control-btn px-4 py-1 bg-slate-200 dark:bg-slate-700 rounded-r-md">+10</button>
                     </div>
                 </div>
                 <!-- Height Control -->
                 <div class="flex-1">
                     <label class="block text-sm font-medium text-center text-text-muted-light dark:text-text-muted-dark">Height</label>
                     <div class="flex items-center justify-center mt-1">
-                        <button data-control="height" data-delta="-10" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded-l-md">-10</button>
-                        <button data-control="height" data-delta="-1" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">-1</button>
+                        <button data-control="height" data-delta="-10" class="control-btn px-4 py-1 bg-slate-200 dark:bg-slate-700 rounded-l-md">-10</button>
+                        <button data-control="height" data-delta="-1" class="control-btn px-4 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">-1</button>
                         <span id="height-value" class="px-4 py-1 text-lg font-semibold bg-surface-light dark:bg-surface-dark w-24 text-center">170cm</span>
-                        <button data-control="height" data-delta="1" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">+1</button>
-                        <button data-control="height" data-delta="10" class="control-btn px-2 py-1 bg-slate-200 dark:bg-slate-700 rounded-r-md">+10</button>
+                        <button data-control="height" data-delta="1" class="control-btn px-4 py-1 bg-slate-200 dark:bg-slate-700 border-l border-r border-slate-300 dark:border-slate-600">+1</button>
+                        <button data-control="height" data-delta="10" class="control-btn px-4 py-1 bg-slate-200 dark:bg-slate-700 rounded-r-md">+10</button>
                     </div>
                 </div>
             </div>
@@ -117,58 +126,15 @@
           </div>
           
           <!-- Selection Accordions -->
-          <div class="space-y-2">
-             <div class="border border-slate-200 dark:border-slate-700 rounded-lg">
-                <div class="w-full flex justify-between items-center p-4 bg-slate-100 dark:bg-slate-700/50 rounded-t-lg">
-                    <button class="accordion-button text-left flex-grow flex items-center justify-between focus:outline-none" aria-expanded="false">
-                        <span class="text-lg font-semibold">Facet levels</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon w-6 h-6 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </button>
-                    <button class="edit-category-btn p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors ml-4 flex-shrink-0" data-category="facets" aria-label="Edit Facet levels">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-text-muted-light dark:text-text-muted-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826 3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </button>
-                </div>
-                <div class="accordion-content hidden p-4 bg-surface-light dark:bg-surface-dark rounded-b-lg">
-                    <div id="facets-container" class="grid grid-cols-2 gap-2"></div>
-                </div>
-             </div>
-             <div class="border border-slate-200 dark:border-slate-700 rounded-lg">
-                <div class="w-full flex justify-between items-center p-4 bg-slate-100 dark:bg-slate-700/50 rounded-t-lg">
-                    <button class="accordion-button text-left flex-grow flex items-center justify-between focus:outline-none" aria-expanded="false">
-                        <span class="text-lg font-semibold">Dorsal roots</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon w-6 h-6 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </button>
-                    <button class="edit-category-btn p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors ml-4 flex-shrink-0" data-category="dorsalRoots" aria-label="Edit Dorsal roots">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-text-muted-light dark:text-text-muted-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826 3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </button>
-                </div>
-                <div class="accordion-content hidden p-4 bg-surface-light dark:bg-surface-dark rounded-b-lg">
-                    <div id="dorsal-roots-container" class="grid grid-cols-2 gap-6"></div>
-                </div>
-             </div>
-             <div class="border border-slate-200 dark:border-slate-700 rounded-lg">
-                <div class="w-full flex justify-between items-center p-4 bg-slate-100 dark:bg-slate-700/50 rounded-t-lg">
-                    <button class="accordion-button text-left flex-grow flex items-center justify-between focus:outline-none" aria-expanded="false">
-                        <span class="text-lg font-semibold">Extra</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon w-6 h-6 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </button>
-                    <button class="edit-category-btn p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors ml-4 flex-shrink-0" data-category="extra" aria-label="Edit Extra items">
-                       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-text-muted-light dark:text-text-muted-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826 3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                    </button>
-                </div>
-                <div class="accordion-content hidden p-4 bg-surface-light dark:bg-surface-dark rounded-b-lg">
-                    <div id="extra-container" class="grid grid-cols-2 gap-6"></div>
-                </div>
-             </div>
+          <div id="all-sections-container" class="space-y-2">
+             <!-- Sections will be rendered here by JS -->
+          </div>
+
+          <div class="mt-4">
+            <button id="add-section-btn" class="hidden w-full flex items-center justify-center gap-2 p-3 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors text-text-muted-light dark:text-text-muted-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                Add New Section
+            </button>
           </div>
 
           <!-- Current Selections Summary -->
@@ -236,9 +202,19 @@
     <!-- Item Management Modal -->
     <div id="edit-modal" class="modal-overlay fixed inset-0 bg-black/60 z-[60] opacity-0 pointer-events-none flex items-center justify-center p-4">
         <div class="modal-content bg-surface-light dark:bg-surface-dark rounded-lg shadow-xl w-full max-w-md transform scale-95">
-             <div class="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700">
-                <h2 id="edit-modal-title" class="text-xl font-bold">Manage Items</h2>
-                <button id="close-edit-modal-btn" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+             <div class="flex justify-between items-start p-4 border-b border-slate-200 dark:border-slate-700">
+                <div class="flex-grow">
+                    <h2 id="edit-modal-title" class="text-xl font-bold">Manage Items</h2>
+                    <div id="edit-modal-section-name-container" class="hidden mt-2">
+                        <label for="edit-modal-section-name-input" class="text-sm font-medium text-text-muted-light dark:text-text-muted-dark flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /></svg>
+                            Section Name
+                        </label>
+                        <input type="text" id="edit-modal-section-name-input" class="w-full mt-1 bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md p-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-primary-light dark:focus:border-primary-dark">
+                        <p id="edit-modal-section-name-error" class="text-red-500 text-sm hidden mt-1"></p>
+                    </div>
+                </div>
+                <button id="close-edit-modal-btn" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 flex-shrink-0 ml-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
             </div>
@@ -272,649 +248,1221 @@
         </div>
     </div>
 
+    <!-- Add Item Modal -->
+    <div id="add-item-modal" class="modal-overlay fixed inset-0 bg-black/60 z-[80] opacity-0 pointer-events-none flex items-center justify-center p-4">
+        <div class="modal-content bg-surface-light dark:bg-surface-dark rounded-lg shadow-xl w-full max-w-md transform scale-95">
+             <form id="add-item-form" novalidate>
+                <div class="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700">
+                    <h2 id="add-item-modal-title" class="text-xl font-bold">Add New Item</h2>
+                    <button id="close-add-item-modal-btn" type="button" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label for="new-item-name" class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1">Item Name</label>
+                        <input type="text" id="new-item-name" required class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md p-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-primary-light dark:focus:border-primary-dark">
+                    </div>
+                    <div id="new-item-volume-container">
+                        <label for="new-item-volume" class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1">Volume (ml)</label>
+                        <input type="number" id="new-item-volume" min="0" step="0.1" value="1" required class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md p-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-primary-light dark:focus:border-primary-dark">
+                    </div>
+                    <p id="add-item-error-message" class="text-red-500 text-sm hidden"></p>
+                </div>
+                <div class="flex justify-end gap-3 p-4 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700 rounded-b-lg">
+                    <button id="add-item-cancel-btn" type="button" class="px-4 py-2 rounded-md bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors w-28">Cancel</button>
+                    <button id="add-item-save-btn" type="submit" class="px-4 py-2 rounded-md bg-primary-light dark:bg-primary-dark hover:opacity-90 text-white font-bold transition-colors w-28">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add Section Modal -->
+    <div id="add-section-modal" class="modal-overlay fixed inset-0 bg-black/60 z-[80] opacity-0 pointer-events-none flex items-center justify-center p-4">
+        <div class="modal-content bg-surface-light dark:bg-surface-dark rounded-lg shadow-xl w-full max-w-md transform scale-95">
+             <form id="add-section-form" novalidate>
+                <div class="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700">
+                    <h2 class="text-xl font-bold">Add New Section</h2>
+                    <button id="close-add-section-modal-btn" type="button" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label for="new-section-name" class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1">Section Name</label>
+                        <input type="text" id="new-section-name" required class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md p-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-primary-light dark:focus:border-primary-dark">
+                    </div>
+                    <p id="add-section-error-message" class="text-red-500 text-sm hidden"></p>
+                </div>
+                <div class="flex justify-end gap-3 p-4 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700 rounded-b-lg">
+                    <button id="add-section-cancel-btn" type="button" class="px-4 py-2 rounded-md bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors w-28">Cancel</button>
+                    <button id="add-section-save-btn" type="submit" class="px-4 py-2 rounded-md bg-primary-light dark:bg-primary-dark hover:opacity-90 text-white font-bold transition-colors w-28">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    <!-- Edit Item Modal -->
+    <div id="edit-item-modal" class="modal-overlay fixed inset-0 bg-black/60 z-[80] opacity-0 pointer-events-none flex items-center justify-center p-4">
+        <div class="modal-content bg-surface-light dark:bg-surface-dark rounded-lg shadow-xl w-full max-w-md transform scale-95">
+             <form id="edit-item-form" novalidate>
+                <div class="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700">
+                    <h2 id="edit-item-modal-title" class="text-xl font-bold">Edit Item</h2>
+                    <button id="close-edit-item-modal-btn" type="button" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label for="edit-item-name" class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1">Item Name</label>
+                        <input type="text" id="edit-item-name" required class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md p-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-primary-light dark:focus:border-primary-dark">
+                    </div>
+                    <div id="edit-item-volume-container">
+                        <label for="edit-item-volume" class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1">Volume (ml)</label>
+                        <input type="number" id="edit-item-volume" min="0" step="0.1" required class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md p-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-primary-light dark:focus:border-primary-dark">
+                    </div>
+                    <p id="edit-item-error-message" class="text-red-500 text-sm hidden"></p>
+                </div>
+                <div class="flex justify-end gap-3 p-4 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-700 rounded-b-lg">
+                    <button id="edit-item-cancel-btn" type="button" class="px-4 py-2 rounded-md bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors w-28">Cancel</button>
+                    <button id="edit-item-save-btn" type="submit" class="px-4 py-2 rounded-md bg-primary-light dark:bg-primary-dark hover:opacity-90 text-white font-bold transition-colors w-28">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script type="module">
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+*/
 
-        // --- DEFAULTS ---
-        const DEFAULT_STATE = Object.freeze({
-            theme: 'dark',
-            isSettingsOpen: false,
-            isEditModalOpen: false,
-            isConfirmationModalOpen: false,
-            weight: 70,
-            height: 170,
-            gender: 'male',
-            useIdealWeight: false,
-            selections: {
-                facets: {},
-                dorsalRoots: { left: {}, right: {} },
-                extra: { left: {}, right: {} }
-            },
-            itemLists: {
-                facets: ["C3-C7", "L1-S1", "S2-S4", "GONS"],
-                dorsalRoots: ["C3", "C4", "C5", "C6", "C7", "L1", "L2", "L3", "L4", "L5", "S1", "S2", "S3", "S4"],
-                extra: ["Shoulder", "Hip", "Knee", "Ankle"]
-            },
-            settings: {
-                maxLignocaineDose: 4.5,
-                maxLignocaineAmpules: 3,
-                maxDexamethasoneAmpules: 3,
-                'C Volume': 2, 'L Volume': 3, 'S Volume': 3,
-                c3c7Volume: 20, l1s1Volume: 36, s2s4Volume: 18, gonsVolume: 4,
-                shoulderVolume: 4, hipVolume: 4, kneeVolume: 4, ankleVolume: 4,
-            }
+// --- CONSTANTS & DEFAULTS ---
+const DEFAULT_STATE = {
+    theme: 'dark',
+    isSettingsOpen: false,
+    isEditModalOpen: false,
+    isConfirmationModalOpen: false,
+    isAddItemModalOpen: false,
+    isAddSectionModalOpen: false,
+    isEditItemModalOpen: false,
+    isEditMode: false,
+    weight: 70,
+    height: 170,
+    gender: 'male',
+    useIdealWeight: false,
+    selections: {
+        facets: {},
+        dorsalRoots: { left: {}, right: {} },
+        extra: { left: {}, right: {} },
+        custom: {}
+    },
+    itemLists: {
+        facets: ["C3-C7", "L1-S1", "S2-S4", "GONS"],
+        dorsalRoots: ["C3", "C4", "C5", "C6", "C7", "L1", "L2", "L3", "L4", "L5", "S1", "S2", "S3", "S4"],
+        extra: ["Shoulder", "Hip", "Knee", "Ankle"],
+        custom: {}
+    },
+    sectionTitles: {
+        facets: "Facet levels",
+        dorsalRoots: "Dorsal roots",
+        extra: "Extra",
+    },
+    settings: {
+        maxLignocaineDose: 4.5,
+        maxLignocaineAmpules: 3,
+        maxDexamethasoneAmpules: 3,
+        'C Volume': 2, 'L Volume': 3, 'S Volume': 3,
+        c3C7Volume: 20, l1S1Volume: 36, s2S4Volume: 18, gonsVolume: 4,
+        shoulderVolume: 4, hipVolume: 4, kneeVolume: 4, ankleVolume: 4,
+    },
+    editingItemContext: null,
+};
+
+const ICONS = {
+    sun: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
+    moon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`,
+    trash: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 hover:text-red-700 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>`,
+    pencil: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 hover:text-blue-700 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /></svg>`
+};
+
+
+// --- STATE & CONFIRMATION ACTION ---
+let state = {};
+let onConfirmAction = null;
+
+
+// --- UTILITY FUNCTIONS ---
+function getElement(id) {
+    const element = document.getElementById(id);
+    if (!element) throw new Error(`Element with id "${id}" not found.`);
+    return element;
+}
+
+const specialCases = { 
+    'C3-C7': 'c3C7Volume', 
+    'L1-S1': 'l1S1Volume', 
+    'S2-S4': 's2S4Volume',
+    'GONS': 'gonsVolume'
+};
+const specialKeyToLabelMap = Object.fromEntries(
+     Object.entries(specialCases).map(([key, value]) => [value, key])
+);
+
+const nameToSettingKey = (name) => {
+    if (!name) return '';
+    if (specialCases[name]) return specialCases[name];
+    
+    return name
+        .toLowerCase()
+        .split(/[^a-z0-9]+/)
+        .filter(Boolean)
+        .map((word, index) => 
+            index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)
+        )
+        .join('') + 'Volume';
+};
+
+const settingKeyToLabel = (key) => {
+    if (!key) return '';
+    if (key.startsWith('max')) {
+         return key.replace(/([A-Z])/g, ' $1').replace('max ', 'Max ').replace('Dose', 'dose (mg/kg)').replace('Ampules', 'ampules');
+    }
+    if (specialKeyToLabelMap[key]) {
+        return `${specialKeyToLabelMap[key]} volume (ml)`;
+    }
+    return key.replace('Volume', ' volume (ml)').replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()).trim();
+};
+
+const getDorsalRootType = (root) => {
+    const letter = root.charAt(0).toUpperCase();
+    if (letter === 'C') return 'C Volume';
+    if (letter === 'L') return 'L Volume';
+    if (letter === 'S') return 'S Volume';
+    return 'C Volume'; // fallback
+};
+
+
+// --- DOM ELEMENT REFERENCES ---
+const dom = {
+    html: document.documentElement,
+    themeToggle: getElement('theme-toggle'),
+    editModeToggle: getElement('edit-mode-toggle'),
+    // Settings Panel
+    openSettingsBtn: getElement('open-settings-btn'),
+    closeSettingsBtn: getElement('close-settings-btn'),
+    settingsPanel: getElement('settings-panel'),
+    settingsOverlay: getElement('settings-overlay'),
+    settingsInputsContainer: getElement('settings-inputs-container'),
+    saveSettingsBtn: getElement('save-settings-btn'),
+    resetAppBtn: getElement('reset-app-btn'),
+    // Edit Modal
+    editModal: getElement('edit-modal'),
+    editModalTitle: getElement('edit-modal-title'),
+    editModalList: getElement('edit-modal-list'),
+    editModalSectionNameContainer: getElement('edit-modal-section-name-container'),
+    editModalSectionNameInput: getElement('edit-modal-section-name-input'),
+    editModalSectionNameError: getElement('edit-modal-section-name-error'),
+    // Confirmation Modal
+    confirmationModal: getElement('confirmation-modal'),
+    confirmationModalTitle: getElement('confirmation-modal-title'),
+    confirmationModalMessage: getElement('confirmation-modal-message'),
+    // Add Item Modal
+    addItemModal: getElement('add-item-modal'),
+    closeAddItemModalBtn: getElement('close-add-item-modal-btn'),
+    addItemForm: getElement('add-item-form'),
+    addItemModalTitle: getElement('add-item-modal-title'),
+    newItemName: getElement('new-item-name'),
+    newItemVolumeContainer: getElement('new-item-volume-container'),
+    newItemVolume: getElement('new-item-volume'),
+    addItemErrorMessage: getElement('add-item-error-message'),
+    addItemCancelBtn: getElement('add-item-cancel-btn'),
+    // Add Section Modal
+    addSectionBtn: getElement('add-section-btn'),
+    addSectionModal: getElement('add-section-modal'),
+    closeAddSectionModalBtn: getElement('close-add-section-modal-btn'),
+    addSectionForm: getElement('add-section-form'),
+    newSectionName: getElement('new-section-name'),
+    addSectionErrorMessage: getElement('add-section-error-message'),
+    addSectionCancelBtn: getElement('add-section-cancel-btn'),
+    // Edit Item Modal
+    editItemModal: getElement('edit-item-modal'),
+    closeEditItemModalBtn: getElement('close-edit-item-modal-btn'),
+    editItemForm: getElement('edit-item-form'),
+    editItemModalTitle: getElement('edit-item-modal-title'),
+    editItemName: getElement('edit-item-name'),
+    editItemVolumeContainer: getElement('edit-item-volume-container'),
+    editItemVolume: getElement('edit-item-volume'),
+    editItemErrorMessage: getElement('edit-item-error-message'),
+    editItemCancelBtn: getElement('edit-item-cancel-btn'),
+    // Patient Data
+    weightValue: getElement('weight-value'),
+    heightValue: getElement('height-value'),
+    genderMaleBtn: getElement('gender-male-btn'),
+    genderFemaleBtn: getElement('gender-female-btn'),
+    bmiValue: getElement('bmi-value'),
+    idealWeightValue: getElement('ideal-weight-value'),
+    idealWeightToggle: getElement('ideal-weight-toggle'),
+    idealWeightToggleDot: getElement('ideal-weight-toggle-dot'),
+    // Containers
+    allSectionsContainer: getElement('all-sections-container'),
+    // Summary & Results
+    currentSelectionsSummary: getElement('current-selections-summary'),
+    displayCalcWeight: getElement('display-calc-weight'),
+    maxLignocaine: getElement('max-lignocaine'),
+    lignocaineAllowed: getElement('lignocaine-allowed'),
+    totalVolume: getElement('total-volume'),
+    lignocaineAmpules: getElement('lignocaine-ampules'),
+    dexaAmpules: getElement('dexa-ampules'),
+    salineMl: getElement('saline-ml'),
+};
+
+
+// --- CALCULATION LOGIC ---
+const calculations = {
+    bmi: () => {
+        if (state.height <= 0) return 'N/A';
+        const heightInMeters = state.height / 100;
+        return (state.weight / (heightInMeters * heightInMeters)).toFixed(1);
+    },
+    idealWeight: () => {
+        const heightInInches = state.height / 2.54;
+        if (heightInInches <= 60) return state.gender === 'male' ? 50 : 45.5;
+        const inchesOver5Ft = heightInInches - 60;
+        return ( (state.gender === 'male' ? 50 : 45.5) + (2.3 * inchesOver5Ft) );
+    },
+    totalVolumeNeeded: () => {
+        let total = 0;
+        const { selections, settings, itemLists } = state;
+
+        itemLists.facets.forEach(item => {
+            if (selections.facets[item]) total += settings[nameToSettingKey(item)] || 0;
         });
-        
-        let state = {};
-        let onConfirmAction = null;
 
-        // --- UTILITY FUNCTIONS ---
-        const nameToSettingKey = (name) => {
-            if (!name) return '';
-            const specialCases = { 
-                'C3-C7': 'c3c7Volume', 
-                'L1-S1': 'l1s1Volume', 
-                'S2-S4': 's2s4Volume',
-                'GONS': 'gonsVolume'
+        (['left', 'right']).forEach(side => {
+            itemLists.dorsalRoots.forEach(item => {
+                if (selections.dorsalRoots[side][item]) total += settings[getDorsalRootType(item)] || 0;
+            });
+            itemLists.extra.forEach(item => {
+                if (selections.extra[side][item]) total += settings[nameToSettingKey(item)] || 0;
+            });
+            Object.keys(itemLists.custom).forEach(sectionName => {
+                itemLists.custom[sectionName].forEach(item => {
+                    if (selections.custom[sectionName]?.[side]?.[item]) {
+                        total += settings[nameToSettingKey(item)] || 0;
+                    }
+                });
+            });
+        });
+        return total;
+    }
+};
+
+// --- LOCAL STORAGE & STATE MANAGEMENT ---
+function saveState() {
+    try {
+        const stateToSave = {
+            theme: state.theme,
+            settings: state.settings,
+            itemLists: state.itemLists,
+            sectionTitles: state.sectionTitles,
+        };
+        localStorage.setItem('blockMixtureCalculatorState', JSON.stringify(stateToSave));
+        return true;
+    } catch (error) {
+        console.error("Could not save state:", error);
+        return false;
+    }
+}
+
+function loadState() {
+    try {
+        const savedStateJSON = localStorage.getItem('blockMixtureCalculatorState');
+        if (savedStateJSON) {
+            const savedState = JSON.parse(savedStateJSON);
+            const defaultStateCopy = JSON.parse(JSON.stringify(DEFAULT_STATE));
+            state = {
+                ...defaultStateCopy,
+                ...savedState,
+                settings: { ...defaultStateCopy.settings, ...savedState.settings },
+                itemLists: { ...defaultStateCopy.itemLists, custom: {}, ...savedState.itemLists },
+                sectionTitles: { ...defaultStateCopy.sectionTitles, ...savedState.sectionTitles },
             };
-            if (specialCases[name]) return specialCases[name];
-            
-            return name
-                .toLowerCase()
-                .split(/[^a-z0-9]+/)
-                .filter(Boolean)
-                .map((word, index) => 
-                    index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)
-                )
-                .join('') + 'Volume';
-        };
+        } else {
+            state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+        }
+    } catch (error) {
+        console.error("Could not load state:", error);
+        state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+}
+
+function initializeSelections() {
+    state.selections = { facets: {}, dorsalRoots: { left: {}, right: {} }, extra: { left: {}, right: {} }, custom: {} };
+    state.itemLists.facets.forEach(f => state.selections.facets[f] = false);
+    state.itemLists.dorsalRoots.forEach(dr => {
+        state.selections.dorsalRoots.left[dr] = false;
+        state.selections.dorsalRoots.right[dr] = false;
+    });
+    state.itemLists.extra.forEach(e => {
+        state.selections.extra.left[e] = false;
+        state.selections.extra.right[e] = false;
+    });
+    Object.keys(state.itemLists.custom).forEach(sectionName => {
+        state.selections.custom[sectionName] = { left: {}, right: {} };
+        state.itemLists.custom[sectionName].forEach(item => {
+            state.selections.custom[sectionName].left[item] = false;
+            state.selections.custom[sectionName].right[item] = false;
+        });
+    });
+}
+
+
+// --- UI UPDATE FUNCTIONS ---
+function updateUI() {
+    // Theme
+    dom.html.classList.toggle('dark', state.theme === 'dark');
+    dom.themeToggle.innerHTML = state.theme === 'dark' ? ICONS.sun : ICONS.moon;
+    
+    // Panels & Modals
+    dom.settingsPanel.classList.toggle('translate-x-full', !state.isSettingsOpen);
+    dom.settingsOverlay.classList.toggle('opacity-0', !state.isSettingsOpen);
+    dom.settingsOverlay.classList.toggle('pointer-events-none', !state.isSettingsOpen);
+    
+    dom.editModal.classList.toggle('opacity-0', !state.isEditModalOpen);
+    dom.editModal.classList.toggle('pointer-events-none', !state.isEditModalOpen);
+    dom.editModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isEditModalOpen);
+
+    dom.addItemModal.classList.toggle('opacity-0', !state.isAddItemModalOpen);
+    dom.addItemModal.classList.toggle('pointer-events-none', !state.isAddItemModalOpen);
+    dom.addItemModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isAddItemModalOpen);
+    
+    dom.addSectionModal.classList.toggle('opacity-0', !state.isAddSectionModalOpen);
+    dom.addSectionModal.classList.toggle('pointer-events-none', !state.isAddSectionModalOpen);
+    dom.addSectionModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isAddSectionModalOpen);
+
+    dom.confirmationModal.classList.toggle('opacity-0', !state.isConfirmationModalOpen);
+    dom.confirmationModal.classList.toggle('pointer-events-none', !state.isConfirmationModalOpen);
+    dom.confirmationModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isConfirmationModalOpen);
+    
+    dom.editItemModal.classList.toggle('opacity-0', !state.isEditItemModalOpen);
+    dom.editItemModal.classList.toggle('pointer-events-none', !state.isEditItemModalOpen);
+    dom.editItemModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isEditItemModalOpen);
+    
+    // Edit Mode
+    const isEditMode = state.isEditMode;
+    dom.editModeToggle.classList.toggle('bg-primary-light', isEditMode);
+    dom.editModeToggle.classList.toggle('dark:bg-primary-dark', isEditMode);
+    const editIcon = dom.editModeToggle.querySelector('svg');
+    if (editIcon) {
+        editIcon.classList.toggle('text-white', isEditMode);
+    }
+    document.querySelectorAll('.edit-category-btn').forEach(btn => {
+        btn.classList.toggle('hidden', !isEditMode);
+    });
+    dom.addSectionBtn.classList.toggle('hidden', !isEditMode);
+
+
+    // Patient Data
+    dom.weightValue.textContent = `${state.weight}kg`;
+    dom.heightValue.textContent = `${state.height}cm`;
+    (['Male', 'Female']).forEach(g => {
+        const btn = dom[`gender${g}Btn`];
+        const isSelected = state.gender === g.toLowerCase();
+        btn.classList.toggle('bg-primary-light', isSelected);
+        btn.classList.toggle('dark:bg-primary-dark', isSelected);
+        btn.classList.toggle('text-white', isSelected);
+        btn.classList.toggle('bg-slate-200', !isSelected);
+        btn.classList.toggle('dark:bg-slate-700', !isSelected);
+    });
+
+    // BMI and Ideal Weight
+    const idealWeight = calculations.idealWeight();
+    dom.bmiValue.textContent = calculations.bmi();
+    dom.idealWeightValue.textContent = `${idealWeight.toFixed(1)} kg`;
+    dom.idealWeightToggle.checked = state.useIdealWeight;
+    dom.idealWeightToggleDot.classList.toggle('translate-x-4', state.useIdealWeight);
+    dom.idealWeightToggleDot.classList.toggle('bg-primary-dark', state.useIdealWeight);
+
+    // Selection Buttons
+    document.querySelectorAll('.selection-btn').forEach(btn => {
+        const { category, item, side, sectionName } = btn.dataset;
+        if (!category || !item) return;
         
-        const settingKeyToLabel = (key) => {
-            if (!key) return '';
-            if (key.startsWith('max')) {
-                 return key.replace(/([A-Z])/g, ' $1').replace('max ', 'Max ').replace('Dose', 'dose (mg/kg)').replace('Ampules', 'ampules');
-            }
-            return key.replace('Volume', ' volume (ml)').replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()).trim();
-        };
+        let isSelected = false;
+        if (category === 'custom' && sectionName) {
+            isSelected = state.selections.custom?.[sectionName]?.[side]?.[item];
+        } else if (side) {
+            isSelected = state.selections[category]?.[side]?.[item]
+        } else {
+            isSelected = state.selections.facets?.[item];
+        }
 
-        const getDorsalRootType = (root) => {
-            const letter = root.charAt(0).toUpperCase();
-            if (letter === 'C') return 'C Volume';
-            if (letter === 'L') return 'L Volume';
-            if (letter === 'S') return 'S Volume';
-            return 'cVolume'; // fallback
-        };
+        if (isSelected) {
+            btn.classList.remove('bg-slate-200', 'dark:bg-slate-700');
+            btn.classList.add('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+        } else {
+            btn.classList.add('bg-slate-200', 'dark:bg-slate-700');
+            btn.classList.remove('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+        }
+    });
 
-        // --- DOM ELEMENT REFERENCES ---
-        const dom = {
-            html: document.documentElement,
-            themeToggle: document.getElementById('theme-toggle'),
-            // Settings Panel
-            openSettingsBtn: document.getElementById('open-settings-btn'),
-            closeSettingsBtn: document.getElementById('close-settings-btn'),
-            settingsPanel: document.getElementById('settings-panel'),
-            settingsOverlay: document.getElementById('settings-overlay'),
-            settingsInputsContainer: document.getElementById('settings-inputs-container'),
-            saveSettingsBtn: document.getElementById('save-settings-btn'),
-            resetAppBtn: document.getElementById('reset-app-btn'),
-            // Edit Modal
-            editModal: document.getElementById('edit-modal'),
-            editModalTitle: document.getElementById('edit-modal-title'),
-            editModalList: document.getElementById('edit-modal-list'),
-            // Confirmation Modal
-            confirmationModal: document.getElementById('confirmation-modal'),
-            confirmationModalTitle: document.getElementById('confirmation-modal-title'),
-            confirmationModalMessage: document.getElementById('confirmation-modal-message'),
-            // Patient Data
-            weightValue: document.getElementById('weight-value'),
-            heightValue: document.getElementById('height-value'),
-            genderMaleBtn: document.getElementById('gender-male-btn'),
-            genderFemaleBtn: document.getElementById('gender-female-btn'),
-            bmiValue: document.getElementById('bmi-value'),
-            idealWeightValue: document.getElementById('ideal-weight-value'),
-            idealWeightToggle: document.getElementById('ideal-weight-toggle'),
-            idealWeightToggleDot: document.getElementById('ideal-weight-toggle-dot'),
-            // Containers
-            facetsContainer: document.getElementById('facets-container'),
-            dorsalRootsContainer: document.getElementById('dorsal-roots-container'),
-            extraContainer: document.getElementById('extra-container'),
-            // Summary & Results
-            currentSelectionsSummary: document.getElementById('current-selections-summary'),
-            displayCalcWeight: document.getElementById('display-calc-weight'),
-            maxLignocaine: document.getElementById('max-lignocaine'),
-            lignocaineAllowed: document.getElementById('lignocaine-allowed'),
-            totalVolume: document.getElementById('total-volume'),
-            lignocaineAmpules: document.getElementById('lignocaine-ampules'),
-            dexaAmpules: document.getElementById('dexa-ampules'),
-            salineMl: document.getElementById('saline-ml'),
-        };
+    // Mixture Calculations
+    const calculationWeight = state.useIdealWeight ? idealWeight : state.weight;
+    const maxLignocaine = calculationWeight * state.settings.maxLignocaineDose;
+    const lignocaineAllowed = maxLignocaine / 20;
+    const totalVolumeNeeded = calculations.totalVolumeNeeded();
 
-        const ICONS = {
-            sun: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`,
-            moon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>`,
-            trash: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 hover:text-red-700 pointer-events-none" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>`
-        };
-
-        // --- CALCULATION LOGIC ---
-        const calculations = {
-            bmi: () => {
-                if (state.height <= 0) return 'N/A';
-                const heightInMeters = state.height / 100;
-                return (state.weight / (heightInMeters * heightInMeters)).toFixed(1);
-            },
-            idealWeight: () => {
-                const heightInInches = state.height / 2.54;
-                if (heightInInches <= 60) return state.gender === 'male' ? 50 : 45.5;
-                const inchesOver5Ft = heightInInches - 60;
-                return ( (state.gender === 'male' ? 50 : 45.5) + (2.3 * inchesOver5Ft) );
-            },
-            totalVolumeNeeded: () => {
-                let total = 0;
-                const { selections, settings, itemLists } = state;
-
-                itemLists.facets.forEach(item => {
-                    if (selections.facets[item]) total += settings[nameToSettingKey(item)] || 0;
-                });
-                ['left', 'right'].forEach(side => {
-                    itemLists.dorsalRoots.forEach(item => {
-                        if (selections.dorsalRoots[side][item]) total += settings[getDorsalRootType(item)] || 0;
-                    });
-                    itemLists.extra.forEach(item => {
-                        if (selections.extra[side][item]) total += settings[nameToSettingKey(item)] || 0;
-                    });
-                });
-                return total;
-            }
-        };
+    let lignocaineAmpules = 0, dexaAmpules = 0, salineMl = 0;
+    if (totalVolumeNeeded > 0 && !isNaN(lignocaineAllowed)) {
+        const lignocaineVolumeToUse = Math.min(totalVolumeNeeded, lignocaineAllowed);
+        const theoreticalLignocaineAmpules = Math.floor((lignocaineVolumeToUse / 5) * 2) / 2;
+        const cappedLignocaineAmpules = Math.min(theoreticalLignocaineAmpules, state.settings.maxLignocaineAmpules);
         
-        // --- LOCAL STORAGE & STATE MANAGEMENT ---
-        function saveState() {
-            try {
-                const stateToSave = {
-                    theme: state.theme,
-                    settings: state.settings,
-                    itemLists: state.itemLists,
-                };
-                localStorage.setItem('blockMixtureCalculatorState', JSON.stringify(stateToSave));
-                return true;
-            } catch (error) {
-                console.error("Could not save state:", error);
-                return false;
-            }
-        }
+        const actualLignocaineVolume = cappedLignocaineAmpules * 5;
+        const finalDexaAmpules = Math.min(Math.floor(cappedLignocaineAmpules), state.settings.maxDexamethasoneAmpules);
+        const salineMlRaw = totalVolumeNeeded - actualLignocaineVolume - finalDexaAmpules;
 
-        function loadState() {
-            try {
-                const savedStateJSON = localStorage.getItem('blockMixtureCalculatorState');
-                if (savedStateJSON) {
-                    const savedState = JSON.parse(savedStateJSON);
-                    // Merge saved state with defaults to ensure new properties are not missed
-                    state = {
-                        ...JSON.parse(JSON.stringify(DEFAULT_STATE)), // Deep copy of defaults
-                        ...savedState,
-                        settings: { ...DEFAULT_STATE.settings, ...savedState.settings },
-                        itemLists: { ...DEFAULT_STATE.itemLists, ...savedState.itemLists },
-                    };
-                } else {
-                    state = JSON.parse(JSON.stringify(DEFAULT_STATE)); // Deep copy
-                }
-            } catch (error) {
-                console.error("Could not load state:", error);
-                state = JSON.parse(JSON.stringify(DEFAULT_STATE)); // Load defaults on error
-            }
-        }
-        
-        function initializeSelections() {
-            state.selections = { facets: {}, dorsalRoots: { left: {}, right: {} }, extra: { left: {}, right: {} } };
-            state.itemLists.facets.forEach(f => state.selections.facets[f] = false);
-            state.itemLists.dorsalRoots.forEach(dr => {
-                state.selections.dorsalRoots.left[dr] = false;
-                state.selections.dorsalRoots.right[dr] = false;
-            });
-            state.itemLists.extra.forEach(e => {
-                state.selections.extra.left[e] = false;
-                state.selections.extra.right[e] = false;
-            });
-        }
+        lignocaineAmpules = cappedLignocaineAmpules;
+        dexaAmpules = finalDexaAmpules;
+        salineMl = Math.max(0, salineMlRaw);
+    }
+    
+    dom.displayCalcWeight.textContent = calculationWeight.toFixed(1);
+    dom.maxLignocaine.textContent = `${maxLignocaine.toFixed(1)} mg`;
+    dom.lignocaineAllowed.textContent = `${lignocaineAllowed.toFixed(1)} ml`;
+    dom.totalVolume.textContent = `${totalVolumeNeeded.toFixed(1)} ml`;
+    dom.lignocaineAmpules.textContent = `${lignocaineAmpules.toFixed(1)} (5ml)`;
+    dom.dexaAmpules.textContent = `${dexaAmpules} (1ml)`;
+    dom.salineMl.textContent = `${salineMl.toFixed(1)} ml`;
+
+    renderSummary();
+}
 
 
-        // --- UI UPDATE FUNCTIONS ---
-        function updateUI() {
-            // Theme
-            dom.html.classList.toggle('dark', state.theme === 'dark');
-            dom.themeToggle.innerHTML = state.theme === 'dark' ? ICONS.sun : ICONS.moon;
-            
-            // Panels
-            dom.settingsPanel.classList.toggle('translate-x-full', !state.isSettingsOpen);
-            dom.settingsOverlay.classList.toggle('opacity-0', !state.isSettingsOpen);
-            dom.settingsOverlay.classList.toggle('pointer-events-none', !state.isSettingsOpen);
-            
-            dom.editModal.classList.toggle('opacity-0', !state.isEditModalOpen);
-            dom.editModal.classList.toggle('pointer-events-none', !state.isEditModalOpen);
-            dom.editModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isEditModalOpen);
-            
-            dom.confirmationModal.classList.toggle('opacity-0', !state.isConfirmationModalOpen);
-            dom.confirmationModal.classList.toggle('pointer-events-none', !state.isConfirmationModalOpen);
-            dom.confirmationModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isConfirmationModalOpen);
+// --- DYNAMIC CONTENT RENDERERS ---
+function renderAllSections() {
+    let html = '';
 
-            // Patient Data
-            dom.weightValue.textContent = `${state.weight}kg`;
-            dom.heightValue.textContent = `${state.height}cm`;
-            ['Male', 'Female'].forEach(g => {
-                const btn = dom[`gender${g}Btn`];
-                const isSelected = state.gender === g.toLowerCase();
-                btn.classList.toggle('bg-primary-light', isSelected);
-                btn.classList.toggle('dark:bg-primary-dark', isSelected);
-                btn.classList.toggle('text-white', isSelected);
-                btn.classList.toggle('bg-slate-200', !isSelected);
-                btn.classList.toggle('dark:bg-slate-700', !isSelected);
-            });
+    // Facets Section
+    const facetsHTML = state.itemLists.facets.map(item => `
+        <button data-category="facets" data-item="${item}" class="selection-btn p-3 rounded-md transition-colors bg-slate-200 dark:bg-slate-700">
+            ${item}
+        </button>
+    `).join('');
+    html += createAccordionHTML(state.sectionTitles.facets, 'facets', `<div class="grid grid-cols-2 gap-2">${facetsHTML}</div>`);
+    
+    // Dorsal Roots Section
+    const c_roots = state.itemLists.dorsalRoots.filter(r => r.startsWith('C'));
+    const l_roots = state.itemLists.dorsalRoots.filter(r => r.startsWith('L'));
+    const s_roots = state.itemLists.dorsalRoots.filter(r => r.startsWith('S'));
+    const createDorsalGrid = (side) => `
+        <div>
+            <h4 class="font-semibold mb-2">${side.charAt(0).toUpperCase() + side.slice(1)}</h4>
+            ${ c_roots.length > 0 ? `<h5 class="text-sm text-text-muted-light dark:text-text-muted-dark">Cervical</h5><div class="grid grid-cols-3 gap-2 mb-2">${c_roots.map(item => `<button data-category="dorsalRoots" data-item="${item}" data-side="${side}" class="selection-btn p-2 rounded-md text-sm transition-colors bg-slate-200 dark:bg-slate-700">${item}</button>`).join('')}</div>` : '' }
+            ${ l_roots.length > 0 ? `<h5 class="text-sm text-text-muted-light dark:text-text-muted-dark">Lumbar</h5><div class="grid grid-cols-3 gap-2 mb-2">${l_roots.map(item => `<button data-category="dorsalRoots" data-item="${item}" data-side="${side}" class="selection-btn p-2 rounded-md text-sm transition-colors bg-slate-200 dark:bg-slate-700">${item}</button>`).join('')}</div>` : '' }
+            ${ s_roots.length > 0 ? `<h5 class="text-sm text-text-muted-light dark:text-text-muted-dark">Sacral</h5><div class="grid grid-cols-3 gap-2">${s_roots.map(item => `<button data-category="dorsalRoots" data-item="${item}" data-side="${side}" class="selection-btn p-2 rounded-md text-sm transition-colors bg-slate-200 dark:bg-slate-700">${item}</button>`).join('')}</div>` : '' }
+        </div>
+    `;
+    const dorsalRootsHTML = `<div class="grid grid-cols-2 gap-6">${createDorsalGrid('left') + createDorsalGrid('right')}</div>`;
+    html += createAccordionHTML(state.sectionTitles.dorsalRoots, 'dorsalRoots', dorsalRootsHTML);
 
-            // BMI and Ideal Weight
-            const idealWeight = calculations.idealWeight();
-            dom.bmiValue.textContent = calculations.bmi();
-            dom.idealWeightValue.textContent = `${idealWeight.toFixed(1)} kg`;
-            dom.idealWeightToggle.checked = state.useIdealWeight;
-            dom.idealWeightToggleDot.classList.toggle('translate-x-4', state.useIdealWeight);
-            dom.idealWeightToggleDot.classList.toggle('bg-primary-dark', state.useIdealWeight);
-
-            // Selection Buttons
-            document.querySelectorAll('.selection-btn').forEach(btn => {
-                const { category, item, side } = btn.dataset;
-                const isSelected = side 
-                    ? state.selections[category]?.[side]?.[item] 
-                    : state.selections[category]?.[item];
-
-                if (isSelected) {
-                    btn.classList.remove('bg-slate-200', 'dark:bg-slate-700');
-                    btn.classList.add('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
-                } else {
-                    btn.classList.add('bg-slate-200', 'dark:bg-slate-700');
-                    btn.classList.remove('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
-                }
-            });
-
-
-            // Mixture Calculations
-            const calculationWeight = state.useIdealWeight ? idealWeight : state.weight;
-            const maxLignocaine = calculationWeight * state.settings.maxLignocaineDose;
-            const lignocaineAllowed = maxLignocaine / 20;
-            const totalVolumeNeeded = calculations.totalVolumeNeeded();
-
-            let lignocaineAmpules = 0, dexaAmpules = 0, salineMl = 0;
-            if (totalVolumeNeeded > 0 && !isNaN(lignocaineAllowed)) {
-                const lignocaineVolumeToUse = Math.min(totalVolumeNeeded, lignocaineAllowed);
-                const theoreticalLignocaineAmpules = Math.floor((lignocaineVolumeToUse / 5) * 2) / 2;
-                const cappedLignocaineAmpules = Math.min(theoreticalLignocaineAmpules, state.settings.maxLignocaineAmpules);
-                
-                const actualLignocaineVolume = cappedLignocaineAmpules * 5;
-                const finalDexaAmpules = Math.min(Math.floor(cappedLignocaineAmpules), state.settings.maxDexamethasoneAmpules);
-                const salineMlRaw = totalVolumeNeeded - actualLignocaineVolume - finalDexaAmpules;
-
-                lignocaineAmpules = cappedLignocaineAmpules;
-                dexaAmpules = finalDexaAmpules;
-                salineMl = Math.max(0, salineMlRaw);
-            }
-            
-            dom.displayCalcWeight.textContent = calculationWeight.toFixed(1);
-            dom.maxLignocaine.textContent = `${maxLignocaine.toFixed(1)} mg`;
-            dom.lignocaineAllowed.textContent = `${lignocaineAllowed.toFixed(1)} ml`;
-            dom.totalVolume.textContent = `${totalVolumeNeeded.toFixed(1)} ml`;
-            dom.lignocaineAmpules.textContent = `${lignocaineAmpules.toFixed(1)} (5ml)`;
-            dom.dexaAmpules.textContent = `${dexaAmpules} (1ml)`;
-            dom.salineMl.textContent = `${salineMl.toFixed(1)} ml`;
-
-            renderSummary();
-        }
-
-        // --- DYNAMIC CONTENT RENDERERS ---
-        function renderAllSelectionButtons() {
-            // Facets
-            dom.facetsContainer.innerHTML = state.itemLists.facets.map(item => `
-                <button data-category="facets" data-item="${item}" class="selection-btn p-3 rounded-md transition-colors bg-slate-200 dark:bg-slate-700">
+    // Extra Section
+    const createExtraList = (side, items, category, sectionName) => `
+        <div>
+            <h4 class="font-semibold mb-2 text-center">${side.charAt(0).toUpperCase() + side.slice(1)}</h4>
+            <div class="flex flex-col gap-2">
+            ${items.map(item => `
+                <button data-category="${category}" data-item="${item}" data-side="${side}" ${sectionName ? `data-section-name="${sectionName}"` : ''} class="selection-btn p-3 rounded-md transition-colors w-full bg-slate-200 dark:bg-slate-700">
                     ${item}
                 </button>
-            `).join('');
+            `).join('')}
+            </div>
+        </div>
+    `;
+    const extraHTML = `<div class="grid grid-cols-2 gap-6">${createExtraList('left', state.itemLists.extra, 'extra') + createExtraList('right', state.itemLists.extra, 'extra')}</div>`;
+    html += createAccordionHTML(state.sectionTitles.extra, 'extra', extraHTML);
+    
+    // Custom Sections
+    Object.keys(state.itemLists.custom).forEach(sectionName => {
+        const items = state.itemLists.custom[sectionName];
+        const customHTML = `<div class="grid grid-cols-2 gap-6">${createExtraList('left', items, 'custom', sectionName) + createExtraList('right', items, 'custom', sectionName)}</div>`;
+        html += createAccordionHTML(sectionName, 'custom', customHTML, sectionName);
+    });
 
-            // Dorsal Roots
-            const c_roots = state.itemLists.dorsalRoots.filter(r => r.startsWith('C'));
-            const l_roots = state.itemLists.dorsalRoots.filter(r => r.startsWith('L'));
-            const s_roots = state.itemLists.dorsalRoots.filter(r => r.startsWith('S'));
-            
-            const createDorsalGrid = (side) => `
+    dom.allSectionsContainer.innerHTML = html;
+}
+
+function createAccordionHTML(title, category, content, sectionName) {
+    const dataAttrs = `data-category="${category}" ${sectionName ? `data-section-name="${sectionName}"` : ''}`;
+
+    return `
+        <div class="border border-slate-200 dark:border-slate-700 rounded-lg">
+            <div class="w-full flex justify-between items-center p-4 bg-slate-100 dark:bg-slate-700/50 rounded-t-lg">
+                <button class="accordion-button text-left flex-grow flex items-center justify-between focus:outline-none" aria-expanded="false">
+                    <div class="flex items-center">
+                        <span class="text-lg font-semibold">${title}</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="accordion-icon w-6 h-6 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <button class="edit-category-btn hidden p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors ml-4 flex-shrink-0" ${dataAttrs} aria-label="Edit ${title}">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-text-muted-light dark:text-text-muted-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.536L16.732 3.732z" />
+                  </svg>
+                </button>
+            </div>
+            <div class="accordion-content hidden p-4 bg-surface-light dark:bg-surface-dark rounded-b-lg">
+                ${content}
+            </div>
+        </div>
+    `;
+}
+
+function renderSettingsInputs() {
+    const settingsKeys = Object.keys(state.settings);
+
+    const groups = {
+        general: ['maxLignocaineDose', 'maxLignocaineAmpules', 'maxDexamethasoneAmpules'],
+        facets: state.itemLists.facets.map(nameToSettingKey),
+        dorsalRoots: ['C Volume', 'L Volume', 'S Volume'],
+        extra: state.itemLists.extra.map(nameToSettingKey)
+    };
+    
+    const customGroups = {};
+    Object.keys(state.itemLists.custom).forEach(sectionName => {
+        customGroups[`${sectionName} Volumes`] = state.itemLists.custom[sectionName].map(nameToSettingKey);
+    });
+    
+    // Ensure all keys in groups actually exist in the current state settings
+    Object.keys(groups).forEach((key) => {
+        groups[key] = groups[key].filter(settingKey => settingsKeys.includes(settingKey));
+    });
+    Object.keys(customGroups).forEach((key) => {
+        customGroups[key] = customGroups[key].filter(settingKey => settingsKeys.includes(settingKey));
+    });
+
+    const createInputHTML = (key) => `
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1">${settingKeyToLabel(key)}</label>
+            <input type="number" data-setting-key="${key}" value="${state.settings[key]}" step="0.1" min="0" class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md p-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-primary-light dark:focus:border-primary-dark">
+        </div>`;
+
+    const createSectionHTML = (title, keys) => {
+        if (keys.length === 0) return '';
+        return `
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold border-b border-slate-200 dark:border-slate-700 pb-2 mb-4">${title}</h3>
+                ${keys.map(createInputHTML).join('')}
+            </div>`;
+    };
+
+    let customSectionsHTML = Object.keys(customGroups).map(groupName => createSectionHTML(groupName, customGroups[groupName])).join('');
+
+    dom.settingsInputsContainer.innerHTML = [
+        createSectionHTML('General', groups.general),
+        createSectionHTML(`${state.sectionTitles.facets} Volumes`, groups.facets),
+        createSectionHTML(`${state.sectionTitles.dorsalRoots} Volumes`, groups.dorsalRoots),
+        createSectionHTML(`${state.sectionTitles.extra} Volumes`, groups.extra),
+        customSectionsHTML
+    ].join('');
+}
+
+function renderSummary() {
+    const summary = {
+        facets: Object.keys(state.selections.facets).filter(k => state.selections.facets[k]),
+        dorsalRootsLeft: Object.keys(state.selections.dorsalRoots.left).filter(k => state.selections.dorsalRoots.left[k]),
+        dorsalRootsRight: Object.keys(state.selections.dorsalRoots.right).filter(k => state.selections.dorsalRoots.right[k]),
+        extraLeft: Object.keys(state.selections.extra.left).filter(k => state.selections.extra.left[k]),
+        extraRight: Object.keys(state.selections.extra.right).filter(k => state.selections.extra.right[k]),
+    };
+
+    const customSummary = {};
+    Object.keys(state.selections.custom).forEach(sectionName => {
+        customSummary[sectionName] = {
+            left: Object.keys(state.selections.custom[sectionName].left).filter(k => state.selections.custom[sectionName].left[k]),
+            right: Object.keys(state.selections.custom[sectionName].right).filter(k => state.selections.custom[sectionName].right[k]),
+        }
+    });
+
+    const hasSelections = Object.values(summary).some(arr => arr.length > 0) || Object.values(customSummary).some(s => s.left.length > 0 || s.right.length > 0);
+
+    if (!hasSelections) {
+        dom.currentSelectionsSummary.innerHTML = '';
+        dom.currentSelectionsSummary.classList.add('hidden');
+        return;
+    }
+
+    dom.currentSelectionsSummary.classList.remove('hidden');
+    const sectionHTML = (title, items) => items.length > 0 ? `<div><h4 class="font-semibold text-sm text-text-muted-light dark:text-text-muted-dark">${title}</h4><p class="text-sm">${items.join(', ')}</p></div>` : '';
+    const sideBySideHTML = (title, left, right) => (left.length > 0 || right.length > 0) ? `<div><h4 class="font-semibold text-sm text-text-muted-light dark:text-text-muted-dark mb-1">${title}</h4><div class="grid grid-cols-2 gap-4 text-sm">${left.length > 0 ? `<div><strong class="text-text-muted-light dark:text-text-muted-dark">L:</strong> ${left.join(', ')}</div>` : '<div></div>'}${right.length > 0 ? `<div><strong class="text-text-muted-light dark:text-text-muted-dark">R:</strong> ${right.join(', ')}</div>` : '<div></div>'}</div></div>` : '';
+
+    const customSummaryHTML = Object.keys(customSummary).map(sectionName => 
+        sideBySideHTML(sectionName, customSummary[sectionName].left, customSummary[sectionName].right)
+    ).join('');
+
+    dom.currentSelectionsSummary.innerHTML = `
+        <div class="p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-md">
+            <h3 class="text-lg font-bold mb-3">Current Selections</h3>
+            <div class="space-y-3">
+                ${sectionHTML(state.sectionTitles.facets, summary.facets)}
+                ${sideBySideHTML(state.sectionTitles.dorsalRoots, summary.dorsalRootsLeft, summary.dorsalRootsRight)}
+                ${sideBySideHTML(state.sectionTitles.extra, summary.extraLeft, summary.extraRight)}
+                ${customSummaryHTML}
+            </div>
+        </div>`;
+}
+
+
+// --- EVENT HANDLERS ---
+const handleThemeToggle = () => { state.theme = state.theme === 'dark' ? 'light' : 'dark'; updateUI(); };
+const handleSettingsToggle = (isOpen) => { state.isSettingsOpen = isOpen; updateUI(); };
+const handleEditModeToggle = () => { state.isEditMode = !state.isEditMode; updateUI(); };
+const handleEditModalToggle = (isOpen) => { state.isEditModalOpen = isOpen; updateUI(); };
+const handleAddItemModalToggle = (isOpen) => { state.isAddItemModalOpen = isOpen; updateUI(); };
+const handleAddSectionModalToggle = (isOpen) => { state.isAddSectionModalOpen = isOpen; updateUI(); };
+const handleEditItemModalToggle = (isOpen) => { state.isEditItemModalOpen = isOpen; if(!isOpen) state.editingItemContext = null; updateUI(); };
+
+
+const handleConfirmationModalToggle = (isOpen) => {
+    state.isConfirmationModalOpen = isOpen;
+    if (!isOpen) onConfirmAction = null;
+    updateUI();
+};
+
+function showConfirmation(title, message, onConfirm) {
+    dom.confirmationModalTitle.textContent = title;
+    dom.confirmationModalMessage.textContent = message;
+    onConfirmAction = onConfirm;
+    handleConfirmationModalToggle(true);
+}
+
+function handleNumericControl(control, delta) {
+    const min = control === 'weight' ? 30 : 80;
+    const max = control === 'weight' ? 200 : 270;
+    state[control] = Math.max(min, Math.min(max, state[control] + delta));
+    updateUI();
+}
+
+function handleSelectionToggle(category, item, side, sectionName) {
+     if (category === 'custom' && sectionName && side) {
+        state.selections.custom[sectionName][side][item] = !state.selections.custom[sectionName][side][item];
+     } else if (category === 'facets') {
+        state.selections.facets[item] = !state.selections.facets[item];
+     } else if (side) {
+        state.selections[category][side][item] = !state.selections[category][side][item];
+     }
+     updateUI();
+}
+
+function handleSaveAndClose() {
+    const originalText = dom.saveSettingsBtn.textContent;
+    if (saveState()) {
+        dom.saveSettingsBtn.textContent = 'Saved!';
+        dom.saveSettingsBtn.classList.add('bg-green-500', 'dark:bg-green-600');
+        dom.saveSettingsBtn.classList.remove('bg-primary-light', 'dark:bg-primary-dark');
+    }
+    setTimeout(() => {
+        dom.saveSettingsBtn.textContent = originalText;
+        dom.saveSettingsBtn.classList.remove('bg-green-500', 'dark:bg-green-600');
+        dom.saveSettingsBtn.classList.add('bg-primary-light', 'dark:bg-primary-dark');
+        handleSettingsToggle(false);
+    }, 1000);
+}
+
+function handleReset() {
+    showConfirmation(
+        'Reset Application?',
+        'This will erase all custom items and saved settings, restoring the app to its original state. This action cannot be undone.',
+        () => {
+            try {
+                localStorage.removeItem('blockMixtureCalculatorState');
+                location.reload();
+            } catch (error) {
+                console.error("Failed to reset application:", error);
+                alert("An error occurred while resetting the application.");
+            }
+        }
+    );
+}
+
+function openEditModal(category, sectionName) {
+    const isCustom = category === 'custom' && sectionName;
+    const title = isCustom ? sectionName : state.sectionTitles[category];
+    const items = isCustom ? state.itemLists.custom[sectionName] : state.itemLists[category];
+
+    dom.editModalSectionNameError.classList.add('hidden');
+    dom.editModalTitle.textContent = 'Manage Section';
+    dom.editModalSectionNameContainer.classList.remove('hidden');
+    dom.editModalSectionNameInput.value = title;
+    dom.editModalSectionNameInput.dataset.category = category;
+
+    if (isCustom) {
+        dom.editModalSectionNameInput.dataset.oldName = sectionName;
+    } else {
+        delete dom.editModalSectionNameInput.dataset.oldName;
+    }
+
+    const addBtn = dom.editModal.querySelector('#add-new-item-btn');
+    addBtn.dataset.category = category;
+    if (sectionName) addBtn.dataset.sectionName = sectionName;
+    else delete addBtn.dataset.sectionName;
+    
+    let listHTML = '';
+
+    if (category === 'dorsalRoots') {
+        const c_roots = items.filter(r => r.startsWith('C'));
+        const l_roots = items.filter(r => r.startsWith('L'));
+        const s_roots = items.filter(r => r.startsWith('S'));
+
+        const createManageListItemGroup = (groupTitle, roots) => {
+            if (roots.length === 0) return '';
+            return `
                 <div>
-                    <h4 class="font-semibold mb-2">${side.charAt(0).toUpperCase() + side.slice(1)}</h4>
-                    ${ c_roots.length > 0 ? `<h5 class="text-sm text-text-muted-light dark:text-text-muted-dark">Cervical</h5><div class="grid grid-cols-3 gap-2 mb-2">${c_roots.map(item => `<button data-category="dorsalRoots" data-item="${item}" data-side="${side}" class="selection-btn p-2 rounded-md text-sm transition-colors bg-slate-200 dark:bg-slate-700">${item}</button>`).join('')}</div>` : '' }
-                    ${ l_roots.length > 0 ? `<h5 class="text-sm text-text-muted-light dark:text-text-muted-dark">Lumbar</h5><div class="grid grid-cols-3 gap-2 mb-2">${l_roots.map(item => `<button data-category="dorsalRoots" data-item="${item}" data-side="${side}" class="selection-btn p-2 rounded-md text-sm transition-colors bg-slate-200 dark:bg-slate-700">${item}</button>`).join('')}</div>` : '' }
-                    ${ s_roots.length > 0 ? `<h5 class="text-sm text-text-muted-light dark:text-text-muted-dark">Sacral</h5><div class="grid grid-cols-3 gap-2">${s_roots.map(item => `<button data-category="dorsalRoots" data-item="${item}" data-side="${side}" class="selection-btn p-2 rounded-md text-sm transition-colors bg-slate-200 dark:bg-slate-700">${item}</button>`).join('')}</div>` : '' }
-                </div>
-            `;
-            dom.dorsalRootsContainer.innerHTML = createDorsalGrid('left') + createDorsalGrid('right');
-            
-            // Extra
-            const createExtraList = (side) => `
-                <div>
-                    <h4 class="font-semibold mb-2 text-center">${side.charAt(0).toUpperCase() + side.slice(1)}</h4>
-                    <div class="flex flex-col gap-2">
-                    ${state.itemLists.extra.map(item => `
-                        <button data-category="extra" data-item="${item}" data-side="${side}" class="selection-btn p-3 rounded-md transition-colors w-full bg-slate-200 dark:bg-slate-700">
-                            ${item}
-                        </button>
+                    <h4 class="text-md font-semibold mt-3 mb-1 text-text-muted-light dark:text-text-muted-dark">${groupTitle}</h4>
+                    ${roots.map(item => `
+                        <div class="flex justify-between items-center p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/50">
+                            <span>${item}</span>
+                            <div class="flex items-center space-x-2">
+                                <button class="edit-item-btn p-1" data-category="dorsalRoots" data-item="${item}">
+                                    ${ICONS.pencil}
+                                </button>
+                                <button class="delete-item-btn p-1" data-category="dorsalRoots" data-item="${item}">
+                                    ${ICONS.trash}
+                                </button>
+                            </div>
+                        </div>
                     `).join('')}
-                    </div>
                 </div>
             `;
-            dom.extraContainer.innerHTML = createExtraList('left') + createExtraList('right');
-        }
-
-        function renderSettingsInputs() {
-            dom.settingsInputsContainer.innerHTML = Object.keys(state.settings).map(key => {
-                return `
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1">${settingKeyToLabel(key)}</label>
-                    <input
-                      type="number"
-                      data-setting-key="${key}"
-                      value="${state.settings[key]}"
-                      step="0.1"
-                      min="0"
-                      class="w-full bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md p-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-primary-light dark:focus:border-primary-dark"
-                    />
-                </div>
-                `;
-            }).join('');
-        }
-        
-        function renderSummary() {
-            const summary = {
-                facets: Object.keys(state.selections.facets).filter(k => state.selections.facets[k]),
-                dorsalRootsLeft: Object.keys(state.selections.dorsalRoots.left).filter(k => state.selections.dorsalRoots.left[k]),
-                dorsalRootsRight: Object.keys(state.selections.dorsalRoots.right).filter(k => state.selections.dorsalRoots.right[k]),
-                extraLeft: Object.keys(state.selections.extra.left).filter(k => state.selections.extra.left[k]),
-                extraRight: Object.keys(state.selections.extra.right).filter(k => state.selections.extra.right[k]),
-            };
-            const hasSelections = Object.values(summary).some(arr => arr.length > 0);
-
-            if (!hasSelections) {
-                dom.currentSelectionsSummary.innerHTML = '';
-                dom.currentSelectionsSummary.classList.add('hidden');
-                return;
-            }
-
-            dom.currentSelectionsSummary.classList.remove('hidden');
-            const sectionHTML = (title, items) => items.length > 0 ? `<div><h4 class="font-semibold text-sm text-text-muted-light dark:text-text-muted-dark">${title}</h4><p class="text-sm">${items.join(', ')}</p></div>` : '';
-            const sideBySideHTML = (title, left, right) => (left.length > 0 || right.length > 0) ? `<div><h4 class="font-semibold text-sm text-text-muted-light dark:text-text-muted-dark mb-1">${title}</h4><div class="grid grid-cols-2 gap-4 text-sm">${left.length > 0 ? `<div><strong class="text-text-muted-light dark:text-text-muted-dark">L:</strong> ${left.join(', ')}</div>` : '<div></div>'}${right.length > 0 ? `<div><strong class="text-text-muted-light dark:text-text-muted-dark">R:</strong> ${right.join(', ')}</div>` : '<div></div>'}</div></div>` : '';
-
-            dom.currentSelectionsSummary.innerHTML = `
-                <div class="p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold mb-3">Current Selections</h3>
-                    <div class="space-y-3">
-                        ${sectionHTML('Facet Levels', summary.facets)}
-                        ${sideBySideHTML('Dorsal Roots', summary.dorsalRootsLeft, summary.dorsalRootsRight)}
-                        ${sideBySideHTML('Extra', summary.extraLeft, summary.extraRight)}
-                    </div>
-                </div>`;
-        }
-
-
-        // --- EVENT HANDLERS ---
-        const handleThemeToggle = () => { state.theme = state.theme === 'dark' ? 'light' : 'dark'; updateUI(); };
-        const handleSettingsToggle = (isOpen) => { state.isSettingsOpen = isOpen; updateUI(); };
-        const handleEditModalToggle = (isOpen) => { state.isEditModalOpen = isOpen; updateUI(); };
-        const handleConfirmationModalToggle = (isOpen) => {
-            state.isConfirmationModalOpen = isOpen;
-            if (!isOpen) {
-                onConfirmAction = null; // Clear action on close
-            }
-            updateUI();
         };
 
-        function showConfirmation(title, message, onConfirm) {
-            dom.confirmationModalTitle.textContent = title;
-            dom.confirmationModalMessage.textContent = message;
-            onConfirmAction = onConfirm;
-            state.isConfirmationModalOpen = true;
-            updateUI();
-        }
+        listHTML = [
+            createManageListItemGroup('Cervical', c_roots),
+            createManageListItemGroup('Lumbar', l_roots),
+            createManageListItemGroup('Sacral', s_roots)
+        ].join('');
 
-        function handleNumericControl(control, delta) {
-            const min = control === 'weight' ? 30 : 80;
-            const max = control === 'weight' ? 200 : 270;
-            state[control] = Math.max(min, Math.min(max, state[control] + delta));
-            updateUI();
-        }
-
-        function handleSelectionToggle(category, item, side) {
-             if (side) state.selections[category][side][item] = !state.selections[category][side][item];
-             else state.selections[category][item] = !state.selections[category][item];
-             updateUI();
-        }
-        
-        function handleSaveAndClose() {
-            const originalText = dom.saveSettingsBtn.textContent;
-            if (saveState()) {
-                dom.saveSettingsBtn.textContent = 'Saved!';
-                dom.saveSettingsBtn.classList.add('bg-green-500', 'dark:bg-green-600');
-                dom.saveSettingsBtn.classList.remove('bg-primary-light', 'dark:bg-primary-dark');
-            }
-            setTimeout(() => {
-                dom.saveSettingsBtn.textContent = originalText;
-                dom.saveSettingsBtn.classList.remove('bg-green-500', 'dark:bg-green-600');
-                dom.saveSettingsBtn.classList.add('bg-primary-light', 'dark:bg-primary-dark');
-                handleSettingsToggle(false);
-            }, 1000);
-        }
-
-        function handleReset() {
-            showConfirmation(
-                'Reset Application?',
-                'This will erase all custom items and saved settings, restoring the app to its original state. This action cannot be undone.',
-                () => {
-                    try {
-                        localStorage.removeItem('blockMixtureCalculatorState');
-                        location.reload();
-                    } catch (error) {
-                        console.error("Failed to reset application:", error);
-                        alert("An error occurred while resetting the application.");
-                    }
-                }
-            );
-        }
-        
-        function openEditModal(category) {
-            const titles = { facets: 'Facet Levels', dorsalRoots: 'Dorsal Roots', extra: 'Extra Items' };
-            dom.editModalTitle.textContent = `Manage ${titles[category]}`;
-            dom.editModal.querySelector('#add-new-item-btn').dataset.category = category;
-            
-            dom.editModalList.innerHTML = state.itemLists[category].map(item => `
-                <div class="flex justify-between items-center p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/50">
-                    <span>${item}</span>
-                    <button class="delete-item-btn p-1" data-category="${category}" data-item="${item}">
+    } else {
+        listHTML = items.map(item => `
+            <div class="flex justify-between items-center p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/50">
+                <span>${item}</span>
+                <div class="flex items-center space-x-2">
+                    <button class="edit-item-btn p-1" data-category="${category}" data-item="${item}" ${sectionName ? `data-section-name="${sectionName}"`: ''}>
+                        ${ICONS.pencil}
+                    </button>
+                    <button class="delete-item-btn p-1" data-category="${category}" data-item="${item}" ${sectionName ? `data-section-name="${sectionName}"`: ''}>
                         ${ICONS.trash}
                     </button>
                 </div>
-            `).join('');
-            
-            handleEditModalToggle(true);
-        }
-        
-        function handleItemDelete(category, item) {
-            showConfirmation(
-                `Delete "${item}"?`,
-                'This item will be permanently removed. This action cannot be undone.',
-                () => {
-                    // 1. Update state
-                    const index = state.itemLists[category].indexOf(item);
-                    if (index > -1) {
-                        state.itemLists[category].splice(index, 1);
-                    }
+            </div>
+        `).join('');
+    }
+    
+    dom.editModalList.innerHTML = listHTML;
+    handleEditModalToggle(true);
+}
 
-                    const settingKey = nameToSettingKey(item);
-                    const isDefaultSetting = Object.keys(DEFAULT_STATE.settings).includes(settingKey);
-                    if (state.settings[settingKey] && !isDefaultSetting) {
-                        delete state.settings[settingKey];
-                    }
+function handleItemDelete(category, item, sectionName) {
+    showConfirmation(
+        `Delete "${item}"?`,
+        'This item will be permanently removed. This action cannot be undone.',
+        () => {
+            const list = sectionName ? state.itemLists.custom[sectionName] : state.itemLists[category];
+            const index = list.indexOf(item);
+            if (index > -1) list.splice(index, 1);
 
-                    // 2. Persist changes
-                    saveState();
-
-                    // 3. Re-initialize and re-render everything
-                    initializeSelections();
-                    renderSettingsInputs();
-                    renderAllSelectionButtons();
-                    openEditModal(category); // Re-opens and refreshes the modal list
-                    updateUI();
-                }
-            );
-        }
-        
-        function handleItemAdd(category) {
-            const newItemName = prompt('Enter the name for the new item:');
-            if (!newItemName || newItemName.trim() === '') {
-                return;
+            const settingKey = nameToSettingKey(item);
+            const isDefaultSetting = Object.keys(DEFAULT_STATE.settings).includes(settingKey);
+            if (state.settings[settingKey] && !isDefaultSetting) {
+                delete state.settings[settingKey];
             }
             
-            const trimmedName = newItemName.trim();
-            if (state.itemLists[category].some(i => i.toLowerCase() === trimmedName.toLowerCase())) {
-                alert('An item with this name already exists.');
-                return;
+            // If a custom section becomes empty after deleting its last item, delete the section itself
+            if (sectionName && state.itemLists.custom[sectionName].length === 0) {
+                delete state.itemLists.custom[sectionName];
+                delete state.selections.custom[sectionName];
+                handleEditModalToggle(false); // Close the modal as the section is gone
             }
 
-            let newVolume = 1; // Default in case prompt is cancelled
-            const isDorsal = category === 'dorsalRoots';
-            if (!isDorsal) {
-                const volumeInput = prompt(`Enter the default volume (ml) for ${trimmedName}:`, '1');
-                if (volumeInput === null) return; // User cancelled prompt
-                
-                const parsedVolume = parseFloat(volumeInput);
-                if (isNaN(parsedVolume) || parsedVolume < 0) {
-                    alert('Please enter a valid, non-negative number for the volume.');
-                    return;
-                }
-                newVolume = parsedVolume;
-            }
-            
-            // 1. Update state
-            state.itemLists[category].push(trimmedName);
-            if (!isDorsal) {
-                const settingKey = nameToSettingKey(trimmedName);
-                state.settings[settingKey] = newVolume;
-            }
-            
-            // 2. Persist changes
             saveState();
-
-            // 3. Re-initialize and re-render everything
             initializeSelections();
             renderSettingsInputs();
-            renderAllSelectionButtons();
-            openEditModal(category); // Re-opens and refreshes the modal list
+            renderAllSections();
+            if (state.isEditModalOpen) openEditModal(category, sectionName); // Refresh modal if still open
             updateUI();
         }
+    );
+}
 
-        // --- EVENT LISTENERS INITIALIZATION ---
-        function initEventListeners() {
-            dom.themeToggle.addEventListener('click', handleThemeToggle);
-            dom.openSettingsBtn.addEventListener('click', () => handleSettingsToggle(true));
-            dom.closeSettingsBtn.addEventListener('click', () => { handleSettingsToggle(false); if (!saveState()) alert('Could not save settings.'); });
-            dom.settingsOverlay.addEventListener('click', () => { handleSettingsToggle(false); if (!saveState()) alert('Could not save settings.'); });
-            dom.saveSettingsBtn.addEventListener('click', handleSaveAndClose);
-            dom.resetAppBtn.addEventListener('click', handleReset);
+function openAddItemModal(category, sectionName) {
+    const isCustom = category === 'custom' && sectionName;
+    const title = isCustom ? sectionName : state.sectionTitles[category];
 
-            dom.confirmationModal.addEventListener('click', (e) => {
-                // Close by clicking overlay, or cancel button
-                if (e.target === dom.confirmationModal || e.target.closest('#confirmation-modal-cancel-btn')) {
-                    handleConfirmationModalToggle(false);
-                    return;
-                }
-                // Confirm button
-                const confirmBtn = e.target.closest('#confirmation-modal-confirm-btn');
-                if (confirmBtn) {
-                    if (typeof onConfirmAction === 'function') {
-                        onConfirmAction();
-                    }
-                    handleConfirmationModalToggle(false);
-                }
-            });
-            
-            // Consolidated event listener for the edit modal
-            dom.editModal.addEventListener('click', (e) => {
-                // Close by clicking overlay
-                if (e.target === dom.editModal) {
-                    handleEditModalToggle(false);
-                    return;
-                }
-                // Close button
-                const closeBtn = e.target.closest('#close-edit-modal-btn');
-                if (closeBtn) {
-                    handleEditModalToggle(false);
-                    return;
-                }
-                // Add item button
-                const addBtn = e.target.closest('#add-new-item-btn');
-                if (addBtn) {
-                    handleItemAdd(addBtn.dataset.category);
-                    return;
-                }
-                // Delete item button
-                const deleteBtn = e.target.closest('.delete-item-btn');
-                if (deleteBtn) {
-                    const { category, item } = deleteBtn.dataset;
-                    handleItemDelete(category, item);
-                    return;
-                }
-            });
+    dom.addItemModalTitle.textContent = `Add New Item to ${title}`;
+    dom.addItemForm.reset();
+    dom.addItemForm.dataset.category = category;
+    if (sectionName) dom.addItemForm.dataset.sectionName = sectionName;
+    else delete dom.addItemForm.dataset.sectionName;
 
-            document.querySelectorAll('.control-btn').forEach(btn => btn.addEventListener('click', (e) => handleNumericControl(e.currentTarget.dataset.control, parseInt(e.currentTarget.dataset.delta))));
-            dom.genderMaleBtn.addEventListener('click', () => { state.gender = 'male'; updateUI(); });
-            dom.genderFemaleBtn.addEventListener('click', () => { state.gender = 'female'; updateUI(); });
-            dom.idealWeightToggle.addEventListener('change', (e) => { state.useIdealWeight = e.target.checked; updateUI(); });
+    dom.addItemErrorMessage.classList.add('hidden');
+    dom.newItemName.classList.remove('border-red-500');
+    dom.newItemVolume.classList.remove('border-red-500');
 
-            document.body.addEventListener('click', (e) => {
-                // Accordion toggle
-                const accordionBtn = e.target.closest('.accordion-button');
-                if (accordionBtn) {
-                    const content = accordionBtn.parentElement.nextElementSibling;
-                    const isExpanded = accordionBtn.getAttribute('aria-expanded') === 'true';
-                    accordionBtn.setAttribute('aria-expanded', String(!isExpanded));
-                    if (content) {
-                        content.classList.toggle('hidden');
-                    }
-                }
-                
-                // Edit category button
-                const editBtn = e.target.closest('.edit-category-btn');
-                if(editBtn) {
-                    openEditModal(editBtn.dataset.category);
-                }
-                
-                // Selection buttons
-                const selectionBtn = e.target.closest('.selection-btn');
-                if (selectionBtn) {
-                    const { category, item, side } = selectionBtn.dataset;
-                    handleSelectionToggle(category, item, side);
-                }
-            });
-            
-            dom.settingsInputsContainer.addEventListener('input', (e) => {
-                const input = e.target.closest('input[data-setting-key]');
-                if(input) {
-                    state.settings[input.dataset.settingKey] = parseFloat(input.value) || 0;
-                    updateUI();
+    const isDorsal = category === 'dorsalRoots';
+    dom.newItemVolumeContainer.style.display = isDorsal ? 'none' : 'block';
+    
+    handleAddItemModalToggle(true);
+}
+
+function handleItemSave(event) {
+    event.preventDefault();
+    const { category, sectionName } = dom.addItemForm.dataset;
+    if (!category) return;
+
+    const newItemName = dom.newItemName.value.trim();
+    const newVolume = parseFloat(dom.newItemVolume.value);
+    
+    dom.addItemErrorMessage.classList.add('hidden');
+    dom.newItemName.classList.remove('border-red-500');
+    dom.newItemVolume.classList.remove('border-red-500');
+
+    if (!newItemName) {
+        dom.addItemErrorMessage.textContent = 'Item name cannot be empty.';
+        dom.addItemErrorMessage.classList.remove('hidden');
+        dom.newItemName.classList.add('border-red-500');
+        dom.newItemName.focus();
+        return;
+    }
+    
+    const list = sectionName ? state.itemLists.custom[sectionName] : state.itemLists[category];
+    if (list.some(i => i.toLowerCase() === newItemName.toLowerCase())) {
+        dom.addItemErrorMessage.textContent = 'An item with this name already exists.';
+        dom.addItemErrorMessage.classList.remove('hidden');
+        dom.newItemName.classList.add('border-red-500');
+        dom.newItemName.focus();
+        return;
+    }
+
+    const isDorsal = category === 'dorsalRoots';
+    if (!isDorsal) {
+        if (isNaN(newVolume) || newVolume < 0) {
+            dom.addItemErrorMessage.textContent = 'Please enter a valid, non-negative volume.';
+            dom.addItemErrorMessage.classList.remove('hidden');
+            dom.newItemVolume.classList.add('border-red-500');
+            dom.newItemVolume.focus();
+            return;
+        }
+    }
+    
+    list.push(newItemName);
+    if (!isDorsal) {
+        const settingKey = nameToSettingKey(newItemName);
+        state.settings[settingKey] = newVolume;
+    }
+    
+    saveState();
+    initializeSelections();
+    renderSettingsInputs();
+    renderAllSections();
+    
+    handleAddItemModalToggle(false);
+    openEditModal(category, sectionName);
+}
+
+function handleSectionSave(event) {
+    event.preventDefault();
+    const newSectionName = dom.newSectionName.value.trim();
+
+    dom.addSectionErrorMessage.classList.add('hidden');
+    dom.newSectionName.classList.remove('border-red-500');
+    
+    if (!newSectionName) {
+        dom.addSectionErrorMessage.textContent = 'Section name cannot be empty.';
+        dom.addSectionErrorMessage.classList.remove('hidden');
+        dom.newSectionName.classList.add('border-red-500');
+        dom.newSectionName.focus();
+        return;
+    }
+    
+    const defaultCategoryTitles = Object.values(state.sectionTitles).map(t => t.toLowerCase());
+    if (Object.keys(state.itemLists.custom).some(s => s.toLowerCase() === newSectionName.toLowerCase()) || defaultCategoryTitles.includes(newSectionName.toLowerCase())) {
+        dom.addSectionErrorMessage.textContent = 'A section with this name already exists.';
+        dom.addSectionErrorMessage.classList.remove('hidden');
+        dom.newSectionName.classList.add('border-red-500');
+        dom.newSectionName.focus();
+        return;
+    }
+
+    state.itemLists.custom[newSectionName] = [];
+    state.selections.custom[newSectionName] = { left: {}, right: {} };
+    saveState();
+    renderAllSections();
+    handleAddSectionModalToggle(false);
+}
+
+function openEditItemModal(context) {
+    state.editingItemContext = context;
+    const { category, item } = context;
+    
+    dom.editItemForm.reset();
+    dom.editItemErrorMessage.classList.add('hidden');
+    dom.editItemName.classList.remove('border-red-500');
+    dom.editItemVolume.classList.remove('border-red-500');
+    
+    dom.editItemModalTitle.textContent = `Edit "${item}"`;
+    dom.editItemName.value = item;
+
+    const isDorsal = category === 'dorsalRoots';
+    dom.editItemVolumeContainer.style.display = isDorsal ? 'none' : 'block';
+    if (!isDorsal) {
+        const settingKey = nameToSettingKey(item);
+        dom.editItemVolume.value = String(state.settings[settingKey] || 0);
+    }
+    
+    handleEditItemModalToggle(true);
+}
+
+function handleItemUpdate(event) {
+    event.preventDefault();
+    if (!state.editingItemContext) return;
+
+    const { category, item: oldItemName, sectionName } = state.editingItemContext;
+    const newItemName = dom.editItemName.value.trim();
+    const newVolume = parseFloat(dom.editItemVolume.value);
+
+    // --- Validation ---
+    if (!newItemName) {
+        dom.editItemErrorMessage.textContent = 'Item name cannot be empty.';
+        dom.editItemErrorMessage.classList.remove('hidden');
+        return;
+    }
+    
+    const list = sectionName ? state.itemLists.custom[sectionName] : state.itemLists[category];
+    if (newItemName.toLowerCase() !== oldItemName.toLowerCase() && list.some(i => i.toLowerCase() === newItemName.toLowerCase())) {
+        dom.editItemErrorMessage.textContent = 'An item with this name already exists.';
+        dom.editItemErrorMessage.classList.remove('hidden');
+        return;
+    }
+
+    const isDorsal = category === 'dorsalRoots';
+    if (!isDorsal && (isNaN(newVolume) || newVolume < 0)) {
+        dom.editItemErrorMessage.textContent = 'Please enter a valid, non-negative volume.';
+        dom.editItemErrorMessage.classList.remove('hidden');
+        return;
+    }
+
+    // --- State Update ---
+    const index = list.indexOf(oldItemName);
+    if (index > -1) list[index] = newItemName;
+    
+    if (!isDorsal) {
+        const oldSettingKey = nameToSettingKey(oldItemName);
+        const newSettingKey = nameToSettingKey(newItemName);
+        if (oldSettingKey !== newSettingKey) {
+            delete state.settings[oldSettingKey];
+        }
+        state.settings[newSettingKey] = newVolume;
+    }
+    
+    // Update selections if the name changed
+    if (oldItemName !== newItemName) {
+        if (category === 'facets') {
+            if (state.selections.facets[oldItemName]) {
+                state.selections.facets[newItemName] = true;
+                delete state.selections.facets[oldItemName];
+            }
+        } else if (side => ['left', 'right'].includes(side)) {
+            (['left', 'right']).forEach(side => {
+                const selectionList = sectionName ? state.selections.custom[sectionName][side] : state.selections[category][side];
+                 if (selectionList[oldItemName]) {
+                    selectionList[newItemName] = true;
+                    delete selectionList[oldItemName];
                 }
             });
         }
-        
-        // --- APP START ---
-        loadState();
-        initializeSelections();
-        renderAllSelectionButtons();
-        renderSettingsInputs();
-        initEventListeners();
-        updateUI();
-    });
-    </script>
+    }
 
+    saveState();
+    handleEditItemModalToggle(false);
+    renderAllSections();
+    renderSettingsInputs();
+    if (state.isEditModalOpen) openEditModal(category, sectionName); // Refresh list
+    updateUI();
+}
+
+function handleEditModalSectionNameUpdate() {
+    const { category, oldName: oldCustomSectionName } = dom.editModalSectionNameInput.dataset;
+    if (!category) return;
+
+    const newSectionName = dom.editModalSectionNameInput.value.trim();
+    dom.editModalSectionNameError.classList.add('hidden');
+
+    const isDefaultCategory = ['facets', 'dorsalRoots', 'extra'].includes(category);
+    const oldName = oldCustomSectionName || (isDefaultCategory ? state.sectionTitles[category] : '');
+
+    if (!newSectionName) {
+        dom.editModalSectionNameError.textContent = 'Section name cannot be empty.';
+        dom.editModalSectionNameError.classList.remove('hidden');
+        dom.editModalSectionNameInput.value = oldName;
+        return;
+    }
+
+    const allCurrentTitles = [
+        ...Object.values(state.sectionTitles),
+        ...Object.keys(state.itemLists.custom)
+    ].map(t => t.toLowerCase());
+    
+    if (newSectionName.toLowerCase() !== oldName.toLowerCase() && allCurrentTitles.includes(newSectionName.toLowerCase())) {
+        dom.editModalSectionNameError.textContent = 'A section with this name already exists.';
+        dom.editModalSectionNameError.classList.remove('hidden');
+        dom.editModalSectionNameInput.value = oldName;
+        return;
+    }
+
+    if (isDefaultCategory) {
+        state.sectionTitles[category] = newSectionName;
+    } else if (category === 'custom' && oldCustomSectionName && newSectionName !== oldCustomSectionName) {
+        state.itemLists.custom[newSectionName] = state.itemLists.custom[oldCustomSectionName];
+        delete state.itemLists.custom[oldCustomSectionName];
+        state.selections.custom[newSectionName] = state.selections.custom[oldCustomSectionName];
+        delete state.selections.custom[oldCustomSectionName];
+        
+        dom.editModalSectionNameInput.dataset.oldName = newSectionName;
+        const addBtn = dom.editModal.querySelector('#add-new-item-btn');
+        addBtn.dataset.sectionName = newSectionName;
+        
+        dom.editModalList.querySelectorAll('[data-section-name]').forEach(el => {
+            el.dataset.sectionName = newSectionName;
+        });
+    }
+    
+    saveState();
+    renderAllSections();
+    renderSettingsInputs();
+    updateUI();
+}
+
+
+// --- EVENT LISTENERS INITIALIZATION ---
+function initEventListeners() {
+    dom.themeToggle.addEventListener('click', handleThemeToggle);
+    dom.editModeToggle.addEventListener('click', handleEditModeToggle);
+    dom.openSettingsBtn.addEventListener('click', () => { renderSettingsInputs(); handleSettingsToggle(true); });
+    dom.closeSettingsBtn.addEventListener('click', () => { handleSettingsToggle(false); if (!saveState()) alert('Could not save settings.'); });
+    dom.settingsOverlay.addEventListener('click', () => { handleSettingsToggle(false); if (!saveState()) alert('Could not save settings.'); });
+    dom.saveSettingsBtn.addEventListener('click', handleSaveAndClose);
+    dom.resetAppBtn.addEventListener('click', handleReset);
+    dom.editModalSectionNameInput.addEventListener('blur', handleEditModalSectionNameUpdate);
+
+    // Modals
+    dom.addItemForm.addEventListener('submit', handleItemSave);
+    dom.closeAddItemModalBtn.addEventListener('click', () => handleAddItemModalToggle(false));
+    dom.addItemCancelBtn.addEventListener('click', () => handleAddItemModalToggle(false));
+    dom.addItemModal.addEventListener('click', (e) => { if (e.target === dom.addItemModal) handleAddItemModalToggle(false); });
+
+    dom.editItemForm.addEventListener('submit', handleItemUpdate);
+    dom.closeEditItemModalBtn.addEventListener('click', () => handleEditItemModalToggle(false));
+    dom.editItemCancelBtn.addEventListener('click', () => handleEditItemModalToggle(false));
+    dom.editItemModal.addEventListener('click', (e) => { if (e.target === dom.editItemModal) handleEditItemModalToggle(false); });
+
+    dom.addSectionBtn.addEventListener('click', () => {
+        dom.addSectionForm.reset();
+        dom.addSectionErrorMessage.classList.add('hidden');
+        dom.newSectionName.classList.remove('border-red-500');
+        handleAddSectionModalToggle(true)
+    });
+    dom.addSectionForm.addEventListener('submit', handleSectionSave);
+    dom.closeAddSectionModalBtn.addEventListener('click', () => handleAddSectionModalToggle(false));
+    dom.addSectionCancelBtn.addEventListener('click', () => handleAddSectionModalToggle(false));
+    dom.addSectionModal.addEventListener('click', (e) => { if (e.target === dom.addSectionModal) handleAddSectionModalToggle(false); });
+
+    dom.confirmationModal.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target === dom.confirmationModal || target.closest('#confirmation-modal-cancel-btn')) {
+            handleConfirmationModalToggle(false);
+        } else if (target.closest('#confirmation-modal-confirm-btn')) {
+            onConfirmAction?.();
+            handleConfirmationModalToggle(false);
+        }
+    });
+    
+    dom.editModal.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target === dom.editModal) { handleEditModalToggle(false); return; }
+        
+        const closeBtn = target.closest('#close-edit-modal-btn');
+        if (closeBtn) { handleEditModalToggle(false); return; }
+        
+        const addBtn = target.closest('#add-new-item-btn');
+        if (addBtn) { 
+            const { category, sectionName } = addBtn.dataset;
+            openAddItemModal(category, sectionName); 
+            return; 
+        }
+        
+        const editItemBtn = target.closest('.edit-item-btn');
+        if (editItemBtn) {
+            const { category, item, sectionName } = editItemBtn.dataset;
+            if (category && item) openEditItemModal({ category: category, item, sectionName });
+            return;
+        }
+
+        const deleteBtn = target.closest('.delete-item-btn');
+        if (deleteBtn) {
+            const { category, item, sectionName } = deleteBtn.dataset;
+            if (category && item) handleItemDelete(category, item, sectionName);
+        }
+    });
+
+    // Main controls
+    document.querySelectorAll('.control-btn').forEach(btn => btn.addEventListener('click', (e) => {
+        const { control, delta } = e.currentTarget.dataset;
+        if(control && delta) handleNumericControl(control, parseInt(delta));
+    }));
+    dom.genderMaleBtn.addEventListener('click', () => { state.gender = 'male'; updateUI(); });
+    dom.genderFemaleBtn.addEventListener('click', () => { state.gender = 'female'; updateUI(); });
+    dom.idealWeightToggle.addEventListener('change', (e) => { state.useIdealWeight = e.target.checked; updateUI(); });
+
+    document.body.addEventListener('click', (e) => {
+        const target = e.target;
+        const accordionBtn = target.closest('.accordion-button');
+        if (accordionBtn) {
+            const content = accordionBtn.parentElement?.nextElementSibling;
+            const isExpanded = accordionBtn.getAttribute('aria-expanded') === 'true';
+            accordionBtn.setAttribute('aria-expanded', String(!isExpanded));
+            content?.classList.toggle('hidden');
+        }
+        
+        const editCatBtn = target.closest('.edit-category-btn');
+        if (editCatBtn) {
+            const { category, sectionName } = editCatBtn.dataset;
+            openEditModal(category, sectionName);
+        }
+        
+        const selectionBtn = target.closest('.selection-btn');
+        if (selectionBtn) {
+            const { category, item, side, sectionName } = selectionBtn.dataset;
+            if(category && item) handleSelectionToggle(category, item, side, sectionName);
+        }
+    });
+    
+    dom.settingsInputsContainer.addEventListener('input', (e) => {
+        const input = e.target.closest('input[data-setting-key]');
+        if (input && input.dataset.settingKey) {
+            state.settings[input.dataset.settingKey] = parseFloat(input.value) || 0;
+            // No updateUI() here to prevent cursor jumping; calculations update live anyway.
+        }
+    });
+}
+
+// --- APP INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', () => {
+    loadState();
+    initializeSelections();
+    renderAllSections();
+    initEventListeners();
+    updateUI();
+});
+    </script>
   </body>
 </html>
