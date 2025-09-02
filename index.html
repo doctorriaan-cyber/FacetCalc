@@ -987,7 +987,21 @@ const handleEditModalToggle = (isOpen) => { state.isEditModalOpen = isOpen; upda
 const handleAddItemModalToggle = (isOpen) => { state.isAddItemModalOpen = isOpen; updateUI(); };
 const handleAddSectionModalToggle = (isOpen) => { state.isAddSectionModalOpen = isOpen; updateUI(); };
 const handleEditItemModalToggle = (isOpen) => { state.isEditItemModalOpen = isOpen; if(!isOpen) state.editingItemContext = null; updateUI(); };
-const handleInfoModalToggle = (isOpen) => { state.isInfoModalOpen = isOpen; updateUI(); };
+const handleInfoModalToggle = (isOpen) => {
+    if (isOpen) {
+        // When opening, set the checkbox state from the main state
+        dom.dontShowAgainCheckbox.checked = !state.showInfoOnStartup;
+    } else {
+        // When closing, update the main state from the checkbox and save
+        const wasOpen = state.isInfoModalOpen;
+        if (wasOpen) { // Only run this logic if it was actually open before closing
+            state.showInfoOnStartup = !dom.dontShowAgainCheckbox.checked;
+            saveState();
+        }
+    }
+    state.isInfoModalOpen = isOpen;
+    updateUI();
+};
 
 const handleConfirmationModalToggle = (isOpen) => {
     state.isConfirmationModalOpen = isOpen;
@@ -1408,14 +1422,6 @@ function handleEditModalSectionNameUpdate() {
     updateUI();
 }
 
-function handleAcknowledgeInfo() {
-    if (dom.dontShowAgainCheckbox.checked) {
-        state.showInfoOnStartup = false;
-        saveState();
-    }
-    handleInfoModalToggle(false);
-}
-
 // --- EVENT LISTENERS INITIALIZATION ---
 function initEventListeners() {
     dom.themeToggle.addEventListener('click', handleThemeToggle);
@@ -1429,7 +1435,7 @@ function initEventListeners() {
     dom.editModalSectionNameInput.addEventListener('blur', handleEditModalSectionNameUpdate);
 
     // Modals
-    dom.acknowledgeInfoBtn.addEventListener('click', handleAcknowledgeInfo);
+    dom.acknowledgeInfoBtn.addEventListener('click', () => handleInfoModalToggle(false));
     dom.infoModal.addEventListener('click', (e) => { if (e.target === dom.infoModal) handleInfoModalToggle(false); });
     
     dom.addItemForm.addEventListener('submit', handleItemSave);
