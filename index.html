@@ -116,17 +116,24 @@
               <p id="bmi-value" class="text-2xl font-bold">N/A</p>
             </div>
             <div class="text-right">
-              <label class="flex items-center justify-end cursor-pointer">
-                  <div class="mr-3 text-right">
-                      <span class="text-sm text-text-muted-light dark:text-text-muted-dark">Ideal Weight</span>
-                      <p id="ideal-weight-value" class="font-semibold">0 kg</p>
-                  </div>
-                  <div class="relative">
-                      <input type="checkbox" id="ideal-weight-toggle" class="sr-only" />
-                      <div class="block bg-slate-200 dark:bg-slate-700 w-10 h-6 rounded-full"></div>
-                      <div id="ideal-weight-toggle-dot" class="toggle-dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full"></div>
-                  </div>
-              </label>
+                <div class="flex items-center justify-end">
+                    <div class="mr-3 text-right">
+                        <div class="flex items-center justify-end gap-1">
+                            <button id="ideal-weight-info-btn" type="button" class="p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 -mr-1" aria-label="Show ideal weight formula">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-text-muted-light dark:text-text-muted-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
+                            <span class="text-sm text-text-muted-light dark:text-text-muted-dark">Ideal Weight</span>
+                        </div>
+                        <p id="ideal-weight-value" class="font-semibold">0 kg</p>
+                    </div>
+                    <label class="relative cursor-pointer">
+                        <input type="checkbox" id="ideal-weight-toggle" class="sr-only peer" />
+                        <div class="block bg-slate-200 dark:bg-slate-700 w-10 h-6 rounded-full peer-checked:bg-primary-light dark:peer-checked:bg-primary-dark transition-colors"></div>
+                        <div class="toggle-dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full peer-checked:translate-x-4"></div>
+                    </label>
+                </div>
             </div>
           </div>
           
@@ -385,6 +392,35 @@
         </div>
     </div>
 
+    <!-- Ideal Weight Info Modal -->
+    <div id="ideal-weight-info-modal" class="modal-overlay fixed inset-0 bg-black/60 z-[95] opacity-0 pointer-events-none flex items-center justify-center p-4">
+        <div class="modal-content bg-surface-light dark:bg-surface-dark rounded-lg shadow-xl w-full max-w-sm transform scale-95">
+             <div class="p-6">
+                <h2 class="text-xl font-bold mb-4 text-center">Ideal Weight Calculation</h2>
+                <div class="text-sm text-text-light dark:text-text-dark space-y-4">
+                    <p>This calculator uses the Devine formula to estimate ideal body weight (IBW).</p>
+                    
+                    <h3 class="font-semibold mt-3">Formula:</h3>
+                    <ul class="list-disc list-inside space-y-2 pl-2 text-text-muted-light dark:text-text-muted-dark">
+                        <li>
+                            <strong class="text-text-light dark:text-text-dark">Males:</strong> 50 kg + 0.9 kg for each cm over 152.4 cm.
+                        </li>
+                        <li>
+                            <strong class="text-text-light dark:text-text-dark">Females:</strong> 45.5 kg + 0.9 kg for each cm over 152.4 cm.
+                        </li>
+                    </ul>
+                     <p class="text-xs text-text-muted-light dark:text-text-muted-dark pt-2 border-t border-slate-200 dark:border-slate-700">
+                        Note: 152.4 cm is approx. 5 feet. The original formula uses 2.3 kg per inch over 5 feet (2.3 kg ÷ 2.54 cm ≈ 0.9 kg/cm).
+                    </p>
+
+                    <div class="flex justify-center pt-4">
+                         <button id="close-ideal-weight-info-btn" class="px-6 py-2 rounded-md bg-primary-light dark:bg-primary-dark hover:opacity-90 text-white font-bold transition-colors">Got it</button>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+
     <script type="module">
 /**
  * @license
@@ -401,6 +437,7 @@ const DEFAULT_STATE = {
     isAddSectionModalOpen: false,
     isEditItemModalOpen: false,
     isInfoModalOpen: false,
+    isIdealWeightInfoModalOpen: false,
     showInfoOnStartup: true,
     isEditMode: false,
     weight: 70,
@@ -564,7 +601,10 @@ const dom = {
     bmiValue: getElement('bmi-value'),
     idealWeightValue: getElement('ideal-weight-value'),
     idealWeightToggle: getElement('ideal-weight-toggle'),
-    idealWeightToggleDot: getElement('ideal-weight-toggle-dot'),
+    idealWeightInfoBtn: getElement('ideal-weight-info-btn'),
+    // Ideal Weight Info Modal
+    idealWeightInfoModal: getElement('ideal-weight-info-modal'),
+    closeIdealWeightInfoBtn: getElement('close-ideal-weight-info-btn'),
     // Containers
     allSectionsContainer: getElement('all-sections-container'),
     // Summary & Results
@@ -715,6 +755,10 @@ function updateUI() {
     dom.infoModal.classList.toggle('pointer-events-none', !state.isInfoModalOpen);
     dom.infoModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isInfoModalOpen);
     
+    dom.idealWeightInfoModal.classList.toggle('opacity-0', !state.isIdealWeightInfoModalOpen);
+    dom.idealWeightInfoModal.classList.toggle('pointer-events-none', !state.isIdealWeightInfoModalOpen);
+    dom.idealWeightInfoModal.querySelector('.modal-content').classList.toggle('scale-95', !state.isIdealWeightInfoModalOpen);
+    
     // Edit Mode
     const isEditMode = state.isEditMode;
     dom.editModeToggle.classList.toggle('bg-primary-light', isEditMode);
@@ -747,8 +791,6 @@ function updateUI() {
     dom.bmiValue.textContent = calculations.bmi();
     dom.idealWeightValue.textContent = `${idealWeight.toFixed(1)} kg`;
     dom.idealWeightToggle.checked = state.useIdealWeight;
-    dom.idealWeightToggleDot.classList.toggle('translate-x-4', state.useIdealWeight);
-    dom.idealWeightToggleDot.classList.toggle('bg-primary-dark', state.useIdealWeight);
 
     // Selection Buttons
     document.querySelectorAll('.selection-btn').forEach(btn => {
@@ -1000,6 +1042,11 @@ const handleInfoModalToggle = (isOpen) => {
         }
     }
     state.isInfoModalOpen = isOpen;
+    updateUI();
+};
+
+const handleIdealWeightInfoModalToggle = (isOpen) => {
+    state.isIdealWeightInfoModalOpen = isOpen;
     updateUI();
 };
 
@@ -1427,6 +1474,7 @@ function initEventListeners() {
     dom.themeToggle.addEventListener('click', handleThemeToggle);
     dom.editModeToggle.addEventListener('click', handleEditModeToggle);
     dom.infoBtn.addEventListener('click', () => handleInfoModalToggle(true));
+    dom.idealWeightInfoBtn.addEventListener('click', () => handleIdealWeightInfoModalToggle(true));
     dom.openSettingsBtn.addEventListener('click', () => { renderSettingsInputs(); handleSettingsToggle(true); });
     dom.closeSettingsBtn.addEventListener('click', () => { handleSettingsToggle(false); if (!saveState()) alert('Could not save settings.'); });
     dom.settingsOverlay.addEventListener('click', () => { handleSettingsToggle(false); if (!saveState()) alert('Could not save settings.'); });
@@ -1437,6 +1485,9 @@ function initEventListeners() {
     // Modals
     dom.acknowledgeInfoBtn.addEventListener('click', () => handleInfoModalToggle(false));
     dom.infoModal.addEventListener('click', (e) => { if (e.target === dom.infoModal) handleInfoModalToggle(false); });
+    
+    dom.closeIdealWeightInfoBtn.addEventListener('click', () => handleIdealWeightInfoModalToggle(false));
+    dom.idealWeightInfoModal.addEventListener('click', (e) => { if (e.target === dom.idealWeightInfoModal) handleIdealWeightInfoModalToggle(false); });
     
     dom.addItemForm.addEventListener('submit', handleItemSave);
     dom.closeAddItemModalBtn.addEventListener('click', () => handleAddItemModalToggle(false));
